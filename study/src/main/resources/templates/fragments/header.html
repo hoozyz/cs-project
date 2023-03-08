@@ -28,11 +28,44 @@
 			<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
 				<input type="search" class="form-control" placeholder="검색어를 입력하세요." aria-label="Search">
 			</form>
-			<div class="dropdown text-end">
+			<!-- 로그인 되었을 때 -->
+			<!--<div class="dropdown text-end">
 				<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
 					aria-expanded="false">
 					<img src="https://github.com/mdo.png" width="32" height="32" class="rounded-circle">
 				</a>
+			</div>-->
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+				로그인
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content col-md-10 mx-auto col-lg-5">
+						<div class="mx-auto py-3"><h3>로그인 메뉴</h3></div>
+						<form class="p-4 p-md-5 border rounded-3 bg-light">
+							<div class="form-floating mb-3">
+								<input type="email" class="form-control" id="id" placeholder="email@example.com">
+								<label for="id">이메일 주소</label>
+							</div>
+							<div class="checkbox mb-3">
+								<label>
+									<input type="checkbox" value="remember">
+									아이디 저장
+								</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control" id="pwd" placeholder="password">
+								<label for="pwd">비밀번호</label>
+							</div>
+							<input type="submit" class="w-100 btn btn-lg btn-primary mt-4" value="로그인">
+							<hr class="my-4">
+							<div class="mx-auto"><small class="text-muted">아직 회원이 아니시라면, </small><a href="#">회원가입</a></div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
