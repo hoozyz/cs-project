@@ -3,6 +3,109 @@
       layout:decorate="~{fragments/layout}">
       
 	<body layout:fragment="content">
-		asdasd
+		<div class="row">
+		<div class="col-4 mt-5" style="width:200px; margin-left: 50px; position: fixed">
+			<nav id="know" class="h-100 flex-column align-items-stretch pe-4 border-end">
+				<nav class="nav nav-pills flex-column">
+					<a class="nav-link" href="#network">네트워크</a>
+					<a class="nav-link" href="#java-1">자바</a>
+					<nav class="nav nav-pills flex-column">
+						<a class="nav-link ms-3 my-1" href="#java-1">기초</a>
+						<a class="nav-link ms-3 my-1" href="#java-2">심화</a>
+					</nav>
+					<a class="nav-link" href="#git">GIT</a>
+				</nav>
+			</nav>
+		</div>
+
+		<div class="col-8" style="margin-left: 300px;">
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="network">
+				<h2 class="pb-2 border-bottom">네트워크</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5" style="height: 500px;">
+					<div class="col d-flex align-items-start">
+						<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#internetModal">
+							<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+						</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="internetModal" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content col-md-10 mx-auto col-lg-5">
+						<div class="mx-auto py-3">
+							<h2>no.111 인터넷</h2>
+						</div>
+						<div class="p-4 p-md-5 border rounded-3 bg-light">
+							<p>- 여러 통신망을 하나로 연결하는 거대한 컴퓨터 통신망</p>
+							<p>- 클라이언트와 서버가 연결되어 구성된 망을 컴퓨터 네트워크 라고 하며, TCP/IP 프로토콜을 통해 제공됨.</p>
+							<p>- 즉, 수많은 컴퓨터 네트워크들로 구성된 집합체이다.</p>
+							<p>- 인터넷은 서로 동시에 참여할 수 있는 쌍방향 통신을 제공한다.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+					</div>
+					<div class="col d-flex align-items-start">
+						<div>
+							<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
+						</div>
+					</div>
+					<div class="col d-flex align-items-start">
+						<div>
+							<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container px-4 py-5 my-3" id="java-1">
+				<h2 class="pb-2 border-bottom">자바(기초)</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5" style="height: 500px;">
+					<div class="col d-flex align-items-start">
+						<div>
+							<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+						</div>
+					</div>
+					<div class="col d-flex align-items-start">
+						<div>
+							<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
+						</div>
+					</div>
+					<div class="col d-flex align-items-start">
+						<div>
+							<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container px-4 py-5 my-3" id="java-2">
+				<h2 class="pb-2 border-bottom">자바(심화)</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5" style="height: 500px;">
+					<div class="col d-flex align-items-start">
+						<div>
+							<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+						</div>
+					</div>
+					<div class="col d-flex align-items-start">
+						<div>
+							<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
+						</div>
+					</div>
+					<div class="col d-flex align-items-start">
+						<div>
+							<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	</div>
+		</div>
+
+	</div>
 	</body>
 </html>

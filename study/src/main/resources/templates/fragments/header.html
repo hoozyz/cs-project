@@ -9,17 +9,37 @@
 						<h3>Hoozy's CS</h3>
 					</a>
 				</li>
-				<li>
-					<a href="#" class="nav-link px-4 link-secondary">
+				<li class="dropdown">
+					<a href="/know" class="nav-link px-4 link-secondary">
 						<h3>지식</h3>
 					</a>
+					<ul class="dropdown-menu dropdown-menu-dark">
+						<li><a class="dropdown-item" href="/know#network">네트워크</a></li>
+						<li><a class="dropdown-item" href="/know#java-1">자바</a></li>
+						<li><a class="dropdown-item" href="/know#git">GIT</a></li>
+					</ul>
 				</li>
-				<li>
-					<a href="#" class="nav-link px-4 link-secondary">
-						<h3>문제</h3>
+				<li class="dropdown">
+					<a href="/prob/short" class="nav-link px-4 link-secondary">
+						<h3>문제(단답형)</h3>
 					</a>
+					<ul class="dropdown-menu dropdown-menu-dark">
+						<li><a class="dropdown-item" href="/prob/short#network">네트워크</a></li>
+						<li><a class="dropdown-item" href="/prob/short#java-1">자바</a></li>
+						<li><a class="dropdown-item" href="/prob/short#git">GIT</a></li>
+					</ul>
 				</li>
-				<li>
+				<li class="dropdown">
+					<a href="/prob/long" class="nav-link px-4 link-secondary">
+						<h3>문제(주관식)</h3>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-dark">
+						<li><a class="dropdown-item" href="/prob/long#network">네트워크</a></li>
+						<li><a class="dropdown-item" href="/prob/long#java-1">자바</a></li>
+						<li><a class="dropdown-item" href="/prob/long#git">GIT</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
 					<a href="#" class="nav-link px-4 link-secondary">
 						<h3>추가 예정</h3>
 					</a>
@@ -41,14 +61,16 @@
 			</button>
 
 			<!-- Modal -->
-			<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+			<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content col-md-10 mx-auto col-lg-5">
-						<div class="mx-auto py-3"><h3>로그인 메뉴</h3></div>
+						<div class="mx-auto py-3">
+							<h3>로그인</h3>
+						</div>
 						<form class="p-4 p-md-5 border rounded-3 bg-light">
 							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="id" placeholder="email@example.com">
-								<label for="id">이메일 주소</label>
+								<input type="email" class="form-control" id="email" placeholder="email@example.com" required>
+								<label for="email">이메일 주소(text@example.com)</label>
 							</div>
 							<div class="checkbox mb-3">
 								<label>
@@ -57,12 +79,76 @@
 								</label>
 							</div>
 							<div class="form-floating mb-3">
-								<input type="password" class="form-control" id="pwd" placeholder="password">
-								<label for="pwd">비밀번호</label>
+								<input type="password" class="form-control" id="pwd" placeholder="password" minlength="6" maxlength="12" required>
+								<label for="pwd">비밀번호(6자리 이상, 12자리 이하)</label>
 							</div>
 							<input type="submit" class="w-100 btn btn-lg btn-primary mt-4" value="로그인">
 							<hr class="my-4">
-							<div class="mx-auto"><small class="text-muted">아직 회원이 아니시라면, </small><a href="#">회원가입</a></div>
+							<div><small class="text-muted">아직 회원이 아니시라면, </small>
+							<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#registerModal">회원가입</a>
+							
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="registerModal" tabindex="-2" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content col-md-10 mx-auto col-lg-5">
+						<div class="mx-auto py-3">
+							<h3>회원가입</h3>
+						</div>
+						<form class="p-4 p-md-5 border rounded-3 bg-light">
+							<div class="form-floating mb-3">
+								<input type="name" class="form-control" id="name" placeholder="name" required>
+								<label for="name">닉네임(중복 불가)</label>
+							</div>
+							<div>
+								<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#checkModal">닉네임 중복 검사</button>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="email" class="form-control" id="email" placeholder="email@example.com" required>
+								<label for="email">이메일 주소(text@example.com)</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control" id="pwd" placeholder="password" required>
+								<label for="pwd">비밀번호(6자리 이상, 12자리 이하)</label>
+							</div>
+							<input type="submit" class="w-100 btn btn-lg btn-primary mt-4" value="로그인">
+							<hr class="my-4">
+							<div><small class="text-muted">이미 회원이시라면, </small>
+							<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#loginModal">로그인</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal -->
+			<div class="modal fade" id="checkModal" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content col-md-10 mx-auto col-lg-5">
+						<div class="mx-auto py-3">
+							<h3>닉네임 중복 체크</h3> 
+							<!--Ajax로 비교해서 체크-->
+						</div>
+						<form class="p-4 p-md-5 border rounded-3 bg-light">
+							<div class="form-floating mb-3">
+								<input type="email" class="form-control" id="email" placeholder="email@example.com" required>
+								<label for="email">이메일 주소(text@example.com)</label>
+							</div>
+							<div class="checkbox mb-3">
+								<label>
+									<input type="checkbox" value="remember">
+									아이디 저장
+								</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control" id="pwd" placeholder="password" minlength="6" maxlength="12" required>
+								<label for="pwd">비밀번호(6자리 이상, 12자리 이하)</label>
+							</div>
+							<input type="submit" class="w-100 btn btn-lg btn-primary mt-4" value="로그인">
 						</form>
 					</div>
 				</div>
