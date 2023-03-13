@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<header th:fragment="headerFragment" id="header" class="p-3 mb-3 border-bottom w-100" style="position: fixed; height: 90px;">
+
+<header th:fragment="headerFragment" id="header" class="p-3 mb-3 border-bottom w-100" style="top: 0;">
 	<div class="container">
 		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -49,6 +50,8 @@
 				<input type="search" class="form-control" placeholder="검색어를 입력하세요." aria-label="Search">
 			</form>
 			<!-- 로그인 되었을 때 -->
+			
+			
 			<!--<div class="dropdown text-end">
 				<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
 					aria-expanded="false">
@@ -59,7 +62,7 @@
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
 				로그인
 			</button>
-
+			
 			<!-- Modal -->
 			<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
 				<div class="modal-dialog">
@@ -68,19 +71,19 @@
 							<h3>로그인</h3>
 						</div>
 						<!-- th:object : form 내의 DTO(VO) 매핑, th:field : input 내의 id, name, value="" 자동 생성 -->
-						<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
+						<form class="p-4 p-md-5 border rounded-3 bg-light" method="GET" th:action="@{/login}" th:object="${user}">
 							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="email" placeholder="email@example.com" required>
-								<label for="email">이메일 주소(text@example.com)</label>
+								<input type="email" class="form-control" id="email1" th:field="*{email}" placeholder="email@example.com" required autofocus>
+								<label for="email">이메일(text@example.com)</label>
 							</div>
 							<div class="checkbox mb-3">
 								<label>
-									<input type="checkbox" value="remember">
+									<input type="checkbox" id="emailStore" name="emailStore">
 									아이디 저장
 								</label>
 							</div>
 							<div class="form-floating mb-3">
-								<input type="password" class="form-control" id="pwd" placeholder="password" minlength="6" maxlength="12" required>
+								<input type="password" class="form-control" id="pwd1" th:field="*{pwd}" placeholder="password" minlength="6" maxlength="12" required>
 								<label for="pwd">비밀번호(6자리 이상, 12자리 이하)</label>
 							</div>
 							<input type="submit" class="w-100 btn btn-lg btn-primary mt-4" value="로그인">
@@ -94,29 +97,39 @@
 				</div>
 			</div>
 			
-			<div class="modal fade" id="registerModal" tabindex="-2" aria-hidden="true">
+			<div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content col-md-10 mx-auto col-lg-5">
 						<div class="mx-auto py-3">
 							<h3>회원가입</h3>
 						</div>
-						<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST"> 
+						<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" th:action="@{/register}" th:object="${user}"> 
 							<div class="form-floating mb-3">
-								<input type="na</form>me" class="form-control" id="nick" placeholder="name" required>
-								<label for="name">닉네임(중복 불가)</label>
-							</div>
-							<div>
-								<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#checkModal">닉네임 중복 검사</button>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="email" placeholder="email@example.com" required>
-								<label for="email">이메일 주소(text@example.com)</label>
+								<input type="name" class="form-control" th:id="nick" th:name="nick" placeholder="nick" minlength="4" required autofocus>
+								<label for="nick">닉네임(중복 불가, 4자리 이상)</label>
+								<div id="nickNotice" class="invalid-feedback">
+									닉네임이 중복됩니다.
+								</div>
 							</div>
 							<div class="form-floating mb-3">
-								<input type="password" class="form-control" id="pwd" placeholder="password" required>
+								<input type="email" class="form-control" id="email2" th:field="*{email}" placeholder="email@example.com" required>
+								<label for="email">이메일(중복 불가, text@example.com)</label>
+								<div id="emailNotice" class="invalid-feedback">
+									이메일이 중복됩니다.
+								</div>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control" id="pwd2" th:field="*{pwd}" placeholder="password" minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
 								<label for="pwd">비밀번호(6자리 이상, 12자리 이하)</label>
 							</div>
-							<input type="submit" class="w-100 btn btn-lg btn-primary mt-4" value="로그인">
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control is-invalid" placeholder="password" id="pwd_confirm" minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
+								<label for="pwd_confirm">비밀번호 확인</label>
+								<div id="pwdNotice" class="feedback" style="height: 20px;">
+									비밀번호가 일치하지 않습니다.
+								</div>
+							</div>
+							<button type="submit" onclick="return check()" class="w-100 btn btn-lg btn-primary mt-4">회원가입</button>
 							<hr class="my-4">
 							<div><small class="text-muted">이미 회원이시라면, </small>
 							<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#loginModal">로그인</a>
@@ -125,37 +138,99 @@
 					</div>
 				</div>
 			</div>
-			
-			<!-- Modal -->
-			<div class="modal fade" id="checkModal" tabindex="-1" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content col-md-10 mx-auto col-lg-5">
-						<div class="mx-auto py-3">
-							<h3>닉네임 중복 체크</h3> 
-							<!--Ajax로 비교해서 체크-->
-						</div>
-						<form class="p-4 p-md-5 border rounded-3 bg-light">
-							<div class="form-floating mb-3">
-								<input type="email" class="form-control" id="email" placeholder="email@example.com" required>
-								<label for="email">이메일 주소(text@example.com)</label>
-							</div>
-							<div class="checkbox mb-3">
-								<label>
-									<input type="checkbox" value="remember">
-									아이디 저장
-								</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="password" class="form-control" id="pwd" placeholder="password" minlength="6" maxlength="12" required>
-								<label for="pwd">비밀번호(6자리 이상, 12자리 이하)</label>
-							</div>
-							<input type="submit" class="w-100 btn btn-lg btn-primary mt-4" value="로그인">
-						</form>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
+	<script th:inline="javascript">
+		var cookie = $.cookie('email');
+
+		if(cookie != 'undefined') { // 쿠키에 이메일이 있으면
+			$('#emailStore').prop('checked', true); // 체크박스 체크
+			$('#email1').val($.cookie('email'));
+		} else {
+		console.log(cookie)
+			$('#emailStore').prop('checked', false); // 체크박스 체크 해제
+			$('#email1').val('');
+		}
+		
+		$('#pwd_confirm').keyup(function() {
+			var pwd = $('#pwd2').val();
+			var pwd_confirm = $('#pwd_confirm').val();
+			
+			if (pwd == pwd_confirm) {
+				$('#pwd_confirm').removeClass('is-invalid');
+				$('#pwd_confirm').addClass('is-valid');
+				$('#pwdNotice').html('비밀번호가 일치합니다.');
+			} else {
+				$('#pwd_confirm').removeClass('is-valid');
+				$('#pwd_confirm').addClass('is-invalid');
+				$('#pwdNotice').html('비밀번호가 일치하지 않습니다.');
+			}
+		});
+		
+		$('#nick').keyup(function() {
+			var nick = $('#nick').val();
+			
+			$.ajax({
+				type: 'get',
+				url: '/check/nick',
+				data: {
+					nick: nick,
+				},
+				contentType:"application/json;charset=UTF-8",
+				
+				success: function(data) {
+					console.log(data);
+					
+					// 중복
+					if(data == '1') {
+						$('#nick').addClass('is-invalid');
+					} else {
+						$('#nick').removeClass('is-invalid');
+					}
+				},
+				
+				error: function(e) {
+					console.log(e);
+				}
+			});
+		});
+		
+		$('#email2').keyup(function() {
+			var email = $('#email2').val();
+			
+			$.ajax({
+				type: 'get',
+				url: '/check/email',
+				data: {
+					email: email,
+				},
+				contentType:"application/json;charset=UTF-8",
+				
+				success: function(data) {
+					console.log(data);
+					
+					// 중복
+					if(data == '1') {
+						$('#email2').addClass('is-invalid');
+					} else {
+						$('#email2').removeClass('is-invalid');
+					}
+				},
+				
+				error: function(e) {
+					console.log(e);
+				}
+			});
+		});
+		
+		function check() {
+			if ($('#nick').hasClass('is-invalid') || $('#email2').hasClass('is-invalid') || $('#pwd_confirm').hasClass('is-invalid')) {
+				return false;
+			} else {
+				return true;
+			}
+		};
+	</script>
 </header>
 
 </html>

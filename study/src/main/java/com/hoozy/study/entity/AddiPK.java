@@ -3,7 +3,6 @@ package com.hoozy.study.entity;
 import java.io.Serializable;
 
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Embeddable
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public final class AddiPK implements Serializable {
 	// addi 테이블은 PK가 없어서 jpa에 바로 넣을 수 없다.
 	// 이때 모든 필드를 PK로 만들기 위해 PK 클래스 생성 -> 가상 PK 클래스

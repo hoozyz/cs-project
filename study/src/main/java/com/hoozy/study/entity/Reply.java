@@ -2,6 +2,8 @@ package com.hoozy.study.entity;
 
 import java.sql.Timestamp;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,13 +11,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
+@NoArgsConstructor
 @Getter
 @Table(name = "reply")
 public class Reply {
@@ -25,17 +28,18 @@ public class Reply {
 	private long no; // 댓글 번호 PK
 	
 	@ManyToOne
-	@JoinColumn(name = "know_no") // FK 적기 foreign key (know_no) references Know (no)
+	@JoinColumn(name = "kno") // FK 적기 foreign key (kno) references Know (no)
 	private Know know; // 참조 테이블
 	
 	@ManyToOne
 	@JoinColumn(name = "nick")
 	private User user; // 참조 테이블
 	
+	private int repn; // repl이 0인 댓글 번호 -> 첫 댓글 : 1 , 첫 답글 : 1
+	private int repo; // 댓글이 속한 댓글 중 순서 -> 첫 댓글 : 0 , 첫 답글 : 1
+	private int repl; // 댓글의 레벨 -> 모댓글 : 0, 답글 : 1 -> 첫 댓글 : 0, 첫 답글 : 1
 	
-	private int repn; // 댓글이 속한 repl이 0인 댓글 번
-	private int repo; // 댓글이 속한 댓글 중 순서
-	private int repl; // 댓글의 레벨 -> 모댓글 : 0, 답글 : 1
+	@ColumnDefault("0")
 	private int checks; // 삭제 시 : 1 , 아니면 0
 	private Timestamp date; // 수정일(생성일)
 	
