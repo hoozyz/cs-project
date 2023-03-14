@@ -1,9 +1,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/layout}">
 
-<body layout:fragment="content">
-	<div class="row" <!--style="padding-top: 107px;"-->>
-		<div class="col-4 mt-5" style="width:200px; margin-left: 50px; position: fixed">
+<div layout:fragment="content">
+	<div class="row d-flex flex-nowrap">
+		<div class="col-4 mt-5 left-sidebar">
 			<nav id="today-prob" class="h-100 flex-column align-items-stretch pe-4 border-end">
 				<nav class="nav nav-pills flex-column">
 					<a class="nav-link" href="#network">네트워크</a>
@@ -222,10 +222,214 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	</div>
 
+		<div class="flex-shrink-0 p-3 bg-white">
+			<a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+				<img src="https://github.com/mdo.png" width="32" height="32" class="rounded-circle">
+				<span class="fs-5 fw-semibold p-2">hoozy</span>
+			</a>	
+		<ul class="list-unstyled ps-0">
+			<li class="mb-1">
+				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+					계정
+				</button>
+				<div class="collapse" id="account-collapse">
+					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateUserModal">
+							내 정보 변경</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li class="mb-1">
+				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+					홈페이지
+				</button>
+				<div class="collapse" id="home-collapse">
+					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 네트워크</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(기초)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(심화)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(프레임워크)</a></li>
+					</ul>
+				</div>
+			</li>
+			<li class="mb-1">
+				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#know-collapse" aria-expanded="false">
+					지식
+				</button>
+				<div class="collapse" id="know-collapse">
+					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+					</ul>
+				</div>
+			</li>
+			<li class="mb-1">
+				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#short-collapse" aria-expanded="false">
+					문제(단답형)
+				</button>
+				<div class="collapse" id="short-collapse">
+					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+					</ul>
+				</div>
+			</li>
+			<li class="mb-1">
+				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#long-collapse" aria-expanded="false">
+					문제(주관식)
+				</button>
+				<div class="collapse" id="long-collapse">
+					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+					</ul>
+				</div>
+			</li>
+			<li class="mb-1">
+				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#long-collapse" aria-expanded="false">
+					현재 접속중인 사람
+				</button>
+				<div class="collapse" id="long-collapse">
+					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+					</ul>
+				</div>
+			</li>
+		</ul>
 	</div>
+	
+	<!-- Modal -->
+			<div class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content col-md-10 mx-auto col-lg-5">
+						<div class="mx-auto py-3">
+							<h3>정보 변경</h3>
+						</div>
+						<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" th:action="@{/user/update}" th:object="${user}" enctype="multipart/form-data">
+							<div class="form-floating mb-3">
+								<input type="nick" class="form-control" id="nick2" th:field="*{nick}" placeholder="email@example.com" required autofocus>
+								<label for="nick2">닉네임(중복 불가, 4글자 이상)</label>
+								<div id="nickNotice2" class="invalid-feedback">
+									닉네임이 중복됩니다.
+								</div>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control" id="pwd3" th:field="*{pwd}" placeholder="password" minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
+								<label for="pwd3">비밀번호(6자리 이상, 12자리 이하)</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control" placeholder="password" id="pwd_confirm2" minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
+								<label for="pwd_confirm2">비밀번호 확인</label>
+								<div id="pwdNotice2" class="feedback" style="height: 20px;">
+									비밀번호를 입력해주세요.
+								</div>
+							</div>
+							<hr class="my-4">
+							<div>
+								<label for="profile" class="my-3">프로필 사진 변경</label>
+								<input type="file" class="form-control" id="profile" th:field="*{profile}" accept="image/gif, image/jpeg, image/png, image/jpg" required autofocus>
+							</div>
+							<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return check2()">정보 변경</button>
+						</form>
+					</div>
+				</div>
+			</div>
+	
+	</div>
+	
+	<script th:inline="javascript">
+		var loginUser = [[${session.loginUser}]];
+		console.log(loginUser);
+		
+		$('#pwd_confirm2').keyup(function() {
+			var pwd = $('#pwd3').val();
+			var pwd_confirm = $('#pwd_confirm2').val();
+			
+			if (pwd == pwd_confirm) {
+				var email = loginUser.email;
+				console.log(email);
+				
+				$.ajax({
+					type: 'post',
+					url: '/check/pwd',
+					data: {
+						email: email,
+						pwd: pwd,
+					},
+					
+					success: function(data) {
+						console.log(data);
+					
+						// 중복
+						if(data == '1') {
+							$('#pwd_confirm2').removeClass('is-valid');
+							$('#pwd_confirm2').addClass('is-invalid');
+							$('#pwdNotice2').html('원래 비밀번호와 같습니다.');
+						} else {
+							$('#pwd_confirm2').removeClass('is-invalid');
+							$('#pwd_confirm2').addClass('is-valid');
+							$('#pwdNotice2').html('비밀번호가 일치합니다.');
+						}
+					},
+					
+					error: function(e) {
+						console.log(e);
+					}
+				});
+			} else {
+				$('#pwd_confirm2').removeClass('is-valid');
+				$('#pwd_confirm2').addClass('is-invalid');
+				$('#pwdNotice2').html('비밀번호가 일치하지 않습니다.');
+			}
+		});
+		
+		$('#nick2').keyup(function() {
+			var nick = $('#nick2').val();
+			
+			$.ajax({
+				type: 'get',
+				url: '/check/nick',
+				data: {
+					nick: nick,
+				},
+				contentType:"application/json;charset=UTF-8",
+				
+				success: function(data) {
+					console.log(data);
+					
+					// 중복
+					if(data == '1') {
+						$('#nick2').addClass('is-invalid');
+					} else {
+						$('#nick2').removeClass('is-invalid');
+					}
+				},
+				
+				error: function(e) {
+					console.log(e);
+				}
+			});
+		});
+		
+		function check2() {
+			if ($('#nick2').hasClass('is-invalid') || $('#email2').hasClass('is-invalid') || $('#pwd_confirm').hasClass('is-invalid')) {
+				return false;
+			} else {
+				return true;
+			}
+		};
+	</script>
 </body>
 
 </html>

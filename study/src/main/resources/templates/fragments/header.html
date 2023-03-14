@@ -50,16 +50,12 @@
 				<input type="search" class="form-control" placeholder="검색어를 입력하세요." aria-label="Search">
 			</form>
 			<!-- 로그인 되었을 때 -->
-			
-			
-			<!--<div class="dropdown text-end">
-				<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-					aria-expanded="false">
-					<img src="https://github.com/mdo.png" width="32" height="32" class="rounded-circle">
-				</a>
-			</div>-->
+			<a th:if="${session.loginUser != null}" href="/logout" type="button" class="btn btn-primary">
+				로그아웃
+			</a>
+			<!--로그인 안되었을 때-->
 			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+			<button th:if="${session.loginUser == null}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
 				로그인
 			</button>
 			
@@ -71,7 +67,7 @@
 							<h3>로그인</h3>
 						</div>
 						<!-- th:object : form 내의 DTO(VO) 매핑, th:field : input 내의 id, name, value="" 자동 생성 -->
-						<form class="p-4 p-md-5 border rounded-3 bg-light" method="GET" th:action="@{/login}" th:object="${user}">
+						<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" th:action="@{/login}" th:object="${user}">
 							<div class="form-floating mb-3">
 								<input type="email" class="form-control" id="email1" th:field="*{email}" placeholder="email@example.com" required autofocus>
 								<label for="email">이메일(text@example.com)</label>
@@ -123,10 +119,10 @@
 								<label for="pwd">비밀번호(6자리 이상, 12자리 이하)</label>
 							</div>
 							<div class="form-floating mb-3">
-								<input type="password" class="form-control is-invalid" placeholder="password" id="pwd_confirm" minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
+								<input type="password" class="form-control" placeholder="password" id="pwd_confirm" minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
 								<label for="pwd_confirm">비밀번호 확인</label>
 								<div id="pwdNotice" class="feedback" style="height: 20px;">
-									비밀번호가 일치하지 않습니다.
+									비밀번호를 입력해주세요.
 								</div>
 							</div>
 							<button type="submit" onclick="return check()" class="w-100 btn btn-lg btn-primary mt-4">회원가입</button>

@@ -1,10 +1,14 @@
 package com.hoozy.study.service;
 
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hoozy.study.entity.User;
 import com.hoozy.study.repository.UserRepository;
@@ -18,30 +22,35 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
+	// 유저 업데이트
+	public void update(User user) {
+		userRepository.save(user);
+	}
+
 	// 이메일로 유저 가져오기
 	public User findByEmail(String email) {
 		User user = userRepository.findByEmail(email);
-		
+
 		return user;
 	}
-	
+
 	// 로그인
 	public boolean login(User user) throws Exception {
 		String pwd = user.getPwd();
 		user = userRepository.findByEmail(user.getEmail());
-		if(user == null) {
+		if (user == null) {
 			return false;
 		}
 		String salt = user.getSalt();
-		
-		if(!(hashing(pwd.getBytes(), salt).equals(user.getPwd()))) {
+
+		if (!(hashing(pwd.getBytes(), salt).equals(user.getPwd()))) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	// 유저 생성
 	public void create(User user) throws Exception {
 		String salt = newSalt();
@@ -49,7 +58,7 @@ public class UserService {
 		user.setPwd(hash);
 		user.setSalt(salt);
 		log.info("해싱 유저 {}", user);
-		
+
 		userRepository.save(user);
 	}
 
@@ -94,21 +103,56 @@ public class UserService {
 
 		return sb.toString();
 	}
-	
+
 	// email 중복 체크
 	public String checkEmail(String email) {
-		if(userRepository.findByEmail(email) == null) {
+		if (userRepository.findByEmail(email) == null) {
 			return "0";
 		}
-		
+
 		return "1";
 	}
 
 	public String checkNick(String nick) {
-		if(userRepository.findByNick(nick) == null) {
+		if (userRepository.findByNick(nick) == null) {
 			return "0";
 		}
-		
+
 		return "1";
 	}
- } 
+
+	public String checkPwd(String email, String pwd) throws Exception {
+		User user = userRepository.findByEmail(email);
+		String salt = user.getSalt();
+		
+		// 원래 비밀번호와 같을 때
+		if(hashing(pwd.getBytes(), salt).equals(user.getPwd())) {
+			return "1";
+		}
+		
+		return "0";
+	}
+
+	public String saveFile(MultipartFile file, String savePath) {
+		File folder = new File(savePath);
+
+		// 저장 된 경로가 없으면 폴더를 생성하는 코드
+		if (folder.exists() == false) {
+			folder.mkdir();
+		}
+
+		String originalFileName = file.getOriginalFilename();
+		String reNameFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmssSSS"))
+				+ originalFileName.substring(originalFileName.lastIndexOf("."));
+		String reNamePath = savePath + "/" + reNameFileName;
+
+		// 업로드 된 파일의 이름을 변경하고, 실제 보조기억장치(디스크)에 데이터를 저장하는 부
+		try {
+			file.transferTo(new File(reNamePath));
+		} catch (Exception e) {
+			return null;
+		}
+
+		return reNameFileName;
+	}
+}
