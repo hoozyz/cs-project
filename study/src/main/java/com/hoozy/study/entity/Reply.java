@@ -32,9 +32,10 @@ public class Reply {
 	private Know know; // 참조 테이블
 	
 	@ManyToOne
-	@JoinColumn(name = "nick")
+	@JoinColumn(name = "email")
 	private User user; // 참조 테이블
 	
+	private String nick; // 작성자
 	private int repn; // repl이 0인 댓글 번호 -> 첫 댓글 : 1 , 첫 답글 : 1
 	private int repo; // 댓글이 속한 댓글 중 순서 -> 첫 댓글 : 0 , 첫 답글 : 1
 	private int repl; // 댓글의 레벨 -> 모댓글 : 0, 답글 : 1 -> 첫 댓글 : 0, 첫 답글 : 1
@@ -44,8 +45,9 @@ public class Reply {
 	private Timestamp date; // 수정일(생성일)
 	
 	@Builder
-	public Reply(int repn, int repo, int repl, int checks, Timestamp date) {
+	public Reply(String nick, int repn, int repo, int repl, int checks, Timestamp date) {
 		super();
+		this.nick = nick;
 		this.repn = repn;
 		this.repo = repo;
 		this.repl = repl;

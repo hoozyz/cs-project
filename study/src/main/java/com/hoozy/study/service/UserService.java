@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hoozy.study.entity.User;
 import com.hoozy.study.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -24,14 +25,16 @@ public class UserService {
 	private UserRepository userRepository;
 
 	// 유저 업데이트
+	@Transactional
 	public void update(User user) {
 		userRepository.save(user);
 	}
 
 	// 이메일로 유저 가져오기
 	public User findByEmail(String email) {
-		User user = userRepository.findByEmail(email);
-
+		User user = new User();
+		user = userRepository.findByEmail(email);
+		
 		return user;
 	}
 
@@ -122,7 +125,8 @@ public class UserService {
 	}
 
 	public String checkPwd(String email, String pwd) throws Exception {
-		User user = userRepository.findByEmail(email);
+		User user = new User();
+		user =  findByEmail(email);
 		String salt = user.getSalt();
 		
 		// 원래 비밀번호와 같을 때
@@ -145,7 +149,7 @@ public class UserService {
 		String reNameFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmssSSS"))
 				+ originalFileName.substring(originalFileName.lastIndexOf("."));
 		String reNamePath = savePath + "/" + reNameFileName;
-
+		
 		// 업로드 된 파일의 이름을 변경하고, 실제 보조기억장치(디스크)에 데이터를 저장하는 부
 		try {
 			file.transferTo(new File(reNamePath));

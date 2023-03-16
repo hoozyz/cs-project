@@ -1,8 +1,6 @@
 package com.hoozy.study.entity;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -10,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,9 +34,6 @@ public class Know {
 	@ColumnDefault("0")
 	private int likes; // 좋아요
 	private Timestamp date; // 수정일(생성일)
-	
-	@OneToMany(mappedBy = "know")
-	private List<Reply> replys = new ArrayList<>();
 	
 	@Builder
 	public Know(String name, String cont, int likes, Timestamp date) {

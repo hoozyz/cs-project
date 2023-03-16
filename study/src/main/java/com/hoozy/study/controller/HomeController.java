@@ -11,7 +11,6 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String logina(Model model) {
-		
 		model.addAttribute("user", new User());
 		return "home";
 	}

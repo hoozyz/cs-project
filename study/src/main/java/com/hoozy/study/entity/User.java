@@ -22,20 +22,18 @@ import lombok.ToString;
 public class User {
 	
 	@Id // 문자열은 id만 
-	private String nick; // 닉네임 PK
+	private String email; // 안바뀌는 이메일 PK
 	
-	private String email;
+	private String nick;
 	private String pwd;
 	
 	private String salt;
 	private String profile; // 프로필 파일 명
 	
-	@OneToMany(mappedBy = "user") // 참조되는 테이블
-	private List<Reply> replys = new ArrayList<>();
-	
 	@Builder
-	public User(String email, String pwd, String salt, String profile) {
+	public User(String nick, String email, String pwd, String salt, String profile) {
 		super();
+		this.nick = nick;
 		this.email = email;
 		this.pwd = pwd;
 		this.salt = salt;

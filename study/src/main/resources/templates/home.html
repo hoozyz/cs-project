@@ -1,16 +1,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/layout}">
 
-<div layout:fragment="content">
+<body layout:fragment="content">
 	<div class="row d-flex flex-nowrap">
 		<div class="col-4 mt-5 left-sidebar">
 			<nav id="today-prob" class="h-100 flex-column align-items-stretch pe-4 border-end">
 				<nav class="nav nav-pills flex-column">
 					<a class="nav-link" href="#network">네트워크</a>
-					<a class="nav-link" href="#java-1">자바</a>
+					<a class="nav-link" href="#java1">자바</a>
 					<nav class="nav nav-pills flex-column">
-						<a class="nav-link ms-3 my-1" href="#java-1">기초</a>
-						<a class="nav-link ms-3 my-1" href="#java-2">심화</a>
+						<a class="nav-link ms-3 my-1" href="#java1">기초</a>
+						<a class="nav-link ms-3 my-1" href="#java2">심화</a>
 					</nav>
 					<a class="nav-link" href="#git">GIT</a>
 				</nav>
@@ -103,7 +103,7 @@
 					</div>
 				</div>
 
-				<div class="container px-4 py-5 my-3" id="java-1">
+				<div class="container px-4 py-5 my-3" id="java1">
 					<h2 class="pb-2 border-bottom">오늘의 문제 - 자바(기초)</h2>
 					<div class="row align-items-center" style="height: 500px;">
 						<div class="col-md-10 mx-auto col-lg-3">
@@ -162,7 +162,7 @@
 					</div>
 				</div>
 
-				<div class="container px-4 py-5 my-3" id="java-2">
+				<div class="container px-4 py-5 my-3" id="java2">
 					<h2 class="pb-2 border-bottom">오늘의 문제 - 자바(심화)</h2>
 					<div class="row align-items-center" style="height: 500px;">
 						<div class="col-md-10 mx-auto col-lg-3">
@@ -224,12 +224,16 @@
 		</div>
 
 		<div class="flex-shrink-0 p-3 bg-white">
-			<a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<img src="https://github.com/mdo.png" width="32" height="32" class="rounded-circle">
-				<span class="fs-5 fw-semibold p-2">hoozy</span>
-			</a>	
+			<a href="#" th:if="${session.loginUser != null}" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+				<img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32" class="rounded-circle">
+				<span class="fs-5 fw-semibold p-2" th:text="${session.loginUser?.nick}"></span>
+			</a>
+			<a href="#" th:if="${session.loginUser == null}" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+				<img width="32" height="32" class="rounded-circle">
+				<span class="fs-5 fw-semibold p-2" data-bs-toggle="modal" data-bs-target="#loginModal">로그인 해주세요.</span>
+			</a>
 		<ul class="list-unstyled ps-0">
-			<li class="mb-1">
+			<li th:if="${session.loginUser != null}" class="mb-1">
 				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
 					계정
 				</button>
@@ -247,10 +251,10 @@
 				</button>
 				<div class="collapse" id="home-collapse">
 					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 네트워크</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(기초)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(심화)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(프레임워크)</a></li>
+						<li><a href="/#network" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 네트워크</a></li>
+						<li><a href="/#java1" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(기초)</a></li>
+						<li><a href="/#java2" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(심화)</a></li>
+						<li><a href="/#java3" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(프레임워크)</a></li>
 					</ul>
 				</div>
 			</li>
@@ -260,10 +264,10 @@
 				</button>
 				<div class="collapse" id="know-collapse">
 					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						<li><a href="/know#network" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+						<li><a href="/know#java1" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+						<li><a href="/know#java2" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+						<li><a href="/know#java3" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
 					</ul>
 				</div>
 			</li>
@@ -273,10 +277,10 @@
 				</button>
 				<div class="collapse" id="short-collapse">
 					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						<li><a href="/prob/short#network" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+						<li><a href="/prob/short#java1" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+						<li><a href="/prob/short#java2" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+						<li><a href="/prob/short#java3" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
 					</ul>
 				</div>
 			</li>
@@ -286,18 +290,18 @@
 				</button>
 				<div class="collapse" id="long-collapse">
 					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						<li><a href="/prob/long#network" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+						<li><a href="/prob/long#java1" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+						<li><a href="/prob/long#java2" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+						<li><a href="/prob/long#java3" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
 					</ul>
 				</div>
 			</li>
 			<li class="mb-1">
-				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#long-collapse" aria-expanded="false">
+				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="false">
 					현재 접속중인 사람
 				</button>
-				<div class="collapse" id="long-collapse">
+				<div class="collapse" id="user-collapse">
 					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
 						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
@@ -309,6 +313,8 @@
 		</ul>
 	</div>
 	
+	</div>
+	
 	<!-- Modal -->
 			<div class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
 				<div class="modal-dialog">
@@ -318,7 +324,7 @@
 						</div>
 						<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" th:action="@{/user/update}" th:object="${user}" enctype="multipart/form-data">
 							<div class="form-floating mb-3">
-								<input type="nick" class="form-control" id="nick2" th:field="*{nick}" placeholder="email@example.com" required autofocus>
+								<input type="nick" class="form-control" id="nick2" name="nick" placeholder="name" required autofocus>
 								<label for="nick2">닉네임(중복 불가, 4글자 이상)</label>
 								<div id="nickNotice2" class="invalid-feedback">
 									닉네임이 중복됩니다.
@@ -338,7 +344,7 @@
 							<hr class="my-4">
 							<div>
 								<label for="profile" class="my-3">프로필 사진 변경</label>
-								<input type="file" class="form-control" id="profile" th:field="*{profile}" accept="image/gif, image/jpeg, image/png, image/jpg" required autofocus>
+								<input type="file" class="form-control" id="file" name="file" accept="image/gif, image/jpeg, image/png, image/jpg" required autofocus>
 							</div>
 							<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return check2()">정보 변경</button>
 						</form>
@@ -346,9 +352,12 @@
 				</div>
 			</div>
 	
-	</div>
-	
 	<script th:inline="javascript">
+		var msg = [[${msg}]];
+		if(msg != null) {
+		alert(msg);	
+		}
+				
 		var loginUser = [[${session.loginUser}]];
 		console.log(loginUser);
 		
@@ -423,7 +432,7 @@
 		});
 		
 		function check2() {
-			if ($('#nick2').hasClass('is-invalid') || $('#email2').hasClass('is-invalid') || $('#pwd_confirm').hasClass('is-invalid')) {
+			if ($('#nick2').hasClass('is-invalid') || $('#email2').hasClass('is-invalid') || $('#pwd_confirm2').hasClass('is-invalid')) {
 				return false;
 			} else {
 				return true;

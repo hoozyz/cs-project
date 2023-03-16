@@ -1,13 +1,9 @@
 package com.hoozy.study.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,9 +23,6 @@ public class Cate {
 	private String cate1;
 	private String cate2;
 	private String link;
-	
-	@OneToMany(mappedBy = "cate") // 참조되는(현재) 테이블
-	private List<Know> knows = new ArrayList<>();
 	
 	@Builder
 	public Cate(String cate1, String cate2, String link) {

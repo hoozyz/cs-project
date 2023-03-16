@@ -1,6 +1,7 @@
 package com.hoozy.study.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,27 +22,24 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequiredArgsConstructor
+@RequiredArgsConstructor // final 옵션 필드 전부 포함한 생성자 만들어줌
 @Slf4j
 public class UserController {
 
-	@Autowired
 	private final UserService userService;
 
 	@PostMapping("/login")
 	public String login(@ModelAttribute User user, Model model, HttpServletRequest req,
 		HttpServletResponse resp, boolean emailStore) throws Exception {
-		String location = req.getHeader("referer");
-		model.addAttribute("url", location);
 		
 		// 세션 생성
 		HttpSession session = req.getSession();
 		
 		if(!userService.login(user)) {
 			model.addAttribute("msg", "로그인 실패");
-			return "msg";
+			return "home";
 		} 
-		log.info("아이디 저장 체크 {}", emailStore);
+
 		// 이메일를 쿠키에 저장
 		if(emailStore) {
 			Cookie cookie = new Cookie("email", String.valueOf(user.getEmail()));
@@ -54,11 +52,13 @@ public class UserController {
 		}
 		user = userService.findByEmail(user.getEmail());
 		user.setPwd("");
-		log.info("로그인 유저 정보 {}", user);
+		user.setSalt("");
+
 		session.setAttribute("loginUser", user);
+		model.addAttribute("user", user);
 		model.addAttribute("msg", "로그인 성공");
 		
-		return "msg";
+		return "home";
 	}
 	
 	@GetMapping("/register")
@@ -70,30 +70,38 @@ public class UserController {
 	@GetMapping("/update")
 	public String update(Model model) {
 		model.addAttribute("user", new User());
-		return "msg";
+		return "home";
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/user/update")
 	public String update(User user, Model model, HttpSession session, MultipartFile file, 
-			@SessionAttribute(name = "loginMember", required = false) User loginUser) { 
-		log.info("파일 명 {}", file);
+			@SessionAttribute(name = "loginUser", required = false) User loginUser,
+			HttpServletRequest req) throws Exception {
+
+		loginUser = userService.findByEmail(loginUser.getEmail());
+		loginUser.setNick(user.getNick()); // 바뀐 닉네임 저장
+		
+		// 바뀐 비밀번호 해싱
+		loginUser.setPwd(userService.hashing(user.getPwd().getBytes(), loginUser.getSalt())); 
 		
 		// 파일 변경 시
 		if(!file.isEmpty()) {
-			String rootPath = session.getServletContext().getRealPath("resources");
-			String savePath = rootPath + "/upload/images";
+			String rootPath = "C:\\Users\\kimyo\\Documents";
+			String savePath = rootPath + "\\upload\\images\\";
 			String renameFileName = userService.saveFile(file, savePath);
+			log.info("파일 {}", renameFileName);
+			log.info("경로 {}", savePath);
 			
-			user.setProfile(renameFileName);
-			log.info("프로필 업데이트 유저 {}", user.getProfile());
-		} else {
-			log.info("정보(프로필 제외) 업데이트 유저 {}", user.getProfile());
-		}
-		userService.update(user);
-		model.addAttribute("loginUser", loginUser);
+			loginUser.setProfile(renameFileName);
+		} 
+		userService.update(loginUser);
+		loginUser.setPwd("");
+		loginUser.setSalt("");
+		session.setAttribute("loginUser", loginUser);
+		model.addAttribute("user", loginUser);
 		model.addAttribute("msg", "정보 변경이 완료되었습니다.");
 		
-		return "msg";
+		return "home";
 	}
 	
 	@PostMapping("/register")
@@ -101,7 +109,6 @@ public class UserController {
 		String location = req.getHeader("referer");
 		model.addAttribute("url", location);
 		
-		log.info("이전페이지 {}", location);
 		log.info("회원가입 정보 {}", user);
 		if(user.getNick() == null) {
 			log.info("회원가입 실패");
@@ -113,17 +120,17 @@ public class UserController {
 		}
 		
 		
-		return "msg";
+		return "home";
 	}
 	
 	@GetMapping("/logout")
 	public String logout(Model model, HttpServletRequest req) {
-		String location = req.getHeader("referer");
 		
 		HttpSession session = req.getSession();
 		session.invalidate(); // 세션 삭제
-		
-		return "redirect:" + location;
+		model.addAttribute("msg", "로그아웃 되었습니다.");
+		model.addAttribute("user", new User());
+		return "home";
 	}
 	
 	// check 기능
@@ -139,10 +146,9 @@ public class UserController {
 		return userService.checkEmail(email);
 	}
 	
-	@GetMapping("/check/pwd")
+	@PostMapping("/check/pwd")
 	@ResponseBody
 	public String pwdCheck(String email, String pwd) throws Exception {
-		System.out.println(email);
 		return userService.checkPwd(email, pwd);
 	}
 }
