@@ -20,88 +20,34 @@
 		<div class="col-8" style="margin-left: 300px;">
 			<div data-bs-spy="scroll" data-bs-target="#probShort" data-bs-smooth-scroll="true" tabindex="0">
 				<div class="container px-4 py-5 my-3" id="network">
-					<h2 class="pb-2 border-bottom">네트워크</h2>
+					<h2 class="pb-2 border-bottom">[[${map.list0[0].cate}]]</h2>
 					<div class="row align-items-center" style="height: 500px;">
-						<div class="col-md-10 mx-auto col-lg-3">
+
+						<div th:each="know : ${map.list0}" class="col-md-10 mx-auto col-lg-3">
 							<div class="p-2 border rounded-3 bg-light">
-								<!--p : padding , m : margin , px : 왼쪽 오른쪽, py : 위 아래, 
-					t : 위, b : 아래, l : 왼쪽, r : 오른쪽-->
 								<div class="p-1 mb-5">
-									<h5>no.111<button class="btn" style="float:right;">넘기기</button></h5>
+									<h5>no.[[${know.no}]]<button class="btn" style="float:right;">넘기기</button></h5>
 								</div>
 								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
 								</div>
 								<div class="dropdown" style="height: 30px;">
-									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item1">정답정답정답정답정답정답정답정답정답</li>
+										<li class="dropdown-item1">[[${know.name}]]</li>
 									</ul>
 								</div>
-								<div class="pt-2 px-2">
-									글자수 : 7
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
 									<input> <button>제출</button>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-10 mx-auto col-lg-3">
-							<div class="p-2 border rounded-3 bg-light">
-								<div class="p-1 mb-5">
-									<h5>no.111<button class="btn" style="float:right;">넘기기</button></h5>
-								</div>
-								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-								</div>
-								<div class="dropdown" style="height: 30px;">
-									<button class="btn pb-3" style="float: right;">정답 보기</button>
-									<ul class="dropdown-menu">
-										<li class="dropdown-item1">정답정답정답정답정답정답정답정답정답</li>
-									</ul>
-								</div>
-								<div class="pt-2 px-2">
-									글자수 : 7
-								</div>
-								<div class="p-2">
-									<input> <button>제출</button>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-10 mx-auto col-lg-3">
-							<div class="p-2 border rounded-3 bg-light">
-								<div class="p-1 mb-5">
-									<h5>no.111<button class="btn" style="float:right;">넘기기</button></h5>
-								</div>
-								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-									<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-								</div>
-								<div class="dropdown" style="height: 30px;">
-									<button class="btn pb-3" style="float: right;">정답 보기</button>
-									<ul class="dropdown-menu">
-										<li class="dropdown-item1">정답정답정답정답정답정답정답정답정답</li>
-									</ul>
-								</div>
-								<div class="pt-2 px-2">
-									글자수 : 7
-								</div>
-								<div class="p-2">
-									<input> <button>제출</button>
-								</div>
-							</div>
-						</div>
+
 					</div>
 				</div>
 
@@ -109,21 +55,32 @@
 					<h2 class="pb-2 border-bottom">자바(기초)</h2>
 					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
 						style="height: 500px;">
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+						
+						<div th:each="know : ${map.list1}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]<button class="btn" style="float:right;">넘기기</button></h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input> <button>제출</button>
+								</div>
 							</div>
 						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
-							</div>
-						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 
@@ -131,174 +88,218 @@
 					<h2 class="pb-2 border-bottom">자바(심화)</h2>
 					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
 						style="height: 500px;">
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+						
+						<div th:each="know : ${map.list2}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]<button class="btn" style="float:right;">넘기기</button></h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input> <button>제출</button>
+								</div>
 							</div>
 						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
-							</div>
-						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 
 			</div>
 		</div>
 
-	<div class="flex-shrink-0 p-3 bg-white">
-			<a href="#" th:if="${session.loginUser != null}" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32" class="rounded-circle">
+		<div class="flex-shrink-0 p-3 bg-white">
+			<a href="#" th:if="${session.loginUser != null}"
+				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+				<img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+					class="rounded-circle">
 				<span class="fs-5 fw-semibold p-2" th:text="${session.loginUser?.nick}"></span>
 			</a>
-			<a href="#" th:if="${session.loginUser == null}" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+			<a href="#" th:if="${session.loginUser == null}"
+				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
 				<img width="32" height="32" class="rounded-circle">
 				<span class="fs-5 fw-semibold p-2" data-bs-toggle="modal" data-bs-target="#loginModal">로그인 해주세요.</span>
 			</a>
-		<ul class="list-unstyled ps-0">
-			<li th:if="${session.loginUser != null}" class="mb-1">
-				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-					계정
-				</button>
-				<div class="collapse" id="account-collapse">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateUserModal">
-							내 정보 변경</a>
-						</li>
-					</ul>
-				</div>
-			</li>
-			<li class="mb-1">
-				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-					홈페이지
-				</button>
-				<div class="collapse" id="home-collapse">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="/#network" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 네트워크</a></li>
-						<li><a href="/#java1" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(기초)</a></li>
-						<li><a href="/#java2" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(심화)</a></li>
-						<li><a href="/#java3" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 - 자바(프레임워크)</a></li>
-					</ul>
-				</div>
-			</li>
-			<li class="mb-1">
-				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#know-collapse" aria-expanded="false">
-					지식
-				</button>
-				<div class="collapse" id="know-collapse">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="/know#network" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-						<li><a href="/know#java1" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-						<li><a href="/know#java2" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-						<li><a href="/know#java3" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
-					</ul>
-				</div>
-			</li>
-			<li class="mb-1">
-				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#short-collapse" aria-expanded="false">
-					문제(단답형)
-				</button>
-				<div class="collapse" id="short-collapse">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="/prob/short#network" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-						<li><a href="/prob/short#java1" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-						<li><a href="/prob/short#java2" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-						<li><a href="/prob/short#java3" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
-					</ul>
-				</div>
-			</li>
-			<li class="mb-1">
-				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#long-collapse" aria-expanded="false">
-					문제(주관식)
-				</button>
-				<div class="collapse" id="long-collapse">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="/prob/long#network" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-						<li><a href="/prob/long#java1" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-						<li><a href="/prob/long#java2" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-						<li><a href="/prob/long#java3" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
-					</ul>
-				</div>
-			</li>
-			<li class="mb-1">
-				<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="false">
-					현재 접속중인 사람
-				</button>
-				<div class="collapse" id="user-collapse">
-					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-						<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
-					</ul>
-				</div>
-			</li>
-		</ul>
-	</div>
-	
-	</div>
-	
-	<!-- Modal -->
-			<div class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content col-md-10 mx-auto col-lg-5">
-						<div class="mx-auto py-3">
-							<h3>정보 변경</h3>
-						</div>
-						<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" th:action="@{/user/update}" th:object="${user}" enctype="multipart/form-data">
-							<div class="form-floating mb-3">
-								<input type="nick" class="form-control" id="nick2" name="nick" placeholder="name" required autofocus>
-								<label for="nick2">닉네임(중복 불가, 4글자 이상)</label>
-								<div id="nickNotice2" class="invalid-feedback">
-									닉네임이 중복됩니다.
-								</div>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="password" class="form-control" id="pwd3" th:field="*{pwd}" placeholder="password" minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
-								<label for="pwd3">비밀번호(6자리 이상, 12자리 이하)</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="password" class="form-control" placeholder="password" id="pwd_confirm2" minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
-								<label for="pwd_confirm2">비밀번호 확인</label>
-								<div id="pwdNotice2" class="feedback" style="height: 20px;">
-									비밀번호를 입력해주세요.
-								</div>
-							</div>
-							<hr class="my-4">
-							<div>
-								<label for="profile" class="my-3">프로필 사진 변경</label>
-								<input type="file" class="form-control" id="file" name="file" accept="image/gif, image/jpeg, image/png, image/jpg" required autofocus>
-							</div>
-							<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return check2()">정보 변경</button>
-						</form>
+			<ul class="list-unstyled ps-0">
+				<li th:if="${session.loginUser != null}" class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+						계정
+					</button>
+					<div class="collapse" id="account-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
+									data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateUserModal">
+									내 정보 변경</a>
+							</li>
+						</ul>
 					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+						홈페이지
+					</button>
+					<div class="collapse" id="home-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="/#network" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제
+									- 네트워크</a></li>
+							<li><a href="/#java1" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바(기초)</a></li>
+							<li><a href="/#java2" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바(심화)</a></li>
+							<li><a href="/#java3" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바(프레임워크)</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#know-collapse" aria-expanded="false">
+						지식
+					</button>
+					<div class="collapse" id="know-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="/know#network"
+									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+							<li><a href="/know#java1"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+							<li><a href="/know#java2"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+							<li><a href="/know#java3"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#short-collapse" aria-expanded="false">
+						문제(단답형)
+					</button>
+					<div class="collapse" id="short-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="/prob/short#network"
+									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+							<li><a href="/prob/short#java1"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+							<li><a href="/prob/short#java2"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+							<li><a href="/prob/short#java3"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#long-collapse" aria-expanded="false">
+						문제(주관식)
+					</button>
+					<div class="collapse" id="long-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="/prob/long#network"
+									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+							<li><a href="/prob/long#java1"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+							<li><a href="/prob/long#java2"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+							<li><a href="/prob/long#java3"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="false">
+						현재 접속중인 사람
+					</button>
+					<div class="collapse" id="user-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content col-md-10 mx-auto col-lg-5">
+				<div class="mx-auto py-3">
+					<h3>정보 변경</h3>
 				</div>
+				<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" th:action="@{/user/update}"
+					th:object="${user}" enctype="multipart/form-data">
+					<div class="form-floating mb-3">
+						<input type="nick" class="form-control" id="nick2" name="nick" placeholder="name" required
+							autofocus>
+						<label for="nick2">닉네임(중복 불가, 4글자 이상)</label>
+						<div id="nickNotice2" class="invalid-feedback">
+							닉네임이 중복됩니다.
+						</div>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" id="pwd3" th:field="*{pwd}" placeholder="password"
+							minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
+						<label for="pwd3">비밀번호(6자리 이상, 12자리 이하)</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" placeholder="password" id="pwd_confirm2"
+							minlength="6" maxlength="12" aria-describedby="pwdNotice" required>
+						<label for="pwd_confirm2">비밀번호 확인</label>
+						<div id="pwdNotice2" class="feedback" style="height: 20px;">
+							비밀번호를 입력해주세요.
+						</div>
+					</div>
+					<hr class="my-4">
+					<div>
+						<label for="profile" class="my-3">프로필 사진 변경</label>
+						<input type="file" class="form-control" id="file" name="file"
+							accept="image/gif, image/jpeg, image/png, image/jpg" required autofocus>
+					</div>
+					<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return check2()">정보
+						변경</button>
+				</form>
 			</div>
-	
-	
+		</div>
+	</div>
+
+
 	<script th:inline="javascript">
 		var msg = [[${msg}]];
-		if(msg != null) {
-		alert(msg);	
+		if (msg != null) {
+			alert(msg);
 		}
-				
+
 		var loginUser = [[${session.loginUser}]];
 		console.log(loginUser);
-		
-		$('#pwd_confirm2').keyup(function() {
+
+		$('#pwd_confirm2').keyup(function () {
 			var pwd = $('#pwd3').val();
 			var pwd_confirm = $('#pwd_confirm2').val();
-			
+
 			if (pwd == pwd_confirm) {
 				var email = loginUser.email;
 				console.log(email);
-				
+
 				$.ajax({
 					type: 'post',
 					url: '/check/pwd',
@@ -306,12 +307,12 @@
 						email: email,
 						pwd: pwd,
 					},
-					
-					success: function(data) {
+
+					success: function (data) {
 						console.log(data);
-					
+
 						// 중복
-						if(data == '1') {
+						if (data == '1') {
 							$('#pwd_confirm2').removeClass('is-valid');
 							$('#pwd_confirm2').addClass('is-invalid');
 							$('#pwdNotice2').html('원래 비밀번호와 같습니다.');
@@ -321,8 +322,8 @@
 							$('#pwdNotice2').html('비밀번호가 일치합니다.');
 						}
 					},
-					
-					error: function(e) {
+
+					error: function (e) {
 						console.log(e);
 					}
 				});
@@ -332,35 +333,35 @@
 				$('#pwdNotice2').html('비밀번호가 일치하지 않습니다.');
 			}
 		});
-		
-		$('#nick2').keyup(function() {
+
+		$('#nick2').keyup(function () {
 			var nick = $('#nick2').val();
-			
+
 			$.ajax({
 				type: 'get',
 				url: '/check/nick',
 				data: {
 					nick: nick,
 				},
-				contentType:"application/json;charset=UTF-8",
-				
-				success: function(data) {
+				contentType: "application/json;charset=UTF-8",
+
+				success: function (data) {
 					console.log(data);
-					
+
 					// 중복
-					if(data == '1') {
+					if (data == '1') {
 						$('#nick2').addClass('is-invalid');
 					} else {
 						$('#nick2').removeClass('is-invalid');
 					}
 				},
-				
-				error: function(e) {
+
+				error: function (e) {
 					console.log(e);
 				}
 			});
 		});
-		
+
 		function check2() {
 			if ($('#nick2').hasClass('is-invalid') || $('#email2').hasClass('is-invalid') || $('#pwd_confirm2').hasClass('is-invalid')) {
 				return false;

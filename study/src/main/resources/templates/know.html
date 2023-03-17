@@ -21,15 +21,22 @@
 			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
 				<div class="container px-4 py-5 my-3" id="network">
 					<h2 class="pb-2 border-bottom">네트워크</h2>
-					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
-						style="height: 500px;">
-						<div class="col d-flex align-items-start">
-							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#internetModal">
-								<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+						style="height: 500px; overflow: scroll;">
+						
+						<div th:each="know : ${map.list0}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal" onclick="return know()">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
 							</button>
+							
+							<script th:inline="javascript">
+								function know() { // 문제의 정보를 받아서 팝업 -> ajax
+									
+								}
+							</script>
 
 							<!-- Modal -->
-							<div class="modal fade" id="internetModal" tabindex="-1" aria-hidden="true">
+							<div class="modal fade" id="knowModal" tabindex="-1" aria-hidden="true"> <!--모든 지식 팝업은 여기로 -> 정보만 바꾸기-->
 								<div class="modal-dialog">
 									<div class="modal-content col-md-10 mx-auto col-lg-5" style="width:700px; right: 100px;">
 										<div class="mx-auto py-3">
@@ -74,23 +81,14 @@
 							</div>
 
 						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
-							</div>
-						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 
 				<div class="container px-4 py-5 my-3" id="java1">
 					<h2 class="pb-2 border-bottom">자바(기초)</h2>
-					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
-						style="height: 500px;">
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+						style="height: 500px; overflow: scroll;">
 						<div class="col d-flex align-items-start">
 							<div>
 								<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
@@ -111,8 +109,8 @@
 
 				<div class="container px-4 py-5 my-3" id="java2">
 					<h2 class="pb-2 border-bottom">자바(심화)</h2>
-					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
-						style="height: 500px;">
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+						style="height: 500px; overflow: scroll;">
 						<div class="col d-flex align-items-start">
 							<div>
 								<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
