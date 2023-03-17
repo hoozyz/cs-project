@@ -39,6 +39,7 @@ public class Reply {
 	private int repn; // repl이 0인 댓글 번호 -> 첫 댓글 : 1 , 첫 답글 : 1
 	private int repo; // 댓글이 속한 댓글 중 순서 -> 첫 댓글 : 0 , 첫 답글 : 1
 	private int repl; // 댓글의 레벨 -> 모댓글 : 0, 답글 : 1 -> 첫 댓글 : 0, 첫 답글 : 1
+	private String cont; // 댓글 내용
 	
 	@ColumnDefault("0")
 	private int checks; // 삭제 시 : 1 , 아니면 0

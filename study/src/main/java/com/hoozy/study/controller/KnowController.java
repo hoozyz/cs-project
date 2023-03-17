@@ -4,21 +4,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.User;
 import com.hoozy.study.interfaces.KnowMapping;
 import com.hoozy.study.service.KnowService;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class KnowController {
 	
-	@Autowired
-	private KnowService knowService;
+	private final KnowService knowService;
 	
 	@GetMapping("/know")
 	public String know(Model model, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
@@ -37,5 +41,13 @@ public class KnowController {
 		return "know";
 	}
 	
-	
+	@PostMapping("/know/cont")
+	@ResponseBody
+	public Know knowCont(String name) {
+		Know know = new Know();
+		 
+		know = knowService.findByName(name);
+		
+		return know;
+	}
 }
