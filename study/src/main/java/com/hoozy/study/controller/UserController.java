@@ -63,7 +63,7 @@ public class UserController {
 		Map<String, List<Know>> map = new HashMap<>();
 		map = knowService.findAllByShort();
 		model.addAttribute("map", map);
-		log.info("map {}", map);
+		
 		session.setAttribute("loginUser", user);
 		model.addAttribute("user", user);
 		model.addAttribute("msg", "로그인 성공");
@@ -109,8 +109,6 @@ public class UserController {
 			String rootPath = "C:\\Users\\kimyo\\Documents";
 			String savePath = rootPath + "\\upload\\images\\";
 			String renameFileName = userService.saveFile(file, savePath);
-			log.info("파일 {}", renameFileName);
-			log.info("경로 {}", savePath);
 
 			loginUser.setProfile(renameFileName);
 		}

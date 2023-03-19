@@ -12,4 +12,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long>{
 	// findBy + (FK를 관리하는 엔티티(참조 테이블)의 첫 글자를 대문자) + '_' + (FK 엔티티의 식별자 필드명에서 첫 글자를 대문자) 
 	// findBy + (FK가 PK인 테이블) + '_' + (FK 보유 테이블)
 	List<Reply> findByKnowNo(long no);
+	
+	// 모댓글 개수 가져오기
+	List<Reply> findByReplLike(int repl);
 }

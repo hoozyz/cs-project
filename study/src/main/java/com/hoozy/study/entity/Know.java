@@ -12,19 +12,21 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @ToString
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "know")
 public class Know {
 	// 만약 know의 cont(내용)에 *인 내용은 추가적으로 테이블 형식 지식.
 	// 내용이 *이 아니고 *을 포함한다면, 주관식 문제
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long no; // 문제 번호 PK
 	
 	private String cate; // 카테고리 이름

@@ -281,199 +281,232 @@
 								</div>
 
 								<!--로그인 하면 나오는 댓글 작성 칸-->
-								<div class="row">
+								<div th:if="${session.loginUser != null}" class="row">
 									<div class="col-1">
-										<img>
+										<img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32"
+											height="32" class="rounded-circle">
 										<!--작성자(현재 로그인 유저) 이미지-->
 									</div>
 									<div class="col-9">
-										<input class="w-100 form-control" type="text" placeholder="댓글을 입력해주세요.">
+										<input class="w-100 form-control" id="repCont" type="text"
+											placeholder="댓글을 입력해주세요.">
 									</div>
 									<div class="col-2">
-										<button type="button" id="" class="btn btn-primary">작성</button>
+										<button type="submit" onclick="repWrite()"
+											class="btn btn-primary">작성</button>
 									</div>
 								</div>
 
 							</div>
 						</div>
 					</div>
+					
+					<!--답글 작성 칸-->
+					<div class="collapse" id="collapse2">
+						<div class="modal-section">
+							<div class="card card-body">
+								<div id="reply-list">
+									<!--댓글 목록-->
+								</div>
+
+								<!--로그인 하면 나오는 댓글 작성 칸-->
+								<div th:if="${session.loginUser != null}" class="row">
+									<div class="col-1"><img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32" class="rounded-circle">
+										<!--작성자(현재 로그인 유저) 이미지-->
+									</div>
+									<div class="col-9">
+										<input class="w-100 form-control" id="repRepCont" type="text"
+											placeholder="댓글을 입력해주세요.">
+									</div>
+									<div class="col-2">
+										<button type="submit" onclick="repRepWrite()"
+											class="btn btn-primary">작성</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>
 	</div>
-		<script th:inline="javascript">
-			var msg = [[${msg}]];
-			if (msg != null) {
-				alert(msg);
-			}
-
-			var loginUser = [[${session.loginUser}]];
-			console.log(loginUser);
-
-			function know(name) { // 문제의 정보를 받아서 팝업 -> ajax
-
-				$.ajax({
-					type: 'post',
-					url: '/know/cont',
-					data: {
-						name: name,
-					},
-
-					success: function (data) {
-
-						$('#knowNo').html('no.' + data.no);
-						$('#knowName').html(data.name);
-
-						if (data.cont.includes('/')) { // 내용이 2개 이상이고, 단답형
-							var contArr = data.cont.split('/');
-							var str = '';
-
-							contArr.forEach((cont, index) => {
-								str += '<p>- ' + cont + '</p>';
-							});
-							$('#knowCont').html(str);
-
-						} else if (data.cont == '*') { // 테이블 형태 지식
-
-							$.ajax({
-								type: 'post',
-								url: '/addi/cont',
-								data: {
-									no: data.no,
-								},
-
-								success: function (data) {
-									str = '';
-									str += '<table>';
-
-									data.forEach((list, index) => {
-
-										if (index == 0) { // 처음에는 th
-											str += '<tr>';
-											str += '<th>기준</th>';
-											str += '<th>' + list.addi.comp1 + '</th>';
-											str += '<th>' + list.addi.comp2 + '</th>';
-											str += '</tr>';
-										} else {
-											str += '<tr>';
-											str += '<td>' + list.addi.stand + '</td>';
-											str += '<td>' + list.addi.comp1 + '</td>';
-											str += '<td>' + list.addi.comp2 + '</td>';
-											str += '</tr>';
-										}
-									});
-									str += '</table>';
-
-									$('#knowCont').html(str);
-								},
-
-								error: function (e) {
-									console.log(e);
-								}
-							});
-
-						} else if (data.cont.includes('*')) { // 테이블 형태가 아닌 주관식
-							var contArr = data.cont.split('*');
-							var str = '';
-
-							contArr.forEach((cont, index) => {
-								str += '<p>' + cont + '</p>';
-							});
-							$('#knowCont').html(str);
-						} else {
-							$('#knowCont').html('<p>- ' + data.cont + '</p>');
-						}
-					},
-
-					error: function (e) {
-						console.log(e);
-					}
-				});
-			};
-
-			function reply() {
-				var no = $('#knowName').html().replace('no.', ''); // 번호만 추출
-
-				$.ajax({
-					type: 'post',
-					url: '/reply/cont',
-					data: {
-						no: no,
-					},
-
-					success: function (data) {
-						console.log(data);
-
-
-					},
-
-					error: function (e) {
-						console.log(e);
-					}
-				});
-			};
-
-			$('#pwd_confirm2').keyup(function () {
-				var pwd = $('#pwd3').val();
-				var pwd_confirm = $('#pwd_confirm2').val();
-
-				if (pwd == pwd_confirm) {
-					var email = loginUser.email;
-					console.log(email);
-
-					$.ajax({
-						type: 'post',
-						url: '/check/pwd',
-						data: {
-							email: email,
-							pwd: pwd,
-						},
-
-						success: function (data) {
-							console.log(data);
-
-							// 중복
-							if (data == '1') {
-								$('#pwd_confirm2').removeClass('is-valid');
-								$('#pwd_confirm2').addClass('is-invalid');
-								$('#pwdNotice2').html('원래 비밀번호와 같습니다.');
-							} else {
-								$('#pwd_confirm2').removeClass('is-invalid');
-								$('#pwd_confirm2').addClass('is-valid');
-								$('#pwdNotice2').html('비밀번호가 일치합니다.');
-							}
-						},
-
-						error: function (e) {
-							console.log(e);
-						}
-					});
-				} else {
-					$('#pwd_confirm2').removeClass('is-valid');
-					$('#pwd_confirm2').addClass('is-invalid');
-					$('#pwdNotice2').html('비밀번호가 일치하지 않습니다.');
+	<script th:inline="javascript">
+		function repWrite() {
+			var cont = $('#repCont').val();
+			var kno = $('#knowNo').html().replace('no.', '');
+			
+			$.ajax({
+				type: 'post',
+				url: '/reply/write',
+				data: {
+					cont: cont,
+					kno: kno,
+				},
+				
+				success: function(data) {
+					console.log(data);
+					var str = $('#reply-list').html(); // 원래 댓글 정보들 가져오기.
+					var profile = data.user.profile;
+					var nick = data.nick;
+					var cont = data.cont;
+					
+					str += '<div class="row">';
+					str += '<div class="col-1"><img sre="/upload/images?name='+ profile +'" width="32" height="32" class="rounded-circle"></div>';
+					str += '<div class="col-9"><label>'+ nick +'</label><label>'+ cont +'</label></div>';
+					str += '</div>';
+										
+					$('#reply-list').html(str);
+				},
+				
+				error: function(e) {
+					console.log(e);
 				}
 			});
+		}
+		
+		
+		
+		var msg = [[${msg}]];
+		if (msg != null) {
+			alert(msg);
+		}
 
-			$('#nick2').keyup(function () {
-				var nick = $('#nick2').val();
+		var loginUser = [[${session.loginUser}]];
+		console.log(loginUser);
+
+		function know(name) { // 문제의 정보를 받아서 팝업 -> ajax
+
+			$.ajax({
+				type: 'post',
+				url: '/know/cont',
+				data: {
+					name: name,
+				},
+
+				success: function (data) {
+
+					$('#knowNo').html('no.' + data.no);
+					$('#knowName').html(data.name);
+
+					if (data.cont.includes('/')) { // 내용이 2개 이상이고, 단답형
+						var contArr = data.cont.split('/');
+						var str = '';
+
+						contArr.forEach((cont, index) => {
+							str += '<p>- ' + cont + '</p>';
+						});
+						$('#knowCont').html(str);
+
+					} else if (data.cont == '*') { // 테이블 형태 지식
+
+						$.ajax({
+							type: 'post',
+							url: '/addi/cont',
+							data: {
+								no: data.no,
+							},
+
+							success: function (data) {
+								str = '';
+								str += '<table>';
+
+								data.forEach((list, index) => {
+
+									if (index == 0) { // 처음에는 th
+										str += '<tr>';
+										str += '<th>기준</th>';
+										str += '<th>' + list.addi.comp1 + '</th>';
+										str += '<th>' + list.addi.comp2 + '</th>';
+										str += '</tr>';
+									} else {
+										str += '<tr>';
+										str += '<td>' + list.addi.stand + '</td>';
+										str += '<td>' + list.addi.comp1 + '</td>';
+										str += '<td>' + list.addi.comp2 + '</td>';
+										str += '</tr>';
+									}
+								});
+								str += '</table>';
+
+								$('#knowCont').html(str);
+							},
+
+							error: function (e) {
+								console.log(e);
+							}
+						});
+
+					} else if (data.cont.includes('*')) { // 테이블 형태가 아닌 주관식
+						var contArr = data.cont.split('*');
+						var str = '';
+
+						contArr.forEach((cont, index) => {
+							str += '<p>' + cont + '</p>';
+						});
+						$('#knowCont').html(str);
+					} else {
+						$('#knowCont').html('<p>- ' + data.cont + '</p>');
+					}
+				},
+
+				error: function (e) {
+					console.log(e);
+				}
+			});
+		};
+
+		function reply() {
+			var no = $('#knowNo').html().replace('no.', ''); // 번호만 추출
+
+			$.ajax({
+				type: 'post',
+				url: '/reply/cont',
+				data: {
+					no: no,
+				},
+
+				success: function (data) {
+					console.log(data);
+
+
+				},
+
+				error: function (e) {
+					console.log(e);
+				}
+			});
+		};
+
+		$('#pwd_confirm2').keyup(function () {
+			var pwd = $('#pwd3').val();
+			var pwd_confirm = $('#pwd_confirm2').val();
+
+			if (pwd == pwd_confirm) {
+				var email = loginUser.email;
+				console.log(email);
 
 				$.ajax({
-					type: 'get',
-					url: '/check/nick',
+					type: 'post',
+					url: '/check/pwd',
 					data: {
-						nick: nick,
+						email: email,
+						pwd: pwd,
 					},
-					contentType: "application/json;charset=UTF-8",
 
 					success: function (data) {
 						console.log(data);
 
 						// 중복
 						if (data == '1') {
-							$('#nick2').addClass('is-invalid');
+							$('#pwd_confirm2').removeClass('is-valid');
+							$('#pwd_confirm2').addClass('is-invalid');
+							$('#pwdNotice2').html('원래 비밀번호와 같습니다.');
 						} else {
-							$('#nick2').removeClass('is-invalid');
+							$('#pwd_confirm2').removeClass('is-invalid');
+							$('#pwd_confirm2').addClass('is-valid');
+							$('#pwdNotice2').html('비밀번호가 일치합니다.');
 						}
 					},
 
@@ -481,16 +514,49 @@
 						console.log(e);
 					}
 				});
-			});
+			} else {
+				$('#pwd_confirm2').removeClass('is-valid');
+				$('#pwd_confirm2').addClass('is-invalid');
+				$('#pwdNotice2').html('비밀번호가 일치하지 않습니다.');
+			}
+		});
 
-			function check2() {
-				if ($('#nick2').hasClass('is-invalid') || $('#email2').hasClass('is-invalid') || $('#pwd_confirm2').hasClass('is-invalid')) {
-					return false;
-				} else {
-					return true;
+		$('#nick2').keyup(function () {
+			var nick = $('#nick2').val();
+
+			$.ajax({
+				type: 'get',
+				url: '/check/nick',
+				data: {
+					nick: nick,
+				},
+				contentType: "application/json;charset=UTF-8",
+
+				success: function (data) {
+					console.log(data);
+
+					// 중복
+					if (data == '1') {
+						$('#nick2').addClass('is-invalid');
+					} else {
+						$('#nick2').removeClass('is-invalid');
+					}
+				},
+
+				error: function (e) {
+					console.log(e);
 				}
-			};
-		</script>
+			});
+		});
+
+		function check2() {
+			if ($('#nick2').hasClass('is-invalid') || $('#email2').hasClass('is-invalid') || $('#pwd_confirm2').hasClass('is-invalid')) {
+				return false;
+			} else {
+				return true;
+			}
+		};
+	</script>
 
 </body>
 
