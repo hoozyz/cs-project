@@ -36,3 +36,26 @@ td {
 	vertical-align: bottom;
 	vertical-align: middle;
 }
+
+.repNick {
+	font-size: 17px;
+}
+
+.repCont {
+	font-size: 13px;
+}
+
+.repLike {
+	font-size: 12px;
+	padding-left: 10px;
+	padding-top: 5px;
+}
+
+.repNestWrite {
+	font-size: 15px;
+}
+
+.repDelete, .repUpdate {
+	font-size: 15px;
+	float: right;
+}

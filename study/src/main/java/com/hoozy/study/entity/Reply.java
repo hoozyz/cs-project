@@ -37,6 +37,8 @@ public class Reply {
 	@JoinColumn(name = "email")
 	private User user; // 참조 테이블
 	
+	private String profile;
+	
 	private String nick; // 작성자
 	private int repn; // repl이 0인 댓글 번호 -> 첫 댓글 : 1 , 첫 답글 : 1
 	private int repo; // 댓글이 속한 댓글 중 순서 -> 첫 댓글 : 0 , 첫 답글 : 1
@@ -45,6 +47,7 @@ public class Reply {
 	
 	@ColumnDefault("0")
 	private int checks; // 삭제 시 : 1 , 아니면 0
+	private int likes;
 	private Timestamp date; // 수정일(생성일)
 	
 	@Builder

@@ -19,11 +19,11 @@ public class ReplyService {
 	@Autowired
 	private ReplyRepository replyRepository;
 	
-	// 지식 번호로 댓글 가져오기
+	// 지식 번호로 모댓글 가져오기
 	public List<Reply> findByKnowNo(long no) {
 		List<Reply> list = new ArrayList<>();
 		
-		list = replyRepository.findByKnowNo(no);
+		list = replyRepository.findByKnowNoAndRepl(no, 0); // 모댓글은 repl = 0
 		
 		return list;
 	}
@@ -33,13 +33,22 @@ public class ReplyService {
 		replyRepository.save(reply);
 	}
 	
-	// 모댓글 개수 가져오기
-	public int countByRepl(int repl) {
-		int count = 0;
-		List<Reply> list = new ArrayList<>();
-		list = replyRepository.findByReplLike(repl);
-		count = list.size();
+	// 모댓글의 답글 가져오기 -> 예전거부터
+	public List<Reply> findByRepn(int repn) {
 		
-		return count;
+		List<Reply> list = new ArrayList<>();
+		list = replyRepository.findByRepnLike(repn);
+		
+		return list;
+	}
+	
+	// 댓글 삭제
+	public Reply deleteReply(long no) {
+		Reply reply = new Reply();
+		
+		replyRepository.deleteReply(no); // checks 를 1로 만들어 삭제
+		reply = replyRepository.findByNo(no); // 1이면 삭제 성공, 0이면 삭제 실패
+		
+		return reply;
 	}
 }

@@ -269,9 +269,12 @@
 						<p>- 인터넷은 서로 동시에 참여할 수 있는 쌍방향 통신을 제공한다.</p>
 					</div>
 					<hr class="my-4">
-					<button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse"
-						data-bs-target="#collapse1" aria-expanded="false" th:onclick="reply()">
-						댓글
+					<button class="btn mb-3" type="button" aria-expanded="false" th:onclick="repHeart()">
+						<i class="bi-heart" style="font-size: 1.5rem"></i>
+					</button>
+					<button class="btn mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1"
+						aria-expanded="false" th:onclick="reply()">
+						<i class="bi-chat" style="font-size: 1.5rem"></i>
 					</button>
 					<div class="collapse" id="collapse1">
 						<div class="modal-section">
@@ -292,34 +295,53 @@
 											placeholder="댓글을 입력해주세요.">
 									</div>
 									<div class="col-2">
-										<button type="submit" onclick="repWrite()"
-											class="btn btn-primary">작성</button>
+										<button type="submit" onclick="repWrite()" class="btn btn-primary">작성</button>
 									</div>
 								</div>
 
 							</div>
 						</div>
 					</div>
-					
+
+					<!--댓글 수정 칸-->
+					<div class="collapse" id="collapse3">
+						<div class="modal-section">
+							<div class="card card-body">
+								<!--로그인 하면 나오는 댓글 작성 칸-->
+								<div th:if="${session.loginUser != null}" class="row">
+									<div class="col-1"><img
+											th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32"
+											height="32" class="rounded-circle">
+										<!--작성자(현재 로그인 유저) 이미지-->
+									</div>
+									<div class="col-9">
+										<input class="w-100 form-control" id="repUpdateCont" type="text"
+											placeholder="댓글을 입력해주세요.">
+									</div>
+									<div class="col-2">
+										<button type="submit" onclick="repUpdate()" class="btn btn-primary">작성</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
 					<!--답글 작성 칸-->
 					<div class="collapse" id="collapse2">
 						<div class="modal-section">
 							<div class="card card-body">
-								<div id="reply-list">
-									<!--댓글 목록-->
-								</div>
-
-								<!--로그인 하면 나오는 댓글 작성 칸-->
 								<div th:if="${session.loginUser != null}" class="row">
-									<div class="col-1"><img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32" class="rounded-circle">
-										<!--작성자(현재 로그인 유저) 이미지-->
+									<div class="col-1"><img
+											th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32"
+											height="32" class="rounded-circle">
 									</div>
 									<div class="col-9">
-										<input class="w-100 form-control" id="repRepCont" type="text"
+										<input class="w-100 form-control" id="repNestCont" type="text"
 											placeholder="댓글을 입력해주세요.">
 									</div>
 									<div class="col-2">
-										<button type="submit" onclick="repRepWrite()"
+										<button type="submit" onclick="repNestWrite()"
 											class="btn btn-primary">작성</button>
 									</div>
 								</div>
@@ -327,47 +349,13 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
 	</div>
+	
 	<script th:inline="javascript">
-		function repWrite() {
-			var cont = $('#repCont').val();
-			var kno = $('#knowNo').html().replace('no.', '');
-			
-			$.ajax({
-				type: 'post',
-				url: '/reply/write',
-				data: {
-					cont: cont,
-					kno: kno,
-				},
-				
-				success: function(data) {
-					console.log(data);
-					var str = $('#reply-list').html(); // 원래 댓글 정보들 가져오기.
-					var profile = data.user.profile;
-					var nick = data.nick;
-					var cont = data.cont;
-					
-					str += '<div class="row">';
-					str += '<div class="col-1"><img sre="/upload/images?name='+ profile +'" width="32" height="32" class="rounded-circle"></div>';
-					str += '<div class="col-9"><label>'+ nick +'</label><label>'+ cont +'</label></div>';
-					str += '</div>';
-										
-					$('#reply-list').html(str);
-				},
-				
-				error: function(e) {
-					console.log(e);
-				}
-			});
-		}
-		
-		
-		
 		var msg = [[${msg}]];
 		if (msg != null) {
 			alert(msg);
@@ -375,7 +363,76 @@
 
 		var loginUser = [[${session.loginUser}]];
 		console.log(loginUser);
+		
+		// 답글 쓰기 클릭 시 답글 작성 란 나온 후 작성 시 댓글 리스트에 추가
+		function repNestWrite(no) { // 현재 작성중인 모댓글 번호
+			var cont = $('#repNestCont'+no).val(); // 현재 작성 내용
+			var kno = $('#knowNo').html().replace('no.', ''); // 지식 번호
+			
+			$.ajax({
+				type: 'post',
+				url: '/reply/nestWrite',
+				data: {
+					no: no,
+					cont: cont,
+					kno: kno,
+				},
+				
+				success: function(data) {
+					reply();
+				},
+				
+				error: function(e) {
+					console.log(e)
+				}
+			});
+		}
 
+		function repDelete(no) {
+			console.log(no);
+
+			$.ajax({
+				type: 'post',
+				url: '/reply/delete',
+				data: {
+					no: no,
+				},
+
+				success: function(data) {
+					reply();
+				},
+
+				error: function(e) {
+					console.log(e)
+				}
+			});
+		}
+
+		// 모댓글 작성 클릭 시 작성 후 댓글 리스트에 추가
+		function repWrite() {
+			var cont = $('#repCont').val();
+			var kno = $('#knowNo').html().replace('no.', '');
+
+			$.ajax({
+				type: 'post',
+				url: '/reply/write',
+				data: {
+					cont: cont,
+					kno: kno,
+				},
+
+				success: function(data) {
+					$('#repCont').val(''); // 작성 후 내용 없애기
+					reply();
+				},
+
+				error: function(e) {
+					console.log(e);
+				}
+			});
+		}
+
+		// 지식 클릭 시 지식 정보 가져오기
 		function know(name) { // 문제의 정보를 받아서 팝업 -> ajax
 
 			$.ajax({
@@ -385,7 +442,7 @@
 					name: name,
 				},
 
-				success: function (data) {
+				success: function(data) {
 
 					$('#knowNo').html('no.' + data.no);
 					$('#knowName').html(data.name);
@@ -408,7 +465,7 @@
 								no: data.no,
 							},
 
-							success: function (data) {
+							success: function(data) {
 								str = '';
 								str += '<table>';
 
@@ -433,7 +490,7 @@
 								$('#knowCont').html(str);
 							},
 
-							error: function (e) {
+							error: function(e) {
 								console.log(e);
 							}
 						});
@@ -451,35 +508,218 @@
 					}
 				},
 
-				error: function (e) {
+				error: function(e) {
 					console.log(e);
 				}
 			});
 		};
 
+		// 지식의 댓글 클릭 시 댓글 정보 가져오기
 		function reply() {
 			var no = $('#knowNo').html().replace('no.', ''); // 번호만 추출
 
 			$.ajax({
 				type: 'post',
 				url: '/reply/cont',
+				async: false, // str 변수 전역변수로 하게끔 동기식으로 변경.
 				data: {
 					no: no,
 				},
-
-				success: function (data) {
-					console.log(data);
-
-
+				
+				// 모댓글만 가져와서 모댓글마다 답글 가져오기
+				success: function(data) {
+					var str = '';
+					
+					data.forEach((list, index) => {
+						no = list.no;
+						var profile = list.profile;
+						var nick = list.nick;
+						var cont = list.cont;
+						var checks = list.checks; // 1이면 삭제된 댓글
+						
+						str += '<div class="row mb-3 px-1" id="rep' + no + '">                                                                                                                   '
+						str += '<div class="col-1" id="repImg"' + no + '><img src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+						str += '<div class="col-10">                                                                                                                          '
+						str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
+						
+						if(checks == 1) {
+							str += '	<label class="repCont" id="repCont' + no + '">삭제된 댓글입니다.</label>'  
+							str += '	<div id="repAdd' + no + '">'
+							str += '	</div>                                                                                                                                    '
+							str += '</div>                                                                                                                                        '
+							str += '<div class="col-1" id="repLike' + no + '">'	
+							str += '	</div>                                                                                                                                    '
+							str += '</div>'	
+						} else {
+							str += '	<label class="repCont" id="repCont' + no + '">' + cont + '</label>                                                                              '
+							str += '	<div id="repAdd' + no + '">                                                                                                                                     '
+							str += '		<label class="line-dark repLike" id="repLike' + no + '">좋아요 ' + list.likes + '개</label>'
+							str += '		<button th:if="${session.loginUser != null}" class="btn repNestWrite" id="repNest" data-bs-toggle="collapse" data-bs-target="#repNestCol' + no + '">답글 쓰기</button>    '
+							str += '		<button class="btn repDelete" onclick="repDelete(' + no + ')">삭제</button>                                                                     '
+							str += '		<button class="btn repUpdate" id="repUpdate' + no + '" data-bs-toggle="collapse" onclick="repUpdate(' + no + ')" data-bs-target="#repUpdateCol' + no + '">수정</button>               '
+							str += '	</div>                                                                                                                                    '
+							str += '</div>                                                                                                                                        '
+							str += '<div class="col-1" id="repLike' + no + '">                                                                                                                           '
+							str += '	<button class="btn"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>                                                  '
+							str += '	</div>                                                                                                                                    '
+							str += '</div>'
+							
+							// 답글 작성 란 틀
+							str += '<div class="collapse mb-3 px-1" id="repNestCol' + no + '">'
+							str += '<div class="modal-section">'
+							str += '<div class="card card-body">'
+							str += '	<div th:if="${session.loginUser != null}" class="row">                                            '
+							str += '				<div class="col-1"><img                                                                   '
+							str += '						src="/upload/images?file= + ${session.loginUser?.profile}" width="32"       '
+							str += '						height="32" class="rounded-circle">                                               '
+							str += '				</div>                                                                                    '
+							str += '				<div class="col-9">                                                                       '
+							str += '					<input class="w-100 form-control" id="repNestCont'+ no +'" type="text"                        '
+							str += '						placeholder="댓글을 입력해주세요.">                                               '
+							str += '				</div>                                                                                    '
+							str += '				<div class="col-2">                                                                       '
+							str += '					<button type="submit" onclick="repNestWrite('+ no +')"                                        '
+							str += '						class="btn btn-primary">작성</button>                                             '
+							str += '				</div>                                                                                    '
+							str += '			</div>                                                                                       '
+							str += '</div>'                                                                                                   
+							str += '</div>'
+							str += '</div>'
+				
+							// 수정 란 틀
+							str += '<div class="collapse mb-3 px-1" id="repUpdateCol' + no + '">'
+							str += '<div class="modal-section">'
+							str += '<div class="card card-body">'
+							str += '	<div th:if="${session.loginUser != null}" class="row">                                             '
+							str += '				<div class="col-1"><img                                                                '
+							str += '						th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32"    '
+							str += '						height="32" class="rounded-circle">                                            '
+							str += '					<!--작성자(현재 로그인 유저) 이미지-->                                             '
+							str += '				</div>                                                                                 '
+							str += '				<div class="col-9">                                                                    '
+							str += '					<input class="w-100 form-control" id="repUpdateCont" type="text"                   '
+							str += '						placeholder="댓글을 입력해주세요.">                                            '
+							str += '				</div>                                                                                 '
+							str += '				<div class="col-2">                                                                    '
+							str += '					<button type="submit" onclick="repUpdate('+ no +')" class="btn btn-primary">작성</button>  '
+							str += '				</div>                                                                                 '
+							str += '			</div>'                                                                                     
+							str += '</div>'
+							str += '</div>'
+							str += '</div>'
+						}
+						
+						// 모댓글일 때 repn=no 인 모댓글의 답글을 가져와서 html에 넣음 -> 들여쓰기 해서
+						$.ajax({
+							type: 'post',
+							url: '/reply/repn',
+							async: false,
+							data: {
+								no: no,
+							},
+							
+							success: function(data) {
+								
+								if(data != null || data != undefined || data != '') {
+									data.forEach((list, index) => { // 현재 모댓글의 답글 개수 만큼 추가하기
+									no = list.no;
+									profile = list.profile;
+									nick = list.nick;      
+									cont = list.cont;  
+									checks = list.checks;    
+									
+									// 들여쓰기
+									str += '<div class="row mb-3 px-1" style="margin-left: 30px;" id="rep' + no + '">                                                                                                                   '
+									str += '<div class="col-1" id="repImg"' + no + '><img src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+									str += '<div class="col-10">                                                                                                                          '
+									str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
+									
+									if(checks == 1) {
+										str += '	<label class="repCont" id="repCont' + no + '">삭제된 댓글입니다.</label>'  
+										str += '	<div id="repAdd' + no + '">'
+										str += '	</div>                                                                                                                                    '
+										str += '</div>                                                                                                                                        '
+										str += '<div class="col-1" id="repLike' + no + '">'	
+										str += '	</div>                                                                                                                                    '
+										str += '</div>'	
+									} else {
+										str += '	<label class="repCont" id="repCont' + no + '">' + cont + '</label>                                                                              '
+										str += '	<div id="repAdd' + no + '">                                                                                                                                     '
+										str += '		<label class="line-dark repLike" id="repLike' + no + '">좋아요 ' + list.likes + '개</label>'
+										str += '		<button th:if="${session.loginUser != null}" class="btn repNestWrite" id="repNest" data-bs-toggle="collapse" data-bs-target="#repNestCol' + no + '">답글 쓰기</button>    '
+										str += '		<button class="btn repDelete" onclick="repDelete(' + no + ')">삭제</button>                                                                     '
+										str += '		<button class="btn repUpdate" id="repUpdate' + no + '" data-bs-toggle="collapse" onclick="repUpdate(' + no + ')" data-bs-target="#repUpdateCol' + no + '">수정</button>               '
+										str += '	</div>                                                                                                                                    '
+										str += '</div>                                                                                                                                        '
+										str += '<div class="col-1" id="repLike' + no + '">                                                                                                                           '
+										str += '	<button class="btn"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>                                                  '
+										str += '	</div>                                                                                                                                    '
+										str += '</div>'
+										
+										// 답글 작성 란 틀
+										str += '<div class="collapse mb-3 px-1" id="repNestCol' + no + '">'
+										str += '<div class="modal-section">'
+										str += '<div class="card card-body">'
+										str += '	<div th:if="${session.loginUser != null}" class="row">                                            '
+										str += '				<div class="col-1"><img                                                                   '
+										str += '						src="/upload/images?file= + ${session.loginUser?.profile}" width="32"       '
+										str += '						height="32" class="rounded-circle">                                               '
+										str += '				</div>                                                                                    '
+										str += '				<div class="col-9">                                                                       '
+										str += '					<input class="w-100 form-control" id="repNestCont'+ no +'" type="text"                        '
+										str += '						placeholder="댓글을 입력해주세요.">                                               '
+										str += '				</div>                                                                                    '
+										str += '				<div class="col-2">                                                                       '
+										str += '					<button type="submit" onclick="repNestWrite('+ no +')"                                        '
+										str += '						class="btn btn-primary">작성</button>                                             '
+										str += '				</div>                                                                                    '
+										str += '			</div>                                                                                       '
+										str += '</div>'                                                                                                   
+										str += '</div>'
+										str += '</div>'
+							
+										// 수정 란 틀
+										str += '<div class="collapse mb-3 px-1" id="repUpdateCol' + no + '">'
+										str += '<div class="modal-section">'
+										str += '<div class="card card-body">'
+										str += '	<div th:if="${session.loginUser != null}" class="row">                                             '
+										str += '				<div class="col-1"><img                                                                '
+										str += '						th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32"    '
+										str += '						height="32" class="rounded-circle">                                            '
+										str += '				</div>                                                                                 '
+										str += '				<div class="col-9">                                                                    '
+										str += '					<input class="w-100 form-control" id="repUpdateCont" type="text"                   '
+										str += '						placeholder="댓글을 입력해주세요.">                                            '
+										str += '				</div>                                                                                 '
+										str += '				<div class="col-2">                                                                    '
+										str += '					<button type="submit" onclick="repUpdate('+ no +')" class="btn btn-primary">작성</button>  '
+										str += '				</div>                                                                                 '
+										str += '			</div>'                                                                                     
+										str += '</div>'
+										str += '</div>'
+										str += '</div>'
+									}
+								});
+								
+								}
+							},
+							
+							error: function(e) {
+								console.log(e)
+							}
+						});
+						
+					});					
+					$('#reply-list').html(str);
 				},
 
-				error: function (e) {
+				error: function(e) {
 					console.log(e);
 				}
 			});
 		};
 
-		$('#pwd_confirm2').keyup(function () {
+		$('#pwd_confirm2').keyup(function() {
 			var pwd = $('#pwd3').val();
 			var pwd_confirm = $('#pwd_confirm2').val();
 
@@ -495,7 +735,7 @@
 						pwd: pwd,
 					},
 
-					success: function (data) {
+					success: function(data) {
 						console.log(data);
 
 						// 중복
@@ -510,7 +750,7 @@
 						}
 					},
 
-					error: function (e) {
+					error: function(e) {
 						console.log(e);
 					}
 				});
@@ -521,7 +761,7 @@
 			}
 		});
 
-		$('#nick2').keyup(function () {
+		$('#nick2').keyup(function() {
 			var nick = $('#nick2').val();
 
 			$.ajax({
@@ -532,7 +772,7 @@
 				},
 				contentType: "application/json;charset=UTF-8",
 
-				success: function (data) {
+				success: function(data) {
 					console.log(data);
 
 					// 중복
@@ -543,7 +783,7 @@
 					}
 				},
 
-				error: function (e) {
+				error: function(e) {
 					console.log(e);
 				}
 			});
