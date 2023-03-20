@@ -28,6 +28,15 @@ public class ReplyService {
 		return list;
 	}
 	
+	// 댓글 번호로 가져오기
+	public Reply findByNo(long no) {
+		Reply reply = new Reply();
+		
+		reply = replyRepository.findByNo(no);
+		
+		return reply;
+	}
+	
 	// 댓글 작성
 	public void save(Reply reply) {
 		replyRepository.save(reply);

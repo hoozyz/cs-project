@@ -48,6 +48,7 @@ public class Reply {
 	@ColumnDefault("0")
 	private int checks; // 삭제 시 : 1 , 아니면 0
 	private int likes;
+	private String likenick; // 좋아요 한 유저 닉네임 목록
 	private Timestamp date; // 수정일(생성일)
 	
 	@Builder

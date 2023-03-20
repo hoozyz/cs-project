@@ -35,6 +35,7 @@ public class Know {
 	
 	@ColumnDefault("0")
 	private int likes; // 좋아요
+	private String likenick; // 좋아요 한 유저 닉네임 목록
 	private Timestamp date; // 수정일(생성일)
 	
 	@Builder

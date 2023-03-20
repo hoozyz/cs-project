@@ -50,4 +50,31 @@ public class KnowController {
 		
 		return know;
 	}
+	
+	@PostMapping("/know/like")
+	@ResponseBody
+	public void like(String name, int check, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
+		Know know = new Know();
+		System.out.println(name);
+		know = knowService.findByName(name);
+		if(check == 1) { // 좋아요 추가
+			know.setLikes(know.getLikes() + 1);
+			if(know.getLikenick() == null) { // 첫 유저
+				know.setLikenick(loginUser.getNick()); // 현재 로그인 한 유저 좋아요 닉네임 목록에 추가
+			} else {
+				know.setLikenick(know.getLikenick() + " " + loginUser.getNick()); // 현재 로그인 한 유저 좋아요 닉네임 목록에 추가
+			}
+		} else { // 좋아요 제거
+			know.setLikes(know.getLikes() - 1);
+			String userStr = ""; // 유저 닉네임 목록 문자열 생성
+			for(String user : know.getLikenick().split(" ")) { // user 목록 가져오고 현재 로그인 한 닉네임 제거
+				 if(user.equals(loginUser.getNick())) {
+					 continue; // 추가 안함.
+				 }
+				 userStr += user;
+			}
+			know.setLikenick(userStr); 
+		}
+		knowService.save(know);
+	}
 }

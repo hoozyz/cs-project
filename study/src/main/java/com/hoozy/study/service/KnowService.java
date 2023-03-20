@@ -144,4 +144,8 @@ public class KnowService {
 
 		return know;
 	}
+	
+	public void save(Know know) {
+		knowRepository.save(know);
+	}
 }

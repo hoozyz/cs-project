@@ -9,16 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.Reply;
 import com.hoozy.study.entity.User;
 import com.hoozy.study.service.KnowService;
 import com.hoozy.study.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/reply")
+@Slf4j
 public class ReplyController {
 
 	private final ReplyService replyService;
@@ -30,6 +33,10 @@ public class ReplyController {
 		List<Reply> list = new ArrayList<>();
 		
 		list = replyService.findByKnowNo(no);
+		for(Reply r : list) {
+			r.getUser().setPwd("");
+			r.getUser().setSalt("");
+		}
 		 
 		return list;
 	}
@@ -56,7 +63,7 @@ public class ReplyController {
 	
 	@PostMapping("/delete")
 	@ResponseBody
-	public Reply repDelete(long no) {
+	public void repDelete(long no) {
 		Reply reply = new Reply();
 		
 		reply.setCont("삭제된 댓글입니다.");
@@ -64,16 +71,14 @@ public class ReplyController {
 		reply = replyService.deleteReply(no);
 		reply.getUser().setPwd("");
 		reply.getUser().setSalt("");
-		
-		return reply;
 	}
 	
 	// 답글 작성
 	@PostMapping("/nestWrite")
 	@ResponseBody
-	public Reply nestWrite(long kno, int no, String cont, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
+	public void nestWrite(long kno, int no, String cont, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
 		Reply reply = new Reply();
-		System.out.println(Long.valueOf(no).intValue());
+
 		if(!cont.equals("")) {
 			reply.setCont(cont);
 			reply.setKnow(knowService.findByNo(kno));
@@ -82,11 +87,49 @@ public class ReplyController {
 			reply.setRepo(replyService.findByRepn(no).size() + 1); // 답글중의 순서 -> 현재 모댓글의 답글 개수 + 1 번째
 			reply.setRepn(no); // 모댓글 번호
 			reply.setRepl(1); // 답글
-			
 			replyService.save(reply);
 		}
+	}
+	
+	// 댓글 수정
+	@PostMapping("/update")
+	@ResponseBody
+	public void update(long no, String cont) {
+		Reply reply = new Reply();
 		
-		return reply;
+		reply = replyService.findByNo(no);
+		
+		if(!cont.equals("")) {
+			reply.setCont(cont);
+			replyService.save(reply);
+		}
+	}
+	
+	// 좋아요 수정
+	@PostMapping("/like")
+	@ResponseBody
+	public void updateLike(long no, int check, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
+		Reply reply = new Reply();
+		reply = replyService.findByNo(no);
+		if (check == 1) { // 추가
+			reply.setLikes(reply.getLikes() + 1);
+			if(reply.getLikenick() == null) { // 첫 유저
+				reply.setLikenick(loginUser.getNick()); // 현재 로그인 한 유저 좋아요 닉네임 목록에 추가
+			} else {
+				reply.setLikenick(reply.getLikenick() + " " + loginUser.getNick()); // 현재 로그인 한 유저 좋아요 닉네임 목록에 추가
+			}
+		} else { // 제거
+			reply.setLikes(reply.getLikes() - 1);
+			String userStr = ""; // 유저 닉네임 목록 문자열 생성
+			for(String user : reply.getLikenick().split(" ")) { // user 목록 가져오고 현재 로그인 한 닉네임 제거
+				 if(user.equals(loginUser.getNick())) {
+					 continue; // 추가 안함.
+				 }
+				 userStr += user;
+			}
+			reply.setLikenick(userStr);
+		}
+		replyService.save(reply);
 	}
 	
 	// 현재 모댓글의 답글 가져오기
