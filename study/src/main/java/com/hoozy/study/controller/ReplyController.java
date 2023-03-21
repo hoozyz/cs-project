@@ -57,13 +57,15 @@ public class ReplyController {
 			
 			replyService.save(reply);
 		}
+		reply.setNo(replyService.findLastNo()); // 마지막 번호 + 1 -> 방금 넣은 댓글 번호
+		reply = replyService.findByNo(reply.getNo()); // 실제 db 데이터 가져오기
 		
 		return reply;
 	}
 	
 	@PostMapping("/delete")
 	@ResponseBody
-	public void repDelete(long no) {
+	public Reply repDelete(long no) {
 		Reply reply = new Reply();
 		
 		reply.setCont("삭제된 댓글입니다.");
@@ -71,12 +73,14 @@ public class ReplyController {
 		reply = replyService.deleteReply(no);
 		reply.getUser().setPwd("");
 		reply.getUser().setSalt("");
+		
+		return reply;
 	}
 	
 	// 답글 작성
 	@PostMapping("/nestWrite")
 	@ResponseBody
-	public void nestWrite(long kno, int no, String cont, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
+	public Reply nestWrite(long kno, int no, String cont, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
 		Reply reply = new Reply();
 
 		if(!cont.equals("")) {
@@ -89,12 +93,16 @@ public class ReplyController {
 			reply.setRepl(1); // 답글
 			replyService.save(reply);
 		}
+		reply.setNo(replyService.findLastNo()); // 마지막 번호 -> 방금 넣은 댓글 번호
+		reply = replyService.findByNo(reply.getNo()); // 실제 db 데이터 가져오기
+		
+		return reply;
 	}
 	
 	// 댓글 수정
 	@PostMapping("/update")
 	@ResponseBody
-	public void update(long no, String cont) {
+	public Reply update(long no, String cont) {
 		Reply reply = new Reply();
 		
 		reply = replyService.findByNo(no);
@@ -103,12 +111,14 @@ public class ReplyController {
 			reply.setCont(cont);
 			replyService.save(reply);
 		}
+		
+		return reply;
 	}
 	
 	// 좋아요 수정
 	@PostMapping("/like")
 	@ResponseBody
-	public void updateLike(long no, int check, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
+	public Reply updateLike(long no, int check, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
 		Reply reply = new Reply();
 		reply = replyService.findByNo(no);
 		if (check == 1) { // 추가
@@ -130,6 +140,8 @@ public class ReplyController {
 			reply.setLikenick(userStr);
 		}
 		replyService.save(reply);
+		
+		return reply;
 	}
 	
 	// 현재 모댓글의 답글 가져오기

@@ -377,8 +377,9 @@
 				},
 				
 				success: function(data) {
-					var str = '<button class="btn" onclick="likeMinus('+ no1 +')"><i class="bi-balloon-heart-fill" style="font-size: 1.5rem;"></i></button>';
-					reply();
+					console.log(data)
+					var str = '<button class="btn" onclick="likeMinus('+ no +')"><i class="bi-balloon-heart-fill" style="font-size: 1.5rem;"></i></button>';
+					$('#repLikes'+no).html('좋아요 ' + data.likes +'개');
 					$('#repLike'+no).html(str);
 				},
 				
@@ -400,8 +401,8 @@
 				},
 				
 				success: function(data) {
-					var str = '<button class="btn" onclick="likePlus('+ no1 +')"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>';
-					reply();
+					var str = '<button class="btn" onclick="likePlus('+ no +')"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>';
+					$('#repLikes'+no).html('좋아요 ' + data.likes +'개');
 					$('#repLike'+no).html(str);
 				},
 				
@@ -424,7 +425,8 @@
 				},
 				
 				success: function(data) {
-					reply();
+					$('#repUpdateCol'+no).remove(); // 틀 삭제
+					$('#repCont'+no).html(data.cont);
 				},
 				
 				error: function(e) {
@@ -433,12 +435,109 @@
 			});
 		}
 		
-		// 답글 쓰기 클릭 시 답글 작성 란 나온 후 작성 시 댓글 리스트에 추가
-		function repNestWrite(no1, no2) { // 현재 작성중인 모댓글 번호, 작성하는 내용 번호
-			if(no2 != 0) { // 답글에서 답글 작성할 때
-				var cont = $('#repNestCont'+no2).val(); // 현재 작성 내용
+		function repUpdateCol(no) { // 답글 쓰기 클릭 시 아래 collapse 나오게
+		
+			if($('#repUpdateCol'+no).length > 0) { // 이미 수정 틀이 열려있들 때
+				$('#repUpdateCol'+no).remove(); // 틀 삭제
 			} else {
-				var cont = $('#repNestCont'+no1).val();
+				var profile = $('#repSrc'+no).attr("src");
+				var str = '';
+				// 수정 란 틀
+				str += '<div class="mb-3 px-1 collapse show" id="repUpdateCol' + no + '">'
+				str += '<div class="modal-section">'
+				str += '<div class="card card-body">'
+				str += '	<div class="row">                                             '
+				str += '				<div class="col-1"><img id="repSrc'+ no +'"                                                                '
+				str += '						src="'+ profile +'" width="32"    '
+				str += '						height="32" class="rounded-circle">                                            '
+				str += '					<!--작성자(현재 로그인 유저) 이미지-->                                             '
+				str += '				</div>                                                                                 '
+				str += '				<div class="col-9">                                                                    '
+				str += '					<input class="w-100 form-control" id="repUpdateCont'+ no +'" type="text"                   '
+				str += '						placeholder="댓글을 입력해주세요.">                                            '
+				str += '				</div>                                                                                 '
+				str += '				<div class="col-2">                                                                    '
+				str += '					<button type="submit" onclick="repUpdate('+ no +')" class="btn btn-primary">작성</button>  '
+				str += '				</div>                                                                                 '
+				str += '			</div>'                                                                                     
+				str += '</div>'
+				str += '</div>'
+				str += '</div>'
+				
+				$('#rep'+no).after(str); // 현재 댓글 바로 뒤에 틀 넣기
+			}
+		}
+		
+		function repNestCol(no1, no2) { // 답글 쓰기 클릭 시 아래 collapse 나오게
+		
+			if($('#repNestCol'+no1).length > 0 || $('#repNestCol'+no2).length > 0) {
+				$('#repNestCol'+no1).remove(); // 틀 삭제
+				$('#repNestCol'+no2).remove(); // 틀 삭제
+			} else {
+				var profile = $('#repSrc'+no1).attr("src");
+				var str = '';
+				if(no2 != 0) { // 답글에서 답글 쓰기
+					// 답글 작성 란 틀
+					str += '<div class="mb-3 px-1 collapse show" id="repNestCol' + no2 + '">'
+					str += '<div class="modal-section">'
+					str += '<div class="card card-body">'
+					str += '	<div class="row">                                            '
+					str += '				<div class="col-1"><img                                                                   '
+					str += '						src="'+ profile +'" width="32"       '
+					str += '						height="32" class="rounded-circle">                                               '
+					str += '				</div>                                                                                    '
+					str += '				<div class="col-9">                                                                       '
+					str += '					<input class="w-100 form-control" id="repNestCont'+ no2 +'" type="text"                        '
+					str += '						placeholder="댓글을 입력해주세요.">                                               '
+					str += '				</div>                                                                                    '
+					str += '				<div class="col-2">                                                                       '
+					str += '					<button type="submit" onclick="repNestWrite('+ no1 + "," + no2 +')"                                        '
+					str += '						class="btn btn-primary">작성</button>                                             '
+					str += '				</div>                                                                                    '
+					str += '			</div>                                                                                       '
+					str += '</div>'                                                                                                   
+					str += '</div>'
+					str += '</div>'
+					
+					$('#rep'+no2).after(str); // 현재 댓글 바로 뒤에 틀 넣기
+				
+				} else {
+					$('#repNestCol'+no1).remove(); // 틀 삭제
+					// 답글 작성 란 틀
+					str += '<div class="mb-3 px-1 collapse show" id="repNestCol' + no1 + '">'
+					str += '<div class="modal-section">'
+					str += '<div class="card card-body">'
+					str += '	<div class="row">                                            '
+					str += '				<div class="col-1"><img                                                                   '
+					str += '						src="'+ profile +'" width="32"       '
+					str += '						height="32" class="rounded-circle">                                               '
+					str += '				</div>                                                                                    '
+					str += '				<div class="col-9">                                                                       '
+					str += '					<input class="w-100 form-control" id="repNestCont'+ no1 +'" type="text"                        '
+					str += '						placeholder="댓글을 입력해주세요.">                                               '
+					str += '				</div>                                                                                    '
+					str += '				<div class="col-2">                                                                       '
+					str += '					<button type="submit" onclick="repNestWrite('+ no1 + "," + 0 +')"                                        '
+					str += '						class="btn btn-primary">작성</button>                                             '
+					str += '				</div>                                                                                    '
+					str += '			</div>                                                                                       '
+					str += '</div>'                                                                                                   
+					str += '</div>'
+					str += '</div>'
+					
+					$('#rep'+no1).after(str); // 현재 댓글 바로 뒤에 틀 넣기
+				}
+			
+			}
+		}
+		
+		// 답글 쓰기 클릭 시 답글 작성 란 나온 후 작성 시 댓글 리스트에 추가
+		function repNestWrite(no1, no2) { // 현재 작성중인 모댓글 번호, 작성하는 내용이 있는 답글 번호
+			var cont = '';
+			if(no2 != 0) { // 답글에서 답글 작성할 때
+				cont = $('#repNestCont'+no2).val(); // 현재 작성 내용
+			} else {
+				cont = $('#repNestCont'+no1).val();
 			}
 			
 			var kno = $('#knowNo').html().replace('no.', ''); // 지식 번호
@@ -446,6 +545,7 @@
 			$.ajax({
 				type: 'post',
 				url: '/reply/nestWrite',
+				async: false,
 				data: {
 					no: no1,
 					cont: cont,
@@ -453,7 +553,124 @@
 				},
 				
 				success: function(data) {
-					reply();
+					var no = data.no;
+					var profile = data.user.profile;
+					var profiles = "" + profile + ""; // 프로필 파라미터로 보내기 위한 변수
+					var nick = data.nick;
+					var cont = data.cont;
+					
+					var str = ''; 
+					
+					// 기본 댓글 틀
+					str += '<div class="row my-1 px-1" id="rep' + no + '">                                                                                                                   '
+					str += '<div class="col-1" id="repImg"' + no + '><img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+					str += '<div class="col-10">                                                                                                                          '
+					str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
+					
+					str += '	<label class="repCont" id="repCont' + no + '">' + cont + '</label>                                                                              '
+					str += '	<div id="repAdd' + no + '">                                                                                                                                     '
+					str += '		<label class="line-dark repLike" id="repLikes'+ no +'">좋아요 0개</label>'
+					str += '		<button class="btn repNestWrite" id="repNest" data-bs-toggle="collapse" data-bs-target="#repNestCol' + no + '" onclick="repNestCol('+ no1 +','+ no +')">답글 쓰기</button>    '
+					str += '		<button class="btn repDelete" onclick="repDelete(' + no + ')">삭제</button>                                                                     '
+					str += '<button class="btn repUpdate" id="repUpdate' + no + '" data-bs-toggle="collapse" data-bs-target="#repUpdateCol' + no + '" onclick="repUpdateCol('+ no +')">수정</button>               '
+					str += '	</div>                                                                                                                                    '
+					str += '</div>                                                                                                                                        '
+					str += '<div class="col-1" id="repLike' + no + '">                                                                                                                           '
+					str += '<button class="btn" onclick="likePlus('+ no +')"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>'
+					str += '	</div>                                                                                                                                    '
+					str += '</div>'
+						
+					$('#repNestCol'+no2).remove(); // 틀 삭제
+					$('#repNestCol'+no1).remove(); // 틀 삭제
+					
+					var nest = $('#nest-list'+no1).html();
+					if(no2 != 0) { // 답글에서 답글 작성할 때
+						$('#nest-list'+no1).html(nest + str); // 현재 모댓글 답글 리스트에 추가
+						
+					} else { // 모댓글에서 답글 작성
+						
+						if($('#nestSize'+no1).html() == '답글 숨기기') { // 답글 더보기가 켜져있을 때
+							$('#nest-list'+no1).html(nest + str); // 현재 모댓글 답글 리스트에 추가
+							
+						} else { // 답글이 닫혀있거나 답글이 없을 때
+						
+							if($('#repNest'+no1).length == 0) { // 답글 없을 때
+								var repNest = '';
+								nest = '';
+								
+								repNest += '<div id="repNest'+ no1 +'">'
+								repNest += '<hr class="mb-2 w-25" style="float: left;">'
+								repNest += '<button id="nestSize'+ no1 +'" class="btn" style="font-size: 15px;" type="button" data-bs-toggle="collapse" data-bs-target="#nestCol'+ no1 +'" aria-expanded="false" onclick="repNestClose('+ no1 +','+ 1 +')">답글 숨기기</button>';
+								repNest += '<hr class="mb-2 w-50" style="float: right;">'
+								repNest += '</div>'
+	
+								repNest += '<div class="mb-3 px-1 collapse show" id="nestCol' + no1 + '">'
+								repNest += '<div class="modal-section">'
+								repNest += '<div class="card card-body">'
+								repNest += '<div id="nest-list'+ no1 +'">'
+								repNest += '</div>'
+								repNest += '</div>'
+								repNest += '</div>'
+								repNest += '</div>'
+								
+								$('#rep'+no1).after(repNest); // 현재 아래에 repNest 삽입.
+								
+								$('#nest-list'+no1).html(nest + str); // 현재 모댓글 답글 리스트에 추가
+							} else {
+								
+								$.ajax({
+									type: 'post',
+									url: '/reply/repn',
+									data: {
+										no: no1,
+									},
+									
+									success: function(data) {
+										
+										$('#nestSize'+no1).html('답글 숨기기');
+										$('#nestSize'+no1).attr("onclick", "repNestClose("+no1+","+data.length+")"); // 답글 개수를 매개변수로 보냄
+										str = '';
+										
+										data.forEach((list, index) => {
+											no = list.no;
+											profile = list.user.profile;
+											nick = list.nick;      
+											cont = list.cont;  
+									
+											// 들여쓰기
+											str += '<div class="row mb-3 px-1" id="rep' + no + '">                                                                                                                   '
+											str += '<div class="col-1" id="repImg"' + no + '><img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+											str += '<div class="col-10">                                                                                                                          '
+											str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
+											
+											str += '	<label class="repCont" id="repCont' + no + '">' + cont + '</label>                                                                              '
+											str += '	<div id="repAdd' + no1 + '">                                                                                                                                     '
+											str += '		<label class="line-dark repLike" id="repLikes'+ no +'">좋아요 ' + list.likes + '개</label>'
+						
+											str += '<button class="btn repNestWrite" id="repNest" data-bs-toggle="collapse" data-bs-target="#repNestCol' + no + '" onclick="repNestCol('+no1+','+no+')">답글 쓰기</button>    '
+											str += '		<button class="btn repDelete" onclick="repDelete(' + no + ')">삭제</button>                                                                     '
+											str += '<button class="btn repUpdate" id="repUpdate' + no + '" data-bs-toggle="collapse" data-bs-target="#repUpdateCol' + no + '" onclick="repUpdateCol('+no+')">수정</button>               '
+											str += '	</div>                                                                                                                                    '
+											str += '</div>                                                                                                                                        '
+											str += '<div class="col-1" id="repLike' + no + '">                                                                                                                           '
+											str += '<button class="btn" onclick="likePlus('+ no +')"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>'
+											str += '	</div>                                                                                                                                    '
+											str += '</div>'
+										
+										});
+										
+										$('#nest-list'+no1).html(str);
+										$('#nestCol'+no1).attr("class", "collapse show mb-3 px-1");
+									},
+								
+									error: function(e) {
+										console.log(e)
+									}
+								});
+							}
+						}
+					}
+					
 				},
 				
 				error: function(e) {
@@ -472,7 +689,24 @@
 				},
 
 				success: function(data) {
-					reply();
+					var no = data.no;
+					var profile = data.user.profile;
+					var nick = data.nick;
+					var str = '';
+					
+					str += '<div class="col-1" id="repImg"' + no + '><img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+					str += '<div class="col-10">                                                                                                                          '
+					str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
+					
+					str += '	<label class="repCont" id="repCont' + no + '">삭제된 댓글입니다.</label>'  
+					str += '	<div id="repAdd' + no + '">'
+					str += '	</div>                                                                                                                                    '
+					str += '</div>                                                                                                                                        '
+					str += '<div class="col-1" id="repLike' + no + '">'	
+					str += '	</div>                                                                                                                                    '
+					str += '</div>'
+					
+					$('#rep'+no).html(str);
 				},
 
 				error: function(e) {
@@ -507,7 +741,7 @@
 
 		// 지식 클릭 시 지식 정보 가져오기
 		function know(name) { // 문제의 정보를 받아서 팝업 -> ajax
-
+			$('#collapse1').attr("class", "collapse");
 			$.ajax({
 				type: 'post',
 				url: '/know/cont',
@@ -615,8 +849,9 @@
 					var str = '';
 					
 					data.forEach((list, index) => {
-						no1 = list.no; // 모댓글 번호
+						no = list.no; // 모댓글 번호
 						var profile = list.user.profile;
+						var profiles = "" + profile + ""; // 프로필 파라미터로 보내기 위한 변수
 						var nick = list.nick;
 						var cont = list.cont;
 						var checks = list.checks; // 1이면 삭제된 댓글
@@ -631,88 +866,45 @@
 							});
 						}
 						
-						str += '<div class="row mb-3 px-1" id="rep' + no1 + '">                                                                                                                   '
-						str += '<div class="col-1" id="repImg"' + no1 + '><img src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+						str += '<div class="row my-1 px-1" id="rep' + no + '">                                                                                                                   '
+						str += '<div class="col-1" id="repImg"' + no + '><img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
 						str += '<div class="col-10">                                                                                                                          '
-						str += '	<label class="repNick" id="repNick' + no1 + '">' + nick + '</label>                                                                                                     '
+						str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
 						
 						if(checks == 1) {
-							str += '	<label class="repCont" id="repCont' + no1 + '">삭제된 댓글입니다.</label>'  
-							str += '	<div id="repAdd' + no1 + '">'
+							str += '	<label class="repCont" id="repCont' + no + '">삭제된 댓글입니다.</label>'  
+							str += '	<div id="repAdd' + no + '">'
 							str += '	</div>                                                                                                                                    '
 							str += '</div>                                                                                                                                        '
-							str += '<div class="col-1" id="repLike' + no1 + '">'	
+							str += '<div class="col-1" id="repLike' + no + '">'	
 							str += '	</div>                                                                                                                                    '
 							str += '</div>'	
 						} else {
-							str += '	<label class="repCont" id="repCont' + no1 + '">' + cont + '</label>                                                                              '
-							str += '	<div id="repAdd' + no1 + '">                                                                                                                                     '
-							str += '		<label class="line-dark repLike">좋아요 ' + list.likes + '개</label>'
+							str += '	<label class="repCont" id="repCont' + no + '">' + cont + '</label>                                                                              '
+							str += '	<div id="repAdd' + no + '">                                                                                                                                     '
+							str += '		<label class="line-dark repLike" id="repLikes'+ no +'">좋아요 ' + list.likes + '개</label>'
 							if(loginUser != null) { // 로그인 유저일 때
-								str += '		<button class="btn repNestWrite" id="repNest" data-bs-toggle="collapse" data-bs-target="#repNestCol' + no1 + '">답글 쓰기</button>    '
+								str += '		<button class="btn repNestWrite" id="repNest" data-bs-toggle="collapse" data-bs-target="#repNestCol' + no + '" onclick="repNestCol('+no+','+0+')">답글 쓰기</button>    '
 							
 								if(loginUser.profile == profile) { // 작성자일 때
-								str += '		<button class="btn repDelete" onclick="repDelete(' + no1 + ')">삭제</button>                                                                     '
-								str += '<button class="btn repUpdate" id="repUpdate' + no1 + '" data-bs-toggle="collapse" data-bs-target="#repUpdateCol' + no1 + '">수정</button>               '
+								str += '		<button class="btn repDelete" onclick="repDelete(' + no + ')">삭제</button>                                                                     '
+								str += '<button class="btn repUpdate" id="repUpdate' + no + '" data-bs-toggle="collapse" data-bs-target="#repUpdateCol' + no + '" onclick="repUpdateCol('+no+')">수정</button>               '
 								}
 							}
 							
 							str += '	</div>                                                                                                                                    '
 							str += '</div>                                                                                                                                        '
-							str += '<div class="col-1" id="repLike' + no1 + '">                                                                                                                           '
+							str += '<div class="col-1" id="repLike' + no + '">                                                                                                                           '
 							if(loginUser != null) {
 								if(check == 1) {
-									str += '<button class="btn" onclick="likeMinus('+ no1 +')"><i class="bi-balloon-heart-fill" style="font-size: 1.5rem;"></i></button>'
+									str += '<button class="btn" onclick="likeMinus('+ no +')"><i class="bi-balloon-heart-fill" style="font-size: 1.5rem;"></i></button>'
 								} else {
-									str += '<button class="btn" onclick="likePlus('+ no1 +')"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>'
+									str += '<button class="btn" onclick="likePlus('+ no +')"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>'
 								}
 							}
 							str += '	</div>                                                                                                                                    '
 							str += '</div>'
 							
-							// 답글 작성 란 틀
-							str += '<div class="collapse mb-3 px-1" id="repNestCol' + no1 + '">'
-							str += '<div class="modal-section">'
-							str += '<div class="card card-body">'
-							str += '	<div class="row">                                            '
-							str += '				<div class="col-1"><img                                                                   '
-							str += '						src="/upload/images?file='+ profile +'" width="32"       '
-							str += '						height="32" class="rounded-circle">                                               '
-							str += '				</div>                                                                                    '
-							str += '				<div class="col-9">                                                                       '
-							str += '					<input class="w-100 form-control" id="repNestCont'+ no1 +'" type="text"                        '
-							str += '						placeholder="댓글을 입력해주세요.">                                               '
-							str += '				</div>                                                                                    '
-							str += '				<div class="col-2">                                                                       '
-							str += '					<button type="submit" onclick="repNestWrite('+ no1 + "," + 0 +')"                                        '
-							str += '						class="btn btn-primary">작성</button>                                             '
-							str += '				</div>                                                                                    '
-							str += '			</div>                                                                                       '
-							str += '</div>'                                                                                                   
-							str += '</div>'
-							str += '</div>'
-				
-							// 수정 란 틀
-							str += '<div class="collapse mb-3 px-1" id="repUpdateCol' + no1 + '">'
-							str += '<div class="modal-section">'
-							str += '<div class="card card-body">'
-							str += '	<div class="row">                                             '
-							str += '				<div class="col-1"><img                                                                '
-							str += '						src="/upload/images?file='+ profile +'" width="32"    '
-							str += '						height="32" class="rounded-circle">                                            '
-							str += '					<!--작성자(현재 로그인 유저) 이미지-->                                             '
-							str += '				</div>                                                                                 '
-							str += '				<div class="col-9">                                                                    '
-							str += '					<input class="w-100 form-control" id="repUpdateCont'+ no1 +'" type="text"                   '
-							str += '						placeholder="댓글을 입력해주세요.">                                            '
-							str += '				</div>                                                                                 '
-							str += '				<div class="col-2">                                                                    '
-							str += '					<button type="submit" onclick="repUpdate('+ no1 +')" class="btn btn-primary">작성</button>  '
-							str += '				</div>                                                                                 '
-							str += '			</div>'                                                                                     
-							str += '</div>'
-							str += '</div>'
-							str += '</div>'
 						}
 						
 						// 모댓글일 때 repn=no 인 모댓글의 답글을 가져와서 html에 넣음 -> 들여쓰기 해서
@@ -721,116 +913,29 @@
 							url: '/reply/repn',
 							async: false,
 							data: {
-								no: no1,
+								no: no,
 							},
 							
 							success: function(data) {
 								
-								if(data != null || data != undefined || data != '') {
-									data.forEach((list, index) => { // 현재 모댓글의 답글 개수 만큼 추가하기
-									no2 = list.no;
-									profile = list.user.profile;
-									nick = list.nick;      
-									cont = list.cont;  
-									checks = list.checks;    
+								if(data.length != 0) {
+									// 답글 collapse 추가
+									str += '<div id="repNest'+ no +'">'
+									str += '<hr class="mb-2 w-25" style="float: left;">'
+									str += '<button id="nestSize'+ no +'" class="btn" style="font-size: 15px;" type="button" data-bs-toggle="collapse" data-bs-target="#nestCol'+ no +'" aria-expanded="false" onclick="repNest('+ no +')">답글 '+ data.length +'개 보기</button>';
+									str += '<hr class="mb-2 w-50" style="float: right;">'
+									str += '</div>'
 									
-									check = 0; // 현재 로그인 유저가 이 댓글을 좋아요 했으면 check = 1
-									if(list.likenick != null && loginUser != null) {
-										nickStr = list.likenick.split(" "); // 닉네임 목록
-										nickStr.forEach((nick, index) => {
-											if(nick == loginUser.nick) { // 이 지식에 좋아요 한 유저중에 현재 로그인 유저가 있을 때
-												check = 1;
-											}
-										});
-									}
-									
-									// 들여쓰기
-									str += '<div class="row mb-3 px-1" style="margin-left: 30px;" id="rep' + no2 + '">                                                                                                                   '
-									str += '<div class="col-1" id="repImg"' + no2 + '><img src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
-									str += '<div class="col-10">                                                                                                                          '
-									str += '	<label class="repNick" id="repNick' + no2 + '">' + nick + '</label>                                                                                                     '
-									
-									if(checks == 1) {
-										str += '	<label class="repCont" id="repCont' + no2 + '">삭제된 댓글입니다.</label>'  
-										str += '	<div id="repAdd' + no2 + '">'
-										str += '	</div>                                                                                                                                    '
-										str += '</div>                                                                                                                                        '
-										str += '<div class="col-1" id="repLike' + no2 + '">'	
-										str += '	</div>                                                                                                                                    '
-										str += '</div>'	
-									} else {
-										str += '	<label class="repCont" id="repCont' + no2 + '">' + cont + '</label>                                                                              '
-										str += '	<div id="repAdd' + no2 + '">                                                                                                                                     '
-										str += '		<label class="line-dark repLike">좋아요 ' + list.likes + '개</label>'
+									str += '<div class="collapse mb-3 px-1" id="nestCol' + no + '">'
+									str += '<div class="modal-section">'
+									str += '<div class="card card-body">'
+									str += '<div id="nest-list'+ no +'">'
+									str += '</div>'
+									str += '</div>'
+									str += '</div>'
+									str += '</div>'
+								}	
 
-										if(loginUser != null) { // 로그인 유저일 때
-											str += '<button class="btn repNestWrite" id="repNest" data-bs-toggle="collapse" data-bs-target="#repNestCol' + no2 + '">답글 쓰기</button>    '
-											
-											if(loginUser.profile == profile) { // 작성자일 때
-											str += '		<button class="btn repDelete" onclick="repDelete(' + no2 + ')">삭제</button>                                                                     '
-											str += '<button class="btn repUpdate" id="repUpdate' + no2 + '" data-bs-toggle="collapse" data-bs-target="#repUpdateCol' + no2 + '">수정</button>               '
-											}
-										}
-										str += '	</div>                                                                                                                                    '
-										str += '</div>                                                                                                                                        '
-										str += '<div class="col-1" id="repLike' + no2 + '">                                                                                                                           '
-										if(loginUser != null) {
-											if(check == 1) {
-												str += '<button class="btn" onclick="likeMinus('+ no1 +')"><i class="bi-balloon-heart-fill" style="font-size: 1.5rem;"></i></button>'
-											} else {
-												str += '<button class="btn" onclick="likePlus('+ no1 +')"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>'
-											}
-										}
-										str += '	</div>                                                                                                                                    '
-										str += '</div>'
-										
-										// 답글 작성 란 틀
-										str += '<div class="collapse mb-3 px-1" id="repNestCol' + no2 + '">'
-										str += '<div class="modal-section">'
-										str += '<div class="card card-body">'
-										str += '	<div th:if="${session.loginUser != null}" class="row">                                            '
-										str += '				<div class="col-1"><img                                                                   '
-										str += '						src="/upload/images?file='+ profile +'" width="32"       '
-										str += '						height="32" class="rounded-circle">                                               '
-										str += '				</div>                                                                                    '
-										str += '				<div class="col-9">                                                                       '
-										str += '					<input class="w-100 form-control" id="repNestCont'+ no2 +'" type="text"                        '
-										str += '						placeholder="댓글을 입력해주세요.">                                               '
-										str += '				</div>                                                                                    '
-										str += '				<div class="col-2">                                                                       '
-										// 모댓글 번호 아래에 작성
-										str += '					<button type="submit" onclick="repNestWrite('+ no1 + ',' + no2 +')"                                        '
-										str += '						class="btn btn-primary">작성</button>                                             '
-										str += '				</div>                                                                                    '
-										str += '			</div>                                                                                       '
-										str += '</div>'                                                                                                   
-										str += '</div>'
-										str += '</div>'
-							
-										// 수정 란 틀
-										str += '<div class="collapse mb-3 px-1" id="repUpdateCol' + no2 + '">'
-										str += '<div class="modal-section">'
-										str += '<div class="card card-body">'
-										str += '	<div th:if="${session.loginUser != null}" class="row">                                             '
-										str += '				<div class="col-1"><img                                                                '
-										str += '						src="/upload/images?file='+ profile +'" width="32"    '
-										str += '						height="32" class="rounded-circle">                                            '
-										str += '				</div>                                                                                 '
-										str += '				<div class="col-9">                                                                    '
-										str += '					<input class="w-100 form-control" id="repUpdateCont'+ no2 +'" type="text"                   '
-										str += '						placeholder="댓글을 입력해주세요.">                                            '
-										str += '				</div>                                                                                 '
-										str += '				<div class="col-2">                                                                    '
-										str += '					<button type="submit" onclick="repUpdate('+ no2 +')" class="btn btn-primary">작성</button>  '
-										str += '				</div>                                                                                 '
-										str += '			</div>'                                                                                     
-										str += '</div>'
-										str += '</div>'
-										str += '</div>'
-									}
-								});
-								
-								}
 							},
 							
 							error: function(e) {
@@ -847,6 +952,114 @@
 				}
 			});
 		};
+		
+		function repNestClose(no, size) {
+			
+			$.ajax({
+				type: 'post',
+				url: '/reply/repn',
+				async: false,
+				data: {
+					no: no,
+				},
+			
+				success: function(data) {
+					$('#nestSize'+no).html('답글 ' + data.length + '개 보기');
+					$('#nestSize'+no).attr("onclick", "repNest("+no+")");
+				},
+				
+				error: function(e) {
+					console.log(e);
+				}
+			});
+		}
+		
+		function repNest(no) {
+			
+			$.ajax({
+				type: 'post',
+				url: '/reply/repn',
+				data: {
+					no: no,
+				},
+				
+				success: function(data) {
+					
+					if(data.length != 0) {
+						$('#nestSize'+no).html('답글 숨기기');
+						$('#nestSize'+no).attr("onclick", "repNestClose("+no+","+data.length+")"); // 답글 개수를 매개변수로 보냄
+						str = '';
+						
+						data.forEach((list, index) => {
+							var no1 = list.no;
+							var profile = list.user.profile;
+							var nick = list.nick;      
+							var cont = list.cont;  
+							var checks = list.checks;    
+							
+							var check = 0; // 현재 로그인 유저가 이 댓글을 좋아요 했으면 check = 1
+							if(list.likenick != null && loginUser != null) {
+								nickStr = list.likenick.split(" "); // 닉네임 목록
+								nickStr.forEach((nick, index) => {
+									if(nick == loginUser.nick) { // 이 지식에 좋아요 한 유저중에 현재 로그인 유저가 있을 때
+										check = 1;
+									}
+								});
+							}
+							
+							// 들여쓰기
+							str += '<div class="row mb-3 px-1" id="rep' + no1 + '">                                                                                                                   '
+							str += '<div class="col-1" id="repImg"' + no1 + '><img id="repSrc'+ no1 +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+							str += '<div class="col-10">                                                                                                                          '
+							str += '	<label class="repNick" id="repNick' + no1 + '">' + nick + '</label>                                                                                                     '
+							
+							if(checks == 1) {
+								str += '	<label class="repCont" id="repCont' + no1 + '">삭제된 댓글입니다.</label>'  
+								str += '	<div id="repAdd' + no1 + '">'
+								str += '	</div>                                                                                                                                    '
+								str += '</div>                                                                                                                                        '
+								str += '<div class="col-1" id="repLike' + no1 + '">'	
+								str += '	</div>                                                                                                                                    '
+								str += '</div>'	
+							} else {
+								str += '	<label class="repCont" id="repCont' + no1 + '">' + cont + '</label>                                                                              '
+								str += '	<div id="repAdd' + no1 + '">                                                                                                                                     '
+								str += '		<label class="line-dark repLike" id="repLikes'+ no +'">좋아요 ' + list.likes + '개</label>'
+
+								if(loginUser != null) { // 로그인 유저일 때
+									str += '<button class="btn repNestWrite" id="repNest" data-bs-toggle="collapse" data-bs-target="#repNestCol' + no1 + '" onclick="repNestCol('+no+','+no1+')">답글 쓰기</button>    '
+									
+									if(loginUser.profile == profile) { // 작성자일 때
+									str += '		<button class="btn repDelete" onclick="repDelete(' + no1 + ')">삭제</button>                                                                     '
+									str += '<button class="btn repUpdate" id="repUpdate' + no1 + '" data-bs-toggle="collapse" data-bs-target="#repUpdateCol' + no1 + '" onclick="repUpdateCol('+no1+')">수정</button>               '
+									}
+								}
+								str += '	</div>                                                                                                                                    '
+								str += '</div>                                                                                                                                        '
+								str += '<div class="col-1" id="repLike' + no1 + '">                                                                                                                           '
+								if(loginUser != null) {
+									if(check == 1) {
+										str += '<button class="btn" onclick="likeMinus('+ no1 +')"><i class="bi-balloon-heart-fill" style="font-size: 1.5rem;"></i></button>'
+									} else {
+										str += '<button class="btn" onclick="likePlus('+ no1 +')"><i class="bi-balloon-heart" style="font-size: 1.5rem;"></i></button>'
+									}
+								}
+								str += '	</div>                                                                                                                                    '
+								str += '</div>'
+								
+							}
+						});
+						
+						$('#nest-list'+no).html(str);					
+					}	
+	
+				},
+				
+				error: function(e) {
+					console.log(e)
+				}
+			});
+		}
 
 		$('#pwd_confirm2').keyup(function() {
 			var pwd = $('#pwd3').val();

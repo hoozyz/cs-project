@@ -28,6 +28,15 @@ public class ReplyService {
 		return list;
 	}
 	
+	// 댓글 마지막 번호 가져오기
+	public long findLastNo() {
+		long no = 0L;
+		
+		no = replyRepository.findLastNo();
+		
+		return no;
+	}
+	
 	// 댓글 번호로 가져오기
 	public Reply findByNo(long no) {
 		Reply reply = new Reply();

@@ -67,6 +67,8 @@ public class UserController {
 		session.setAttribute("loginUser", user);
 		model.addAttribute("user", user);
 		model.addAttribute("msg", "로그인 성공");
+		
+		log.info("로그인 유저 {}", user);
 
 		return "home";
 	}

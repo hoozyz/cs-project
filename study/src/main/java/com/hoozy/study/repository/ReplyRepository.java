@@ -23,6 +23,10 @@ public interface ReplyRepository extends JpaRepository<Reply, Long>{
 	// 모댓글의 답글 가져오기
 	List<Reply> findByRepnLike(int repn);
 	
+	// 현재 댓글의 마지막 번호 -> 댓글 수정할 때 필요
+	@Query("select r.no from Reply r order by r.no desc limit 1")
+	long findLastNo();
+	
 	// 댓글 삭제
 	@Transactional
 	@Modifying // select 문이 아님을 표시
