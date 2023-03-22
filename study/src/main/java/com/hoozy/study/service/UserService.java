@@ -6,7 +6,6 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,15 +13,16 @@ import com.hoozy.study.entity.User;
 import com.hoozy.study.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class UserService {
 	private static final int SALT_SIZE = 16; // 16비트 솔트 설정
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	// 유저 업데이트
 	@Transactional

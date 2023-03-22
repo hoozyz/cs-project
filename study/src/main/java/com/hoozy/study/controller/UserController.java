@@ -1,5 +1,6 @@
 package com.hoozy.study.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hoozy.study.entity.Know;
+import com.hoozy.study.entity.Today;
 import com.hoozy.study.entity.User;
 import com.hoozy.study.service.KnowService;
+import com.hoozy.study.service.TodayService;
 import com.hoozy.study.service.UserService;
 
 import jakarta.servlet.http.Cookie;
@@ -30,8 +33,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserController {
 
+	private Map<String, List<Know>> map = new HashMap<>(); // 홈페이지 3문제씩 담을 map
+
 	private final UserService userService;
 	private final KnowService knowService;
+	private final TodayService todayService;
 
 	@PostMapping("/login")
 	public String login(@ModelAttribute User user, Model model, HttpServletRequest req, HttpServletResponse resp,
@@ -39,6 +45,21 @@ public class UserController {
 
 		// 세션 생성
 		HttpSession session = req.getSession();
+
+		// 홈페이지 랜덤 문제 3개 가져오기
+		List<Today> list = new ArrayList<>();
+		list = todayService.findAll();
+
+		// 오늘의 문제 가져와서 map에 넣기
+		for (int i = 0; i < list.size() / 3; i++) {
+			List<Know> knowList = new ArrayList<>();
+			knowList.add(list.get(i * 3).getKnow());
+			knowList.add(list.get((i * 3) + 1).getKnow());
+			knowList.add(list.get((i * 3) + 2).getKnow());
+			map.put("list" + i, knowList);
+		}
+
+		model.addAttribute("map", map);
 
 		if (!userService.login(user)) {
 			model.addAttribute("msg", "로그인 실패");
@@ -59,20 +80,15 @@ public class UserController {
 		user.setPwd("");
 		user.setSalt("");
 
-		// 홈페이지 랜덤 문제 3개 가져오기
-		Map<String, List<Know>> map = new HashMap<>();
-		map = knowService.findAllByShort();
-		model.addAttribute("map", map);
-		
 		session.setAttribute("loginUser", user);
 		model.addAttribute("user", user);
 		model.addAttribute("msg", "로그인 성공");
-		
+
 		log.info("로그인 유저 {}", user);
 
 		return "home";
 	}
-	
+
 	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("user", new User());
@@ -97,11 +113,11 @@ public class UserController {
 			throws Exception {
 
 		loginUser = userService.findByEmail(loginUser.getEmail());
-		if(!user.getNick().equals("")) {
+		if (!user.getNick().equals("")) {
 			loginUser.setNick(user.getNick()); // 바뀐 닉네임 저장
 		}
 
-		if(!user.getPwd().equals("")) {
+		if (!user.getPwd().equals("")) {
 			// 바뀐 비밀번호 해싱
 			loginUser.setPwd(userService.hashing(user.getPwd().getBytes(), loginUser.getSalt()));
 		}
@@ -119,8 +135,17 @@ public class UserController {
 		loginUser.setSalt("");
 
 		// 홈페이지 랜덤 문제 3개 가져오기
-		Map<String, List<Know>> map = new HashMap<>();
-		map = knowService.findAllByShort();
+		List<Today> list = new ArrayList<>();
+		list = todayService.findAll();
+
+		// 오늘의 문제 가져와서 map에 넣기
+		for (int i = 0; i < list.size() / 3; i++) {
+			List<Know> knowList = new ArrayList<>();
+			knowList.add(list.get(i * 3).getKnow());
+			knowList.add(list.get((i * 3) + 1).getKnow());
+			knowList.add(list.get((i * 3) + 2).getKnow());
+			map.put("list" + i, knowList);
+		}
 		model.addAttribute("map", map);
 
 		session.setAttribute("loginUser", loginUser);
@@ -165,8 +190,23 @@ public class UserController {
 		Map<String, List<Know>> map = new HashMap<>();
 		map = knowService.findAllByShort();
 		model.addAttribute("map", map);
-		
+
 		return "home";
+	}
+
+	// 유저가 맞춘 문제 번호 db에 넣기
+	@PostMapping("/user/know")
+	@ResponseBody
+	public void know(long no, String email) {
+		User user = new User();
+		user = userService.findByEmail(email);
+		if(user.getKno() == null) { // 처음 맞춘 문제일 때
+			user.setKno("" + no);
+		} else {
+			user.setKno(user.getKno() + " " + no);
+		}
+		
+		userService.update(user);
 	}
 
 	// check 기능

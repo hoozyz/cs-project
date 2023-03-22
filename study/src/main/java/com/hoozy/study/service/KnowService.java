@@ -8,16 +8,17 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hoozy.study.entity.Know;
 import com.hoozy.study.interfaces.KnowMapping;
 import com.hoozy.study.repository.KnowRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class KnowService {
 	private Random ran = new Random();
@@ -25,8 +26,7 @@ public class KnowService {
 	// 카테고리 목록
 	private static final String[] cateArr = { "네트워크", "자바(기초)", "자바(심화)" /* , "자바(프레임워크)" */ };
 
-	@Autowired
-	private KnowRepository knowRepository;
+	private final KnowRepository knowRepository;
 
 	// 전체 문제 이름 카테고리 별로 가져오기
 	public Map<String, List<KnowMapping>> findAllByCate() {
@@ -58,7 +58,7 @@ public class KnowService {
 				set.add(ran.nextLong(list.size()));
 
 				if (set.size() == 2) { // 랜덤해서 2개 생성
-
+					
 					for (Long l : set) {
 						list1.add(list.get(l.intValue())); // 새로운 리스트에 담아서 2개만 넘기기
 					}
@@ -100,7 +100,7 @@ public class KnowService {
 
 		return map;
 	}
-
+	
 	// 전체 단답형 문제를 카테고리 별로 가져오기 -> 랜덤 3개 (오늘의 문제) -> 매일 24시에만 바뀜
 	public Map<String, List<Know>> findAllByToday() {
 		Map<String, List<Know>> map = new HashMap<>();

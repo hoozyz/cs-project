@@ -63,11 +63,10 @@ public class ProbController {
 				Know know = knowMap.get("list" + i).get(j);
 				if (know.getCont().equals("*")) { // 추가 정보 문제일 때
 					addiList = addiService.findByNo(know.getNo());
-					addiMap.put("list" + i, addiList);
+					addiMap.put("list" + know.getNo(), addiList);
 				}
 			}
 		}
-
 		model.addAttribute("knowMap", knowMap);
 		model.addAttribute("addiMap", addiMap);
 

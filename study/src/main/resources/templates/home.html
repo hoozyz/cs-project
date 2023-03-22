@@ -26,7 +26,7 @@
 						<div th:each="know : ${map.list0}" class="col-md-10 mx-auto col-lg-3">
 							<div class="p-2 border rounded-3 bg-light">
 								<div class="p-1 mb-5">
-									<h5>no.[[${know.no}]]<button class="btn" style="float:right;">넘기기</button></h5>
+									<h5>no.[[${know.no}]]</h5>
 								</div>
 								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
 									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
@@ -36,14 +36,14 @@
 								<div class="dropdown" style="height: 30px;">
 									<button class="btn pb-1" style="float: right;">정답 보기</button>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item1">[[${know.name}]]</li>
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
 								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input> <button>제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -54,10 +54,11 @@
 				<div class="container px-4 py-5 my-3" id="java1">
 					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list1[0].cate}]]</h2>
 					<div class="row align-items-center" style="height: 500px;">
+						
 						<div th:each="know : ${map.list1}" class="col-md-10 mx-auto col-lg-3">
 							<div class="p-2 border rounded-3 bg-light">
 								<div class="p-1 mb-5">
-									<h5>no.[[${know.no}]]<button class="btn" style="float:right;">넘기기</button></h5>
+									<h5>no.[[${know.no}]]</h5>
 								</div>
 								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
 									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
@@ -67,14 +68,14 @@
 								<div class="dropdown" style="height: 30px;">
 									<button class="btn pb-1" style="float: right;">정답 보기</button>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item1">[[${know.name}]]</li>
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
 								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input> <button>제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -89,7 +90,7 @@
 						<div th:each="know : ${map.list2}" class="col-md-10 mx-auto col-lg-3">
 							<div class="p-2 border rounded-3 bg-light">
 								<div class="p-1 mb-5">
-									<h5>no.[[${know.no}]]<button class="btn" style="float:right;">넘기기</button></h5>
+									<h5>no.[[${know.no}]]</h5>
 								</div>
 								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
 									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
@@ -99,14 +100,14 @@
 								<div class="dropdown" style="height: 30px;">
 									<button class="btn pb-1" style="float: right;">정답 보기</button>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item1">[[${know.name}]]</li>
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
 								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input> <button>제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -249,7 +250,7 @@
 				<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" th:action="@{/user/update}"
 					th:object="${user}" enctype="multipart/form-data">
 					<div class="form-floating mb-3">
-						<input type="nick" class="form-control" id="nick2" name="nick" placeholder="name" autofocus>
+						<input type="text" class="form-control" id="nick2" name="nick" placeholder="name" autofocus>
 						<label for="nick2">닉네임(중복 불가, 4글자 이상)</label>
 						<div id="nickNotice2" class="invalid-feedback">
 							닉네임이 중복됩니다.
@@ -289,6 +290,51 @@
 
 		var loginUser = [[${session.loginUser}]];
 		console.log(loginUser);
+		
+		function knowSubmit(no) { // 정답 제출 시 실행되는 함수
+			var input = $('#know'+no).val().replace(" ", "").toLowerCase; // 현재 입력한 내용 가져와서 띄어쓰기 제거
+			var name = $('#knowName'+no).html().replace(" ", "").toLowerCase;
+			
+			var eng = /[a-zA-Z]/; // 영어 포함 여부 확인 
+			
+			if(eng.test(name)) { // 정답에 영어가 포함될 경우
+				name = name.toLowerCase; // 다 소문자로 바꾸기
+			}
+			if(eng.test(input)) { // 정답에 영어가 포함될 경우
+				input = input.toLowerCase; // 다 소문자로 바꾸기
+			}
+			
+			if(name == input) { // 맞췄을 때
+				alert('정답입니다.')
+				$('#know'+no).val('맞춘 문제입니다.')
+				$('#know'+no).attr("readonly", true);
+				
+				if(loginUser != null) { // 로그인 하고 맞춘 경우
+					var email = loginUser.email;
+				
+					$.ajax({
+						type: 'post',
+						url: '/user/know',
+						data: {
+							no: no,
+							email: email,
+						},
+						
+						success: function(data) {
+						},
+						
+						error: function(e) {
+							console.log(e);
+						}
+					});
+				}
+				
+			} else {
+				alert('오답입니다.')
+				$('#know'+no).attr("autofocus", true);
+			}
+			
+		}
 
 		$('#pwd_confirm2').keyup(function () {
 			var pwd = $('#pwd3').val();

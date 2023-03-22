@@ -28,28 +28,31 @@
 							<div class="p-2 border rounded-3 bg-light">
 								<div class="p-1 mb-5">
 									<h5>no.[[${know.no}]] <h3 class="py-2">[[${know.name}]]<button class="btn"
-												style="float:right;">넘기기</button></h3>
+												style="float:right;" th:onclick="knowThrow([[${know.no}]])">넘기기</button></h3>
 									</h5>
 								</div>
 								<div class="mb-3">
 									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
-									<textarea class="form-control" id="probLong1" rows="7"></textarea>
+									<textarea class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
 								</div>
 								<div class="dropdown" style="height: 30px;">
 									<button class="btn pb-3" style="float: right;">정답 보기</button>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item1">
-											<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-											<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-											<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-											<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
-											<p>1.ㅁㅇㄴㄴㅁㅇㄴㅁㅇ</p>
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" th:each="p : ${#strings.arraySplit(know.cont, '*')}" class="dropdown-item1"> 
+											<p>[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li th:if="${#strings.equals(know.cont, '*')}" th:with="no = 'addiMap.list' + ${know.no}" th:id="${no}" class="dropdown-item1">  
 										</li>
 									</ul>
 								</div>
 							</div>
 						</div>
-
+						
 					</div>
 				</div>
 

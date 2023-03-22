@@ -3,21 +3,20 @@ package com.hoozy.study.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hoozy.study.entity.Reply;
 import com.hoozy.study.repository.ReplyRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class ReplyService {
 	
-	@Autowired
-	private ReplyRepository replyRepository;
+	private final ReplyRepository replyRepository;
 	
 	// 지식 번호로 모댓글 가져오기
 	public List<Reply> findByKnowNo(long no) {

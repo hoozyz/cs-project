@@ -36,14 +36,14 @@
 								<div class="dropdown" style="height: 30px;">
 									<button class="btn pb-1" style="float: right;">정답 보기</button>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item1">[[${know.name}]]</li>
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
 								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input> <button>제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -69,14 +69,14 @@
 								<div class="dropdown" style="height: 30px;">
 									<button class="btn pb-1" style="float: right;">정답 보기</button>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item1">[[${know.name}]]</li>
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
 								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input> <button>제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -102,14 +102,14 @@
 								<div class="dropdown" style="height: 30px;">
 									<button class="btn pb-1" style="float: right;">정답 보기</button>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item1">[[${know.name}]]</li>
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
 								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input> <button>제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -294,6 +294,51 @@
 
 		var loginUser = [[${session.loginUser}]];
 		console.log(loginUser);
+		
+		function knowSubmit(no) { // 정답 제출 시 실행되는 함수
+			var input = $('#know'+no).val().replace(" ", ""); // 현재 입력한 내용 가져와서 띄어쓰기 제거
+			var name = $('#knowName'+no).html().replace(" ", "");
+			
+			var eng = /[a-zA-Z]/; // 영어 포함 여부 확인 
+			
+			if(eng.test(name)) { // 정답에 영어가 포함될 경우
+				name = name.toLowerCase; // 다 소문자로 바꾸기
+			}
+			if(eng.test(input)) { // 정답에 영어가 포함될 경우
+				input = input.toLowerCase; // 다 소문자로 바꾸기
+			}
+			
+			if(name == input) { // 맞췄을 때
+				alert('정답입니다.')
+				$('#know'+no).val('맞춘 문제입니다.')
+				$('#know'+no).attr("readonly", true);
+				
+				if(loginUser != null) { // 로그인 하고 맞춘 경우
+					var email = loginUser.email;
+					
+					$.ajax({
+						type: 'post',
+						url: '/user/know',
+						data: {
+							no: no,
+							email: email,
+						},
+						
+						success: function(data) {
+						},
+						
+						error: function(e) {
+							console.log(e);
+						}
+					});
+				}
+				
+			} else {
+				alert('오답입니다.')
+				$('#know'+no).attr("autofocus", true);
+			}
+			
+		}
 
 		$('#pwd_confirm2').keyup(function () {
 			var pwd = $('#pwd3').val();
