@@ -235,11 +235,12 @@
 						현재 접속중인 사람
 					</button>
 					<div class="collapse" id="user-collapse">
-						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a>
+						<ul th:if="${userList == null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							접속 유저가 없습니다.
+						</ul>
+						<ul th:if="${userList != null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li th:each="user : ${userList}">
+								<a href="#" class="link-dark d-inline-flex text-decoration-none rounded">[[${user.nick}]]</a>
 							</li>
 						</ul>
 					</div>
@@ -307,7 +308,7 @@
 		
 		function knowThrow(no1, cate) { // 넘기는 문제 번호
 			var no2 = 0;
-			$('.knowNo'+cate).each(function() {
+			$('.knowNo'+cate).each(function() { // 클래스의 html 다 가져오기
 				var text = $(this).text().replace("no.", "");
 				if(text != no1) {
 					no2 = Number(text);

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.Today;
 import com.hoozy.study.entity.User;
+import com.hoozy.study.listener.LoggedInUsersListener;
 import com.hoozy.study.service.KnowService;
 import com.hoozy.study.service.TodayService;
 import com.hoozy.study.service.UserService;
@@ -25,6 +26,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
 	private Map<String, List<Know>> map = new HashMap<>(); // 홈페이지 3문제씩 담을 map
+	
+	private final List<HttpSession> loggedInUsers = LoggedInUsersListener.getLoggedInUsers(); // 현재 로그인 유저 리스트 담겨져있음
 
 	private final UserService userService;
 	private final KnowService knowService;
@@ -42,9 +46,6 @@ public class UserController {
 	@PostMapping("/login")
 	public String login(@ModelAttribute User user, Model model, HttpServletRequest req, HttpServletResponse resp,
 			boolean emailStore) throws Exception {
-
-		// 세션 생성
-		HttpSession session = req.getSession();
 
 		// 홈페이지 랜덤 문제 3개 가져오기
 		List<Today> list = new ArrayList<>();
@@ -80,7 +81,16 @@ public class UserController {
 		user.setPwd("");
 		user.setSalt("");
 
-		session.setAttribute("loginUser", user);
+		// 세션 생성
+		req.getSession().setAttribute("loginUser", user);
+
+		// 현재 로그인 한 유저 리스트 세션에 넣기
+		List<User> userList = new ArrayList<>();
+		for (HttpSession session : loggedInUsers) { // 현재 로그인 되어있는 유저 리스트
+			userList.add((User) session.getAttribute("loginUser"));
+		}
+		model.addAttribute("userList", userList); // 유저 리스트를 모델에 넣기
+
 		model.addAttribute("user", user);
 		model.addAttribute("msg", "로그인 성공");
 
@@ -200,12 +210,12 @@ public class UserController {
 	public void know(long no, String email) {
 		User user = new User();
 		user = userService.findByEmail(email);
-		if(user.getKno() == null) { // 처음 맞춘 문제일 때
+		if (user.getKno() == null) { // 처음 맞춘 문제일 때
 			user.setKno("" + no);
 		} else {
 			user.setKno(user.getKno() + " " + no);
 		}
-		
+
 		userService.update(user);
 	}
 

@@ -1,5 +1,6 @@
 package com.hoozy.study.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.User;
 import com.hoozy.study.interfaces.KnowMapping;
+import com.hoozy.study.listener.LoggedInUsersListener;
 import com.hoozy.study.service.KnowService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class KnowController {
+
+	private final List<HttpSession> loggedInUsers = LoggedInUsersListener.getLoggedInUsers(); // 현재 로그인 유저 리스트 담겨져있음
 	
 	private final KnowService knowService;
 	
@@ -40,6 +45,13 @@ public class KnowController {
 		map = knowService.findAllByCate();
 		
 		model.addAttribute("map", map);
+		
+		// 현재 로그인 한 유저 리스트 세션에 넣기
+		List<User> userList = new ArrayList<>();
+		for(HttpSession session : loggedInUsers) { // 현재 로그인 되어있는 유저 리스트
+			userList.add((User) session.getAttribute("loginUser"));
+		}
+		model.addAttribute("userList", userList); // 유저 리스트를 모델에 넣기
 		
 		return "know";
 	}
@@ -90,6 +102,9 @@ public class KnowController {
 			know = knowService.findByNoNotLike(no1, no2, cate);
 		} else { // 단답형 문제일 때
 			know = knowService.findByNoNotLike(no1, no2, no3, cate);
+			while(know.getCont().contains("*")) { // 주관식이며
+				know = knowService.findByNoNotLike(no1, no2, no3, cate);
+			}
 		}
 		
 		return know;

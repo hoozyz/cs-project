@@ -25,10 +25,10 @@
 
 						<div th:each="know : ${map.list0}" class="col-md-10 mx-auto col-lg-3">
 							<div class="p-2 border rounded-3 bg-light">
-								<div class="p-1 mb-5">
-									<h5>no.[[${know.no}]]<button class="btn" style="float:right;" th:onclick="knowThrow([[${know.no}]])">넘기기</button></h5>
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<button class="btn" style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h5>
 								</div>
-								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+								<div class="px-1 mb-5" th:id="'knowCont'+${know.no}" style="overflow:scroll; width:100%; height: 200px;">
 									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
 										[[${p}]]
 									</p>
@@ -39,11 +39,11 @@
 										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
-								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2" th:id="'nameLength'+${know.no}">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:id="'knowSubmit'+${know.no}" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -58,10 +58,10 @@
 
 						<div th:each="know : ${map.list1}" class="col-md-10 mx-auto col-lg-3">
 							<div class="p-2 border rounded-3 bg-light">
-								<div class="p-1 mb-5">
-									<h5>no.[[${know.no}]]<button class="btn" style="float:right;">넘기기</button></h5>
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<button class="btn" style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h5>
 								</div>
-								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+								<div class="px-1 mb-5" th:id="'knowCont'+${know.no}" style="overflow:scroll; width:100%; height: 200px;">
 									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
 										[[${p}]]
 									</p>
@@ -72,11 +72,11 @@
 										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
-								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2" th:id="'nameLength'+${know.no}">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:id="'knowSubmit'+${know.no}" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -91,10 +91,10 @@
 
 						<div th:each="know : ${map.list2}" class="col-md-10 mx-auto col-lg-3">
 							<div class="p-2 border rounded-3 bg-light">
-								<div class="p-1 mb-5">
-									<h5>no.[[${know.no}]]<button class="btn" style="float:right;">넘기기</button></h5>
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<button class="btn" style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h5>
 								</div>
-								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+								<div class="px-1 mb-5" th:id="'knowCont'+${know.no}" style="overflow:scroll; width:100%; height: 200px;">
 									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
 										[[${p}]]
 									</p>
@@ -105,11 +105,11 @@
 										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
 									</ul>
 								</div>
-								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2" th:id="'nameLength'+${know.no}">
 									글자수(띄어쓰기 제외) : [[${name.length}]]
 								</div>
 								<div class="p-2">
-									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:id="'knowSubmit'+${know.no}" th:onclick="knowSubmit([[${know.no}]])">제출</button>
 								</div>
 							</div>
 						</div>
@@ -225,11 +225,12 @@
 						현재 접속중인 사람
 					</button>
 					<div class="collapse" id="user-collapse">
-						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a>
+						<ul th:if="${userList == null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							접속 유저가 없습니다.
+						</ul>
+						<ul th:if="${userList != null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li th:each="user : ${userList}">
+								<a href="#" class="link-dark d-inline-flex text-decoration-none rounded">[[${user.nick}]]</a>
 							</li>
 						</ul>
 					</div>
@@ -294,6 +295,74 @@
 
 		var loginUser = [[${session.loginUser}]];
 		console.log(loginUser);
+		
+		function knowThrow(no1, cate) { // 넘기는 문제 번호
+		
+			var no2 = 0;
+			$('.knowNo'+cate).each(function() {
+				var text = $(this).text().replace("no.", "").replace("넘기기", "");
+				console.log(text)
+				if(text != no1) {
+					no2 = Number(text);
+				}
+				if(text != no1 && no2 != 0) { // no1, no2 다 있을 때
+					no3 = Number(text);
+				}
+			});
+			console.log(no1, no2, no3)
+			
+			$.ajax({
+				type: 'post',
+				url: '/know/throw',
+				async: false, 
+				data: {
+					no1: no1,
+					no2: no2,
+					no3: no3, // 현재 카테고리 문제 3개 가져가서 아닌거 
+					cate: cate,
+				},
+				
+				success: function(data) {
+
+					var str = '';
+					var knowThrow = data.no+",'" +data.cate + "'"; 
+					
+					str += '<h5 class="knowNo'+ data.cate +'">no.'+data.no+'<button class="btn" style="float:right;" onclick="knowThrow('+ knowThrow + ')">넘기기</button></h5>';
+					
+					$('#knowNo'+no1).html(str);
+					$('#knowNo'+no1).attr("id", "knowNo"+data.no);
+					str = '';
+					
+					$('#knowName'+no1).html(data.name);
+					$('#knowName'+no1).attr("id", "knowName"+data.no);
+					
+					var cont = data.cont;
+					if(cont.includes('/')) {
+						cont = cont.split('/');
+						cont.forEach((p, index) => {
+							str += '<p>'+ p +'</p>';
+						});
+					} else {
+						str += '<p>'+ cont +'</p>';
+					}
+					
+					$('#knowCont'+no1).html(str);
+					$('#knowCont'+no1).attr("id", "knowCont"+data.no);
+					
+					$('#nameLength'+no1).html("글자수(띄어쓰기 제외) : "+data.name.replace(" ","").length);
+					$('#nameLength'+no1).attr("id", "nameLength"+data.no);
+					
+					$('#know'+no1).attr("id", "know"+data.no);
+					$('#knowSubmit'+no1).attr("onclick", "knowSubmit("+ data.no +")");
+					$('#knowSubmit'+no1).attr("id", "knowSubmit"+data.no);
+					
+				},
+				
+				error: function(e) {
+					console.log(e);
+				}
+			});
+		}
 		
 		function knowSubmit(no) { // 정답 제출 시 실행되는 함수
 			var input = $('#know'+no).val().replace(" ", ""); // 현재 입력한 내용 가져와서 띄어쓰기 제거

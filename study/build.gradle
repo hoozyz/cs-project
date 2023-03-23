@@ -35,8 +35,8 @@ dependencies {
     
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    testImplementation 'org.springframework.security:spring-security-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//  testImplementation 'org.springframework.security:spring-security-test'
 
     implementation 'com.querydsl:querydsl-jpa'
     // https://mvnrepository.com/artifact/net.coobird/thumbnailator

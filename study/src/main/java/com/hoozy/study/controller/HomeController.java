@@ -14,14 +14,21 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.Today;
 import com.hoozy.study.entity.User;
+import com.hoozy.study.listener.LoggedInUsersListener;
 import com.hoozy.study.service.KnowService;
 import com.hoozy.study.service.TodayService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class HomeController {
+	
+	private final List<HttpSession> loggedInUsers = LoggedInUsersListener.getLoggedInUsers(); // 현재 로그인 유저 리스트 담겨져있음
 	
 	private final KnowService knowService;
 	private final TodayService todayService;
@@ -42,12 +49,19 @@ public class HomeController {
 	}
 	
 	@GetMapping("/")
-	public String logina(Model model, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
+	public String home(Model model, @SessionAttribute(name = "loginUser", required = false) User loginUser, HttpServletRequest req) {
 		model.addAttribute("user", new User());
 		
 		if(loginUser != null) {
 			model.addAttribute("user", loginUser); // 로그인 했을 경우 user 변경
 		}
+
+		// 현재 로그인 한 유저 리스트 세션에 넣기
+		List<User> userList = new ArrayList<>();
+		for(HttpSession session : loggedInUsers) { // 현재 로그인 되어있는 유저 리스트
+			userList.add((User) session.getAttribute("loginUser"));
+		}
+		model.addAttribute("userList", userList); // 유저 리스트를 모델에 넣기
 		
 		// 오늘의 문제가 없을 때
 //		map = knowService.findAllByShort();

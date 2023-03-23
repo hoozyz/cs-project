@@ -191,11 +191,12 @@
 						현재 접속중인 사람
 					</button>
 					<div class="collapse" id="user-collapse">
-						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a>
+						<ul th:if="${userList == null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							접속 유저가 없습니다.
+						</ul>
+						<ul th:if="${userList != null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li th:each="user : ${userList}">
+								<a href="#" class="link-dark d-inline-flex text-decoration-none rounded">[[${user.nick}]]</a>
 							</li>
 						</ul>
 					</div>
