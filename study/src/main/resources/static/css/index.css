@@ -21,10 +21,24 @@
 	position: fixed
 }
 
+.knowThrow {
+	transition: all ease 2s 0s;
+}
+
 table {
 	border-collapse: collapse;
 	margin: auto;
 	width: 100%;
+}
+
+.probLong > table > th,td {
+	text-align: center;
+	border: 1px solid black;
+
+	vertical-align: top;
+	vertical-align: bottom;
+	vertical-align: middle;
+	font-size: 15px;
 }
 
 th,

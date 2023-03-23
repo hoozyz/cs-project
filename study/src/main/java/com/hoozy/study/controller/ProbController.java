@@ -54,7 +54,6 @@ public class ProbController {
 		List<Addi> addiList = new ArrayList<>();
 
 		Map<String, List<Know>> knowMap = new HashMap<>();
-		Map<String, List<Addi>> addiMap = new HashMap<>();
 		
 		knowMap = knowService.findAllByLong();
 		for (int i = 0; i < knowMap.size(); i++) {
@@ -62,13 +61,15 @@ public class ProbController {
 				
 				Know know = knowMap.get("list" + i).get(j);
 				if (know.getCont().equals("*")) { // 추가 정보 문제일 때
-					addiList = addiService.findByNo(know.getNo());
-					addiMap.put("list" + know.getNo(), addiList);
+					for(Addi a : addiService.findByNo(know.getNo())) { // addiList에 추가 정보 다 넣고 나중에 번호로 가져오기
+						addiList.add(a);
+						System.out.println();
+					}
 				}
 			}
 		}
 		model.addAttribute("knowMap", knowMap);
-		model.addAttribute("addiMap", addiMap);
+		model.addAttribute("addiList", addiList);
 
 		return "probLong";
 	}

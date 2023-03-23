@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -17,9 +18,11 @@ import com.hoozy.study.interfaces.KnowMapping;
 import com.hoozy.study.service.KnowService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class KnowController {
 	
 	private final KnowService knowService;
@@ -76,5 +79,19 @@ public class KnowController {
 			know.setLikenick(userStr); 
 		}
 		knowService.save(know);
+	}
+	
+	@PostMapping("/know/throw")
+	@ResponseBody
+	public Know knowThrow(long no1, long no2, long no3, String cate) {
+		Know know = new Know();
+		
+		if(no3 == 0) { // 주관식 문제일 때
+			know = knowService.findByNoNotLike(no1, no2, cate);
+		} else { // 단답형 문제일 때
+			know = knowService.findByNoNotLike(no1, no2, no3, cate);
+		}
+		
+		return know;
 	}
 }

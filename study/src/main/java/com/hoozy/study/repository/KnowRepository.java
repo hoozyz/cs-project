@@ -3,6 +3,8 @@ package com.hoozy.study.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.hoozy.study.entity.Know;
 import com.hoozy.study.interfaces.KnowMapping;
@@ -22,4 +24,12 @@ public interface KnowRepository extends JpaRepository<Know, Long> {
 
 	// 문제 이름만 가져오기 -> 지식 페이지 -> 인터페이스 이용
 	List<KnowMapping> findByCate(String cate);
+	
+	// 문제 2개를 제외하고 가져오기
+	@Query(value = "select * from Know k where cate = :cate and k.no != :no1 and k.no != :no2", nativeQuery = true)
+	List<Know> notLike(@Param("no1") long no1, @Param("no2") long no2, @Param("cate") String cate);
+	
+	// 문제 3개를 제외하고 가져오기
+	@Query(value = "select * from Know k where cate = :cate and k.no != :no1 and k.no != :no2 and k.no != :no3", nativeQuery = true)
+	List<Know> notLike(@Param("no1") long no1, @Param("no2") long no2, @Param("no3") long no3, @Param("cate") String cate);
 }

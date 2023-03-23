@@ -129,6 +129,30 @@ public class KnowService {
 
 		return map;
 	}
+	
+	// 현재 문제 2개 빼고 가져오기 랜덤
+	public Know findByNoNotLike(long no1, long no2, String cate) {
+		List<Know> list = new ArrayList<>();
+		
+		list = knowRepository.notLike(no1, no2, cate);
+		
+		Know know = new Know();
+		know = list.get(ran.nextInt(list.size())); // 랜덤으로 하나 가져오기
+		
+		return know;
+	}
+	
+	// 현재 문제 3개 빼고 가져오기 랜덤
+	public Know findByNoNotLike(long no1, long no2, long no3, String cate) {
+		List<Know> list = new ArrayList<>();
+		
+		list = knowRepository.notLike(no1, no2, no3, cate);
+		
+		Know know = new Know();
+		know = list.get(ran.nextInt(list.size())); // 랜덤으로 하나 가져오기
+		
+		return know;
+	}
 
 	public Know findByName(String name) {
 		Know know = new Know();
