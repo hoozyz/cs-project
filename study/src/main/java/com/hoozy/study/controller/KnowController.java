@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.User;
 import com.hoozy.study.interfaces.KnowMapping;
-import com.hoozy.study.listener.LoggedInUsersListener;
 import com.hoozy.study.service.KnowService;
+import com.hoozy.study.util.LoggedInUsersListener;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

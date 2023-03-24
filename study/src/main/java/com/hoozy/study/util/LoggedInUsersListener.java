@@ -1,4 +1,4 @@
-package com.hoozy.study.listener;
+package com.hoozy.study.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSessionListener;
 
 @Configuration
 public class LoggedInUsersListener implements HttpSessionListener {
+	// 서버에 있는 세션들 가져오기
 
     private static List<HttpSession> sessions = new ArrayList<>();
 

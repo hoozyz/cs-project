@@ -25,6 +25,12 @@
 	transition: all ease 2s 0s;
 }
 
+footer {
+	 position: relative;
+	 width: 100%;
+	 bottom: 0;
+}
+
 table {
 	border-collapse: collapse;
 	margin: auto;

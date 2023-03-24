@@ -8,6 +8,16 @@ server:
       force: true
 
 spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+  thymeleaf:
+    cache: false
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/sc_study?createDatabaseIfNotExist=true&useUnicode=true&serverTimezone=Asia/Seoul

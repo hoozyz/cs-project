@@ -89,7 +89,9 @@
 		<div class="flex-shrink-0 p-3 bg-white">
 			<a href="#" th:if="${session.loginUser != null}"
 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+				<img th:if="${session.loginUser.profile}" th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+					class="rounded-circle">
+				<img th:if="not ${session.loginUser.profile}" src="" width="32" height="32"
 					class="rounded-circle">
 				<span class="fs-5 fw-semibold p-2" th:text="${session.loginUser?.nick}"></span>
 			</a>
@@ -290,8 +292,10 @@
 								<!--로그인 하면 나오는 댓글 작성 칸-->
 								<div th:if="${session.loginUser != null}" class="row">
 									<div class="col-1">
-										<img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32"
-											height="32" class="rounded-circle">
+										<img th:if="${session.loginUser.profile}" th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+											class="rounded-circle">
+										<img th:if="not ${session.loginUser.profile}" src="" width="32" height="32"
+											class="rounded-circle">
 										<!--작성자(현재 로그인 유저) 이미지-->
 									</div>
 									<div class="col-9">
@@ -450,12 +454,10 @@
 				str += '<div class="mb-3 px-1 collapse show" id="repUpdateCol' + no + '">'
 				str += '<div class="modal-section">'
 				str += '<div class="card card-body">'
-				str += '	<div class="row">                                             '
-				str += '				<div class="col-1"><img id="repSrc'+ no +'"                                                                '
-				str += '						src="'+ profile +'" width="32"    '
-				str += '						height="32" class="rounded-circle">                                            '
-				str += '					<!--작성자(현재 로그인 유저) 이미지-->                                             '
-				str += '				</div>                                                                                 '
+				str += '	<div class="row">'
+					
+				str += '<div class="col-1"><img src="'+ profile +'" width="32" height="32" class="rounded-circle"></div>                                                                                    '
+					
 				str += '				<div class="col-9">                                                                    '
 				str += '					<input class="w-100 form-control" id="repUpdateCont'+ no +'" type="text"                   '
 				str += '						placeholder="댓글을 입력해주세요.">                                            '
@@ -473,7 +475,7 @@
 		}
 		
 		function repNestCol(no1, no2) { // 답글 쓰기 클릭 시 아래 collapse 나오게
-		
+
 			if($('#repNestCol'+no1).length > 0 || $('#repNestCol'+no2).length > 0) {
 				$('#repNestCol'+no1).remove(); // 틀 삭제
 				$('#repNestCol'+no2).remove(); // 틀 삭제
@@ -485,11 +487,10 @@
 					str += '<div class="mb-3 px-1 collapse show" id="repNestCol' + no2 + '">'
 					str += '<div class="modal-section">'
 					str += '<div class="card card-body">'
-					str += '	<div class="row">                                            '
-					str += '				<div class="col-1"><img                                                                   '
-					str += '						src="'+ profile +'" width="32"       '
-					str += '						height="32" class="rounded-circle">                                               '
-					str += '				</div>                                                                                    '
+					str += '	<div class="row">' 
+						                                           
+					str += '<div class="col-1"><img src="'+ profile +'" width="32" height="32" class="rounded-circle"></div>                                                                                    '
+					
 					str += '				<div class="col-9">                                                                       '
 					str += '					<input class="w-100 form-control" id="repNestCont'+ no2 +'" type="text"                        '
 					str += '						placeholder="댓글을 입력해주세요.">                                               '
@@ -511,11 +512,9 @@
 					str += '<div class="mb-3 px-1 collapse show" id="repNestCol' + no1 + '">'
 					str += '<div class="modal-section">'
 					str += '<div class="card card-body">'
-					str += '	<div class="row">                                            '
-					str += '				<div class="col-1"><img                                                                   '
-					str += '						src="'+ profile +'" width="32"       '
-					str += '						height="32" class="rounded-circle">                                               '
-					str += '				</div>                                                                                    '
+					str += '	<div class="row">'
+					str += '<div class="col-1"><img src="'+ profile +'" width="32" height="32" class="rounded-circle"></div>                                                                                    '
+					                                                                                
 					str += '				<div class="col-9">                                                                       '
 					str += '					<input class="w-100 form-control" id="repNestCont'+ no1 +'" type="text"                        '
 					str += '						placeholder="댓글을 입력해주세요.">                                               '
@@ -567,7 +566,11 @@
 					
 					// 기본 댓글 틀
 					str += '<div class="row my-1 px-1" id="rep' + no + '">                                                                                                                   '
-					str += '<div class="col-1" id="repImg"' + no + '><img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+					
+					str += '<div class="col-1" id="repImg"' + no + '>'
+					str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+					
+					str += '</div>';
 					str += '<div class="col-10">                                                                                                                          '
 					str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
 					
@@ -643,7 +646,11 @@
 									
 											// 들여쓰기
 											str += '<div class="row mb-3 px-1" id="rep' + no + '">                                                                                                                   '
-											str += '<div class="col-1" id="repImg"' + no + '><img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+											
+											str += '<div class="col-1" id="repImg"' + no + '>'
+											str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+											
+											str += '</div>';
 											str += '<div class="col-10">                                                                                                                          '
 											str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
 											
@@ -698,7 +705,17 @@
 					var nick = data.nick;
 					var str = '';
 					
-					str += '<div class="col-1" id="repImg"' + no + '><img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+					str += '<div class="row mb-3 px-1" id="rep' + no + '">'
+						 
+					str += '<div class="col-1" id="repImg"' + no + '>'
+						
+					if(profile != null) {
+						str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+					} else {
+						str += '<img id="repSrc'+ no +'" src="" width="32" height="32" class="rounded-circle">'
+					}
+					
+					str += '</div>'                                      
 					str += '<div class="col-10">                                                                                                                          '
 					str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
 					
@@ -870,8 +887,19 @@
 							});
 						}
 						
-						str += '<div class="row my-1 px-1" id="rep' + no + '">                                                                                                                   '
-						str += '<div class="col-1" id="repImg"' + no + '><img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+						str += '<div class="row mb-3 px-1" id="rep' + no + '">                                                                                                                   '
+							
+						str += '<div class="col-1" id="repImg"' + no + '>'
+						
+						if(profile != null) {
+							str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+						} else {
+							str += '<img id="repSrc'+ no +'" src="" width="32" height="32" class="rounded-circle">'
+						}
+						
+						str += '</div>'  
+						
+						
 						str += '<div class="col-10">                                                                                                                          '
 						str += '	<label class="repNick" id="repNick' + no + '">' + nick + '</label>                                                                                                     '
 						
@@ -1013,7 +1041,17 @@
 							
 							// 들여쓰기
 							str += '<div class="row mb-3 px-1" id="rep' + no1 + '">                                                                                                                   '
-							str += '<div class="col-1" id="repImg"' + no1 + '><img id="repSrc'+ no1 +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle"></div>                                       '
+
+							str += '<div class="col-1" id="repImg"' + no + '>'
+						
+							if(profile != null) {
+								str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+							} else {
+								str += '<img id="repSrc'+ no +'" src="" width="32" height="32" class="rounded-circle">'
+							}
+						
+							str += '</div>'  
+							
 							str += '<div class="col-10">                                                                                                                          '
 							str += '	<label class="repNick" id="repNick' + no1 + '">' + nick + '</label>                                                                                                     '
 							

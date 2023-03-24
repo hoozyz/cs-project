@@ -17,16 +17,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.Today;
 import com.hoozy.study.entity.User;
-import com.hoozy.study.listener.LoggedInUsersListener;
 import com.hoozy.study.service.KnowService;
 import com.hoozy.study.service.TodayService;
 import com.hoozy.study.service.UserService;
+import com.hoozy.study.util.LoggedInUsersListener;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -121,7 +120,7 @@ public class UserController {
 	public String update(User user, Model model, HttpSession session, MultipartFile file,
 			@SessionAttribute(name = "loginUser", required = false) User loginUser, HttpServletRequest req)
 			throws Exception {
-
+		
 		loginUser = userService.findByEmail(loginUser.getEmail());
 		if (!user.getNick().equals("")) {
 			loginUser.setNick(user.getNick()); // 바뀐 닉네임 저장
@@ -139,7 +138,7 @@ public class UserController {
 			String renameFileName = userService.saveFile(file, savePath);
 
 			loginUser.setProfile(renameFileName);
-		}
+		} 
 		userService.update(loginUser);
 		loginUser.setPwd("");
 		loginUser.setSalt("");
@@ -170,13 +169,14 @@ public class UserController {
 		String location = req.getHeader("referer");
 		model.addAttribute("url", location);
 
-		log.info("회원가입 정보 {}", user);
 		if (user.getNick() == null) {
 			log.info("회원가입 실패");
 			model.addAttribute("msg", "회원가입 실패");
 			return "msg";
 		} else {
 			model.addAttribute("msg", "회원가입 성공");
+			user.setProfile("default.png");
+			log.info("회원가입 정보 {}", user);
 			userService.create(user);
 		}
 

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.Reply;
 import com.hoozy.study.entity.User;
 import com.hoozy.study.service.KnowService;

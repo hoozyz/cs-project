@@ -41,14 +41,11 @@
 					</ul>
 				</li>
 				<li class="dropdown">
-					<a href="#" class="nav-link px-4 link-secondary">
-						<h3>추가 예정</h3>
+					<a href="/chat/rooms" class="nav-link px-4 link-secondary">
+						<h3>오픈 채팅</h3>
 					</a>
 				</li>
 			</ul>
-			<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-				<input type="search" class="form-control" placeholder="검색어를 입력하세요." aria-label="Search">
-			</form>
 			<!-- 로그인 되었을 때 -->
 			<a th:if="${session.loginUser != null}" href="/logout" type="button" class="btn btn-primary">
 				로그아웃

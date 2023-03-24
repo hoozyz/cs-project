@@ -1,0 +1,516 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+
+<body class="h-100" layout:fragment="content">
+	<div class="row d-flex flex-nowrap">
+		<div class="container my-5" style="width: 1000px;">
+			<nav class="navbar navbar-expand-lg bg-light rounded">
+				<div class="container-fluid">
+					<h2>오픈 채팅</h2>
+					<div class="collapse navbar-collapse">
+						
+					</div>
+					<form role="search">
+						<input class="form-control" type="search" placeholder="내용을 입력해주세요.">
+					</form>
+					<div class="text-end">
+						<input class="btn btn-primary rounded mx-2" type="submit" value="검색">
+						<button th:if="${session.loginUser != null}" class="btn btn-primary rounded mx-4" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#roomCreate">채팅방 만들기</button>
+					</div>
+				</div>
+			</nav>
+			
+			<div class="my-4">
+				<h3 class="border-bottom py-2">채팅방 목록</h3>
+				<div th:if="${session.loginUser != null}" class="bg-light p-5 rounded">
+					<div class="mx-auto" style="width: 85%;">
+						<!-- 채팅방 목록 -->
+						<div class="roomList list-group w-auto">
+							<a th:if="${roomList != null}" th:each="room : ${roomList}" th:id="'room'+${room.id}" style="margin-bottom: 20px;" class="list-group-item list-group-item-action d-flex gap-3 py-3 chatRoom" aria-current="true" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chatRoom">
+								<div class="d-flex gap-2 w-100 justify-content-between">
+									<div>
+										<h5 class="mb-0" th:id="'roomName'+${room.id}">[[${room.name}]]</h5>
+									</div>
+									<small class="opacity-50 text-nowrap" th:id="'roomDate'+${room.id}">[[${room.date}]]</small>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div th:if="not ${session.loginUser != null}">
+					로그인 해주세요.
+				</div>
+			</div>
+		</div>
+		
+		<div class="flex-shrink-0 p-3 bg-white">
+			<a href="#" th:if="${session.loginUser != null}"
+				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+				<img th:if="${session.loginUser.profile}" th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+					class="rounded-circle">
+				<img th:if="not ${session.loginUser.profile}" src="" width="32" height="32"
+					class="rounded-circle">
+				<span class="fs-5 fw-semibold p-2" th:text="${session.loginUser?.nick}"></span>
+			</a>
+			<a href="#" th:if="${session.loginUser == null}"
+				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+				<img width="32" height="32" class="rounded-circle">
+				<span class="fs-5 fw-semibold p-2" data-bs-toggle="modal" data-bs-target="#loginModal">로그인 해주세요.</span>
+			</a>
+			<ul class="list-unstyled ps-0">
+				<li th:if="${session.loginUser != null}" class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+						계정
+					</button>
+					<div class="collapse" id="account-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
+									data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateUserModal">
+									내 정보 변경</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+						홈페이지
+					</button>
+					<div class="collapse" id="home-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="/#network" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제
+									- 네트워크</a></li>
+							<li><a href="/#java1" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바(기초)</a></li>
+							<li><a href="/#java2" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바(심화)</a></li>
+							<li><a href="/#java3" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바(프레임워크)</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#know-collapse" aria-expanded="false">
+						지식
+					</button>
+					<div class="collapse" id="know-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="/know#network"
+									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+							<li><a href="/know#java1"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+							<li><a href="/know#java2"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+							<li><a href="/know#java3"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#short-collapse" aria-expanded="false">
+						문제(단답형)
+					</button>
+					<div class="collapse" id="short-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="/prob/short#network"
+									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+							<li><a href="/prob/short#java1"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+							<li><a href="/prob/short#java2"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+							<li><a href="/prob/short#java3"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#long-collapse" aria-expanded="false">
+						문제(주관식)
+					</button>
+					<div class="collapse" id="long-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="/prob/long#network"
+									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
+							<li><a href="/prob/long#java1"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
+							<li><a href="/prob/long#java2"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
+							<li><a href="/prob/long#java3"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+						data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="false">
+						현재 접속중인 사람
+					</button>
+					<div class="collapse" id="user-collapse">
+						<ul th:if="${userList == null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							접속 유저가 없습니다.
+						</ul>
+						<ul th:if="${userList != null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li th:each="user : ${userList}">
+								<a href="#" class="link-dark d-inline-flex text-decoration-none rounded">[[${user.nick}]]</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- 채팅방 팝업 -->
+	<div class="modal fade" id="chatRoom" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content col-md-10 mx-auto col-lg-5">
+				<div>
+					<button type="button" style="float: right; margin-right: 10px; margin-top: 10px;" class="btn-close"
+						data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="mx-auto py-2">
+					<h3>어서오세요</h3>
+				</div>
+				<div class="p-4 p-md-5 border rounded-3 bg-light chatList">
+				</div>
+				<<div th:if="${session.loginUser != null}" class="row">
+					<div class="col-1">
+						<img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+							class="rounded-circle">
+					</div>
+					<div class="col-9">
+						<input class="w-100 form-control" id="msg" type="text"
+							placeholder="채팅을 입력해주세요.">
+					</div>
+					<div class="col-2">
+						<button type="submit" id="msgWrite" class="btn btn-primary">작성</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 채팅방 생성 팝업 -->
+	<div class="modal fade" id="roomCreate" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content col-md-10 mx-auto col-lg-5">
+				<div>
+					<button type="button" style="float: right; margin-right: 10px; margin-top: 10px;" class="btn-close"
+						data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="mx-auto py-3">
+					<h3>채팅방 만들기</h3>
+				</div>
+				<div class="p-4 p-md-5 border rounded-3 bg-light">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="roomName" placeholder="name" required autofocus>
+						<label for="nick2">채팅방 제목</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" id="pwd4" placeholder="password"
+							minlength="6" maxlength="12" aria-describedby="pwdNotice">
+						<label for="pwd4">비밀번호(6자리 이상, 12자리 이하)</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" placeholder="password" id="pwd_confirm3"
+							minlength="6" maxlength="12" aria-describedby="pwdNotice">
+						<label for="pwd_confirm3">비밀번호 확인</label>
+						<div id="pwdNotice3" class="feedback" style="height: 20px;">
+							비밀번호를 입력해주세요.
+						</div>
+					</div>
+					<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return roomCreate()">채팅방 만들기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="updateUserModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content col-md-10 mx-auto col-lg-5">
+				<div>
+					<button type="button" style="float: right; margin-right: 10px; margin-top: 10px;" class="btn-close"
+						data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="mx-auto py-3">
+					<h3>정보 변경</h3>
+				</div>
+				<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST" th:action="@{/user/update}"
+					th:object="${user}" enctype="multipart/form-data">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="nick2" name="nick" placeholder="name" autofocus>
+						<label for="nick2">닉네임(중복 불가, 4글자 이상)</label>
+						<div id="nickNotice2" class="invalid-feedback">
+							닉네임이 중복됩니다.
+						</div>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" id="pwd3" th:field="*{pwd}" placeholder="password"
+							minlength="6" maxlength="12" aria-describedby="pwdNotice">
+						<label for="pwd3">비밀번호(6자리 이상, 12자리 이하, 필수 X)</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="password" class="form-control" placeholder="password" id="pwd_confirm2"
+							minlength="6" maxlength="12" aria-describedby="pwdNotice">
+						<label for="pwd_confirm2">비밀번호 확인</label>
+						<div id="pwdNotice2" class="feedback" style="height: 20px;">
+							비밀번호를 입력해주세요.
+						</div>
+					</div>
+					<hr class="my-4">
+					<div>
+						<label for="profile" class="my-3">프로필 사진 변경</label>
+						<input type="file" class="form-control" id="file" name="file"
+							accept="image/gif, image/jpeg, image/png, image/jpg" autofocus>
+					</div>
+					<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return check2()">정보
+						변경</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+</div>	
+
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			$('.chatRoom').on('click', function() {
+					
+			roomId = $('.chatRoom').attr("id").replace("room", "");
+			roomName = $('#roomName'+roomId).html();
+        	nick = [[${session.loginUser?.nick}]];
+        	profile = [[${session.loginUser?.profile}]];
+
+	        console.log(roomName + ", " + roomId + ", " + nick  );
+	
+			if(loginUser != null) {
+				var roomId = $('.chatRoom').attr("id").replace("room", "");
+			var roomName = $('#roomName'+roomId).html();
+        	var nick = [[${session.loginUser?.nick}]];
+        	var profile = [[${session.loginUser?.profile}]];
+        	
+			var sockJs = new SockJS("/ws/chat");
+	        //1. SockJS를 내부에 들고있는 stomp를 내어줌
+	        var stomp = Stomp.over(sockJs);
+	        
+	        //2. connection이 맺어지면 실행
+	        stomp.connect({}, function (){
+	            console.log("STOMP Connection")
+	
+	            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+	            stomp.subscribe("/topic/chat/room/" + roomId, function (chat) { // 아래에서 보낸거 여기로옴
+	                var content = JSON.parse(chat.body);
+	                var type = content.type;
+	                var msg = content.msg;
+	                var nick = content.nick;
+	                
+	                console.log(type, msg, nick)
+	                
+					str = $('.chatList').html();
+					
+					str += '<div class="row">'
+					str += '<div class="col-1">                                                                                                                              '
+					str += '		<img src="/upload/images?file='+ profile +'" width="32" height="32"class="rounded-circle">                                                                                                              '
+					str += '	</div>                                                                                                                                       '
+					str += '	<div class="col-9"> '   
+					if(type === 'JOIN') {
+						str += '<label>"'+nick+'"님이 입장하셨습니다.</label>';
+					} else if (type === 'LEAVE') {
+						str += '<label>"'+nick+'"님이 퇴장하셨습니다.</label>';
+					} else {
+						str += '    <label>'+ nick +'</label>'
+						str += '<label>'+msg+'</label>';
+					}
+					str += '	</div>'   
+					str += '</div>                                                                                                                                   '
+					
+					$('.chatList').html(str);
+	            });
+	
+	            //3. send(path, header, message)로 메세지를 보낼 수 있음
+	            stomp.send('/app/chat/join', {}, JSON.stringify({id: roomId, nick: nick, type: 'JOIN'}))
+		        });
+		        
+		         //엔터를 누르면 메시지 전송
+		        $("#msg").on("keyup",function(event){
+		            if(event.keyCode === 13){
+		                event.preventDefault();
+	       	         	$('#msgWrite').click();
+		            }
+		        });
+		        
+		        $('#msgWrite').on("click", function(e) {
+					var msg = $('#msg').val();
+					
+		       		stomp.send('/topic/chat/room/'+roomId, {}, JSON.stringify({id: roomId, msg: msg, nick: nick, type: 'CHAT'})) // 정보 보내고 받기
+		       		$("#msg").val(''); // 초기화
+			   });
+	        }    	
+			});
+			
+		})
+		var msg = [[${msg}]];
+		if (msg != null) {
+			alert(msg);
+		}
+		
+		var loginUser = [[${session.loginUser}]];
+		console.log(loginUser);
+		
+		$('#pwd_confirm3').keyup(function () {
+			var pwd = $('#pwd4').val();
+			var pwd_confirm = $('#pwd_confirm3').val();
+			
+			if (pwd == pwd_confirm) {
+				$('#pwd_confirm3').removeClass('is-invalid');
+				$('#pwd_confirm3').addClass('is-valid');
+				$('#pwdNotice3').html('비밀번호가 일치합니다.');	
+			} else {
+				$('#pwd_confirm3').removeClass('is-valid');
+				$('#pwd_confirm3').addClass('is-invalid');
+				$('#pwdNotice3').html('비밀번호가 일치하지 않습니다.');
+			}
+		});
+		
+		
+		
+		
+		function roomCreate() {
+			if ($('#pwd_confirm3').hasClass('is-invalid')) {
+				return false;
+			} else { // 패스워드가 만약 있고, 같을 때 -> 없으면 자동으로 else 로 들어옴
+			
+				var pwd = $('#pwd4').val();
+				var name = $('#roomName').val();
+				
+				$.ajax({
+					type: 'post',
+					url: '/chat/room/create',
+					data: {
+						name: name,
+						pwd: pwd,
+					},
+					
+					success: function(data) {
+						var roomList = $('.roomList').html(); // 기존 채팅방 리스트 가져오기
+						var date = new Date(data.date);
+						date = new Date(date.getTime() + 9 * 60 * 60 * 1000).toISOString().replace('T', ' ').slice(0, -5); // 현재시간에서 9시간 추가해서 한국시간으로 바꾼 후 형식 변경
+						
+						str = '';
+						
+						str += '<a th:if="${roomList != null}" th:each="room : ${roomList}" class="list-group-item list-group-item-action d-flex gap-3 py-3" href="" style="margin-bottom: 20px;" aria-current="true">                   '
+						str += '	<div class="d-flex gap-2 w-100 justify-content-between">                                                                                                                '
+						str += '		<div style="">                                                                                                                                                      '
+						str += '			<h5 class="mb-0" th:id="roomName'+data.id+'">'+ data.name +'</h5>                                                                                                 '
+						str += '		</div>                                                                                                                                                              '
+						str += '		<small class="opacity-50 text-nowrap" th:id="roomDate'+data.id+'">'+ date +'</small>                                                                        '
+						str += '	</div>                                                                                                                                                                  '
+						str += '</a>  ' 
+						
+						$('.roomList').html(str + roomList); // 최신에 만들어지는게 먼저	 
+
+					},
+					
+					error: function(e) {
+						console.log(e);
+					}
+				});
+				
+				return true;
+			}
+			
+		}
+
+		$('#pwd_confirm2').keyup(function () {
+			var pwd = $('#pwd3').val();
+			var pwd_confirm = $('#pwd_confirm2').val();
+
+			if (pwd == pwd_confirm) {
+				var email = loginUser.email;
+				console.log(email);
+
+				$.ajax({
+					type: 'post',
+					url: '/check/pwd',
+					data: {
+						email: email,
+						pwd: pwd,
+					},
+
+					success: function (data) {
+						console.log(data);
+
+						// 중복
+						if (data == '1') {
+							$('#pwd_confirm2').removeClass('is-valid');
+							$('#pwd_confirm2').addClass('is-invalid');
+							$('#pwdNotice2').html('원래 비밀번호와 같습니다.');
+						} else {
+							$('#pwd_confirm2').removeClass('is-invalid');
+							$('#pwd_confirm2').addClass('is-valid');
+							$('#pwdNotice2').html('비밀번호가 일치합니다.');
+						}
+					},
+
+					error: function (e) {
+						console.log(e);
+					}
+				});
+			} else {
+				$('#pwd_confirm2').removeClass('is-valid');
+				$('#pwd_confirm2').addClass('is-invalid');
+				$('#pwdNotice2').html('비밀번호가 일치하지 않습니다.');
+			}
+		});
+
+		$('#nick2').keyup(function () {
+			var nick = $('#nick2').val();
+
+			$.ajax({
+				type: 'get',
+				url: '/check/nick',
+				data: {
+					nick: nick,
+				},
+				contentType: "application/json;charset=UTF-8",
+
+				success: function (data) {
+					console.log(data);
+
+					// 중복
+					if (data == '1') {
+						$('#nick2').addClass('is-invalid');
+					} else {
+						$('#nick2').removeClass('is-invalid');
+					}
+				},
+
+				error: function (e) {
+					console.log(e);
+				}
+			});
+		});
+		
+		function check2() {
+			if ($('#nick2').hasClass('is-invalid') || $('#email2').hasClass('is-invalid') || $('#pwd_confirm2').hasClass('is-invalid')) {
+				return false;
+			} else {
+				return true;
+			}
+		};
+	</script>
+</body>
+
+</html>
