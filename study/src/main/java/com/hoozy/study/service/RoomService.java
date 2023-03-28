@@ -5,10 +5,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hoozy.study.entity.Room;
-import com.hoozy.study.entity.User;
 import com.hoozy.study.repository.RoomRepository;
 
 import jakarta.transaction.Transactional;
@@ -43,21 +41,20 @@ public class RoomService {
 	// 채팅방 검색해서 가져오기
 	public List<Room> findByName(String name) {
 		List<Room> list = new ArrayList<>();
-
-		list = roomRepository.findByName(name);
+		name = "%" + name + "%";
+		list = roomRepository.findByNameLike(name);
 
 		return list;
 	}
 
 	// 채팅방 생성 -> 채팅방 이름으로
 	@Transactional
-	public Room create(String name, String pwd, String nick) {
+	public Room create(String name, String nick) {
 		Room room = new Room();
 		
-		room = Room.create(name, pwd, nick);
+		room = Room.create(name, nick);
 		roomRepository.save(room);
 		room = findById(room.getId());
-		log.info("채팅방 생성 {}", room);
 		return room;
 	}
 }

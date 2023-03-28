@@ -11,10 +11,10 @@
 						
 					</div>
 					<form role="search">
-						<input class="form-control" type="search" placeholder="내용을 입력해주세요.">
+						<input class="form-control roomSearch" type="search" placeholder="내용을 입력해주세요.">
 					</form>
 					<div class="text-end">
-						<input class="btn btn-primary rounded mx-2" type="submit" value="검색">
+						<input class="btn btn-primary rounded mx-2 searchBtn" type="submit" value="검색">
 						<button th:if="${session.loginUser != null}" class="btn btn-primary rounded mx-4" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#roomCreate">채팅방 만들기</button>
 					</div>
 				</div>
@@ -26,13 +26,13 @@
 					<div class="mx-auto" style="width: 85%;">
 						<!-- 채팅방 목록 -->
 						<div class="roomList list-group w-auto">
-							<a th:if="${roomList != null}" th:each="room : ${roomList}" th:id="'room'+${room.id}" style="margin-bottom: 20px;" class="list-group-item list-group-item-action d-flex gap-3 py-3 chatRoom" aria-current="true" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chatRoom">
+							<a th:if="${roomList != null}" th:each="room : ${roomList}" style="margin-bottom: 20px;" class="list-group-item list-group-item-action d-flex gap-3 py-3 chatRoom" th:id="'room'+${room.id}" aria-current="true" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chatRoom">
 								<div class="d-flex gap-2 w-100 justify-content-between">
-									<div>
-										<h5 class="mb-0" th:id="'roomName'+${room.id}">[[${room.name}]]</h5>
+									<div class="w-100">
+										<div class="mb-0" th:id="'roomName'+${room.id}" style="float:left;">[[${room.name}]]</div>
 									</div>
-									<small class="opacity-50 text-nowrap" th:id="'roomDate'+${room.id}">[[${room.date}]]</small>
 								</div>
+								<small class="opacity-50 text-nowrap" th:id="'roomDate'+${room.id}">[[${room.date}]]</small>
 							</a>
 						</div>
 					</div>
@@ -42,6 +42,8 @@
 				</div>
 			</div>
 		</div>
+		
+		
 		
 		<div class="flex-shrink-0 p-3 bg-white">
 			<a href="#" th:if="${session.loginUser != null}"
@@ -167,17 +169,16 @@
 	<!-- 채팅방 팝업 -->
 	<div class="modal fade" id="chatRoom" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content col-md-10 mx-auto col-lg-5">
+			<div class="modal-content col-md-10 mx-auto col-lg-5" style="width: 700px; right: 100px;">
 				<div>
-					<button type="button" style="float: right; margin-right: 10px; margin-top: 10px;" class="btn-close"
+					<button type="button" style="float: right; margin-right: 10px; margin-top: 10px;" class="btn-close roomClose"
 						data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="mx-auto py-2">
-					<h3>어서오세요</h3>
+					<h3 class="roomName">어서오세요</h3>
 				</div>
-				<div class="p-4 p-md-5 border rounded-3 bg-light chatList">
-				</div>
-				<<div th:if="${session.loginUser != null}" class="row">
+				<div class="p-4 p-md-5 border rounded-3 bg-light chatList" style="overflow: scroll; height: 750px;"></div>
+				<div th:if="${session.loginUser != null}" class="row">
 					<div class="col-1">
 						<img th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
 							class="rounded-circle">
@@ -210,20 +211,7 @@
 						<input type="text" class="form-control" id="roomName" placeholder="name" required autofocus>
 						<label for="nick2">채팅방 제목</label>
 					</div>
-					<div class="form-floating mb-3">
-						<input type="password" class="form-control" id="pwd4" placeholder="password"
-							minlength="6" maxlength="12" aria-describedby="pwdNotice">
-						<label for="pwd4">비밀번호(6자리 이상, 12자리 이하)</label>
-					</div>
-					<div class="form-floating mb-3">
-						<input type="password" class="form-control" placeholder="password" id="pwd_confirm3"
-							minlength="6" maxlength="12" aria-describedby="pwdNotice">
-						<label for="pwd_confirm3">비밀번호 확인</label>
-						<div id="pwdNotice3" class="feedback" style="height: 20px;">
-							비밀번호를 입력해주세요.
-						</div>
-					</div>
-					<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return roomCreate()">채팅방 만들기</button>
+					<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="roomCreate()">채팅방 만들기</button>
 				</div>
 			</div>
 		</div>
@@ -285,32 +273,77 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	
 	<script th:inline="javascript">
-		$(document).ready(function() {
-			$('.chatRoom').on('click', function() {
+			
+			$('.searchBtn').on("click", function() {
+				var name = $('.roomSearch').val(); // 검색어
+				console.log(name)
+				$.ajax({
+					type: 'get',
+					url: '/chat/room/search',
+					data: {
+						name: name,
+					},
 					
+					success: function(data) {
+						if(data != null || data != '') {
+							str = '';
+							
+							data.forEach((list) => {
+								
+								var date = new Date(list.date);
+								date = new Date(date.getTime() + 9 * 60 * 60 * 1000).toISOString().replace('T', ' ').slice(0, -5); // 현재시간에서 9시간 추가해서 한국시간으로 바꾼 후 형식 변경
+							
+								str += '<a style="margin-bottom: 20px;" class="list-group-item list-group-item-action d-flex gap-3 py-3 chatRoom" id="room'+list.id+'" aria-current="true" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chatRoom">'
+								str += '		<div class="d-flex gap-2 w-100 justify-content-between">                                                                                                                                                                                                                           '
+								str += '			<div class="w-100">                                                                                                                                                                                                                                                            '
+								str += '				<div class="mb-0" id="roomName'+list.id+'" style="float:left;">'+list.name+'</div>                                                                                                                                                                                 '
+								str += '			</div>                                                                                                                                                                                                                                                                         '
+								str += '		</div>                                                                                                                                                                                                                                                                             '
+								str += '		<small class="opacity-50 text-nowrap" th:id="roomDate'+list.id+'">'+date+'</small>                                                                                                                                                                                       '
+								str += '	</a>                                                                                                                                                                                                                                                                                   '
+							
+							});
+							
+						} else {
+							str += '채팅방이 없습니다.'
+						}
+						
+						$('.roomList').html(str);
+					},
+					
+					error: function(e) {
+						console.log(e)
+					}
+				});
+			})
+			
+			$('.chatRoom').on("click", function() {
+				
 			roomId = $('.chatRoom').attr("id").replace("room", "");
 			roomName = $('#roomName'+roomId).html();
         	nick = [[${session.loginUser?.nick}]];
         	profile = [[${session.loginUser?.profile}]];
 
 	        console.log(roomName + ", " + roomId + ", " + nick  );
+	        
+	        $('.roomName').html(roomName);
 	
 			if(loginUser != null) {
 				var roomId = $('.chatRoom').attr("id").replace("room", "");
-			var roomName = $('#roomName'+roomId).html();
-        	var nick = [[${session.loginUser?.nick}]];
-        	var profile = [[${session.loginUser?.profile}]];
-        	
-			var sockJs = new SockJS("/ws/chat");
-	        //1. SockJS를 내부에 들고있는 stomp를 내어줌
-	        var stomp = Stomp.over(sockJs);
+				var roomName = $('#roomName'+roomId).html();
+	        	var loginNick = [[${session.loginUser?.nick}]];
+	        	var profile = [[${session.loginUser?.profile}]];
+	        	
+				var sockJs = new SockJS("/ws/chat");
+		        //1. SockJS를 내부에 들고있는 stomp를 내어줌
+		        var stomp = Stomp.over(sockJs);
 	        
 	        //2. connection이 맺어지면 실행
 	        stomp.connect({}, function (){
 	            console.log("STOMP Connection")
 	
 	            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-	            stomp.subscribe("/topic/chat/room/" + roomId, function (chat) { // 아래에서 보낸거 여기로옴
+	            stomp.subscribe("/topic/chat/room/" + roomId, function (chat) { // 구독한 채팅방 -> 참여한 채팅방으로 메시지 전달 받음
 	                var content = JSON.parse(chat.body);
 	                var type = content.type;
 	                var msg = content.msg;
@@ -318,29 +351,98 @@
 	                
 	                console.log(type, msg, nick)
 	                
-					str = $('.chatList').html();
-					
-					str += '<div class="row">'
-					str += '<div class="col-1">                                                                                                                              '
-					str += '		<img src="/upload/images?file='+ profile +'" width="32" height="32"class="rounded-circle">                                                                                                              '
-					str += '	</div>                                                                                                                                       '
-					str += '	<div class="col-9"> '   
+					var baseStr = $('.chatList').html(); // 원래 채팅 내용
+					str = ''; // 추가되는 메시지
 					if(type === 'JOIN') {
-						str += '<label>"'+nick+'"님이 입장하셨습니다.</label>';
+						str += '<div class="col-10"></div>'
+						str += '<div style="text-align: center;">"'+nick+'"님이 입장하셨습니다.</div>';
+						str += '	</div>'  
 					} else if (type === 'LEAVE') {
-						str += '<label>"'+nick+'"님이 퇴장하셨습니다.</label>';
-					} else {
-						str += '    <label>'+ nick +'</label>'
-						str += '<label>'+msg+'</label>';
+						str += '<div class="col-10"></div>'
+						str += '<div style="text-align: center;">"'+nick+'"님이 퇴장하셨습니다.</div>';
+						str += '	</div>'  
+					} else if (type === 'FIRST') { // 첫 들어올 때 기존 메시지
+						
+						if(baseStr == '') { // 기존 메시지가 없을 때 -> 처음 들어오는 유저
+							
+							var nicks = nick.split('/')
+							var msgs = msg.split('/')
+							console.log(nicks.length)
+							for(let i = 0; i < nicks.length; i++) {
+								
+								console.log('asddsad -> '+msgs[i])
+								if(nicks[i] != loginNick) { // 작성자가 아닐 때
+									str += '<div class="mb-3 px-1 rounded">'
+									str += '<div class="">                                                                                                                              '
+									str += '		<img src="/upload/images?file='+ profile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
+									str += '	<label class="my-1" style="color: black; font-size: 14px;">'+nicks[i]+'</label>'
+									str += '	</div>                                                                                                                                       '
+									
+									str += '<div style="position:relative; width:350px; height:50px; background: white; color: black; border-radius: 10px; margin-left: 50px;">'
+									str += '    <label class="m-1">'+ msgs[i] +'</label>'
+									str += '</div>'
+									
+									str += '</div>'   
+									
+								} else {
+									
+									str += '<div class="mb-3 px-1 rounded">'
+									str += '<div class="">                                                                                                                              '
+									str += '	    <label class="my-1" style="color: black;font-size: 14px;margin-left: 470px;">'+nicks[i]+'</label>'
+									str += '		<img src="/upload/images?file='+ profile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
+									str += '	</div>                                                                                                                                       '
+									
+									str += '<div style="position:relative;width:350px;height:50px;background:#FFFF99;color: black;border-radius: 10px;margin-left: 155px;">'
+									str += '    <label class="m-1" style="">'+ msgs[i] +'</label>'
+									str += '</div>'
+									
+									str += '</div>'
+								}
+							}
+						}
+						
+					} else { // 입장 후 채팅
+
+						if(baseStr != null) { // 현재 채팅방에 있으면
+							
+							if(nick != loginNick) { // 작성자가 아닐 때
+								str += '<div class="mb-3 px-1 rounded">'
+								str += '<div class="">                                                                                                                              '
+								str += '		<img src="/upload/images?file='+ profile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
+								str += '	<label class="my-1" style="color: black; font-size: 14px;">'+nick+'</label>'
+								str += '	</div>                                                                                                                                       '
+								
+								str += '<div style="position:relative; width:350px; height:50px; background: white; color: black; border-radius: 10px; margin-left: 50px;">'
+								str += '    <label class="m-1">'+ msg +'</label>'
+								str += '</div>'
+								
+								str += '</div>'   
+								
+							} else {
+								
+								str += '<div class="mb-3 px-1 rounded">'
+								str += '<div class="">                                                                                                                              '
+								str += '	    <label class="my-1" style="color: black;font-size: 14px;margin-left: 470px;">'+nick+'</label>'
+								str += '		<img src="/upload/images?file='+ profile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
+								str += '	</div>                                                                                                                                       '
+								
+								str += '<div style="position:relative;width:350px;height:50px;background:#FFFF99;color: black;border-radius: 10px;margin-left: 155px;">'
+								str += '    <label class="m-1" style="">'+ msg +'</label>'
+								str += '</div>'
+								
+								str += '</div>'
+							}
+						}
+						
 					}
-					str += '	</div>'   
+					
 					str += '</div>                                                                                                                                   '
 					
-					$('.chatList').html(str);
+					$('.chatList').html(baseStr + str);
 	            });
 	
 	            //3. send(path, header, message)로 메세지를 보낼 수 있음
-	            stomp.send('/app/chat/join', {}, JSON.stringify({id: roomId, nick: nick, type: 'JOIN'}))
+	            stomp.send('/app/chat/join', {}, JSON.stringify({id: roomId, nick: loginNick, type: 'JOIN'}))
 		        });
 		        
 		         //엔터를 누르면 메시지 전송
@@ -354,13 +456,18 @@
 		        $('#msgWrite').on("click", function(e) {
 					var msg = $('#msg').val();
 					
-		       		stomp.send('/topic/chat/room/'+roomId, {}, JSON.stringify({id: roomId, msg: msg, nick: nick, type: 'CHAT'})) // 정보 보내고 받기
+					stomp.send('/app/chat/message', {}, JSON.stringify({id: roomId, msg: msg, nick: loginNick, type: 'CHAT'})) 
 		       		$("#msg").val(''); // 초기화
+			   });
+			   
+			   $('.roomClose').on("click", function(e) {
+					
+					stomp.send('/app/chat/leave', {}, JSON.stringify({id: roomId, nick: loginNick, type: 'LEAVE'}))
+					$('chatList').html('');
 			   });
 	        }    	
 			});
 			
-		})
 		var msg = [[${msg}]];
 		if (msg != null) {
 			alert(msg);
@@ -384,15 +491,7 @@
 			}
 		});
 		
-		
-		
-		
 		function roomCreate() {
-			if ($('#pwd_confirm3').hasClass('is-invalid')) {
-				return false;
-			} else { // 패스워드가 만약 있고, 같을 때 -> 없으면 자동으로 else 로 들어옴
-			
-				var pwd = $('#pwd4').val();
 				var name = $('#roomName').val();
 				
 				$.ajax({
@@ -400,7 +499,6 @@
 					url: '/chat/room/create',
 					data: {
 						name: name,
-						pwd: pwd,
 					},
 					
 					success: function(data) {
@@ -412,8 +510,9 @@
 						
 						str += '<a th:if="${roomList != null}" th:each="room : ${roomList}" class="list-group-item list-group-item-action d-flex gap-3 py-3" href="" style="margin-bottom: 20px;" aria-current="true">                   '
 						str += '	<div class="d-flex gap-2 w-100 justify-content-between">                                                                                                                '
-						str += '		<div style="">                                                                                                                                                      '
+						str += '		<div>                                                                                                                                                      '
 						str += '			<h5 class="mb-0" th:id="roomName'+data.id+'">'+ data.name +'</h5>                                                                                                 '
+						
 						str += '		</div>                                                                                                                                                              '
 						str += '		<small class="opacity-50 text-nowrap" th:id="roomDate'+data.id+'">'+ date +'</small>                                                                        '
 						str += '	</div>                                                                                                                                                                  '
@@ -427,10 +526,6 @@
 						console.log(e);
 					}
 				});
-				
-				return true;
-			}
-			
 		}
 
 		$('#pwd_confirm2').keyup(function () {

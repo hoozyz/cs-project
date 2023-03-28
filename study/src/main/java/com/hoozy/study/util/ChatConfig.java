@@ -27,7 +27,6 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer {
 		registry.enableSimpleBroker("/queue", "/topic");
 		
 		// 클라이언트가 메시지를 보낼 때 맨앞에 / 이 붙으면 broker로 보내짐
-		// /topic/asd
 		registry.setApplicationDestinationPrefixes("/app");
 	}
 }

@@ -16,12 +16,12 @@ public class ChatService {
 	
 	private final ChatRepository chatRepository;
 	
-	// 현재 채팅방의 기존 댓글 가져오기
+	// 현재 채팅방의 기존 댓글 가져오기 -> 최근 5개만
 	public List<Chat> findByRoomId(String id) {
 		List<Chat> list = new ArrayList<>();
 		
 		list = chatRepository.findByRoomId(id);
-		System.out.println(list.toString());
+
 		return list;
 	}
 	

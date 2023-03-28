@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,8 +22,8 @@ import lombok.Setter;
 @Table(name = "chat")
 public class Chat {
 	
-	public enum MessageType { // 메시지 타입 입장, 퇴장, 메시지전송
-		JOIN, LEAVE, CHAT
+	public enum MessageType { // 메시지 타입 입장, 퇴장, 메시지전송, 첨 들어올 때 5개의 메시지
+		JOIN, LEAVE, CHAT, FIRST
 	}
 	
 	@Id
