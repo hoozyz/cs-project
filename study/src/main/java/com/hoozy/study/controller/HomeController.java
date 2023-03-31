@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.hoozy.study.entity.Know;
 import com.hoozy.study.entity.Today;
 import com.hoozy.study.entity.User;
-import com.hoozy.study.service.KnowService;
 import com.hoozy.study.service.TodayService;
 import com.hoozy.study.util.LoggedInUsersListener;
 
@@ -25,28 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class HomeController {
 	
 	private final List<HttpSession> loggedInUsers = LoggedInUsersListener.getLoggedInUsers(); // 현재 로그인 유저 리스트 담겨져있음
 	
-	private final KnowService knowService;
 	private final TodayService todayService;
 	private Map<String, List<Know>> map = new HashMap<>(); // 홈페이지 3문제씩 담을 map
-	
-	// 매일 9시에 오늘의 문제 바꾸기
-	@Scheduled(cron = "0 0 9 * * *") // 0초 0분 9시 매일 매주 모든요일
-	public void knowToday() {
-		map = knowService.findAllByShort();
-		
-		long no = 0L;
-		for(int i = 0; i < map.size(); i++) {
-			for(Know k : map.get("list"+i)) {
-				int kno = (int) k.getNo();
-				todayService.update(no++, kno); // 번호 1씩 추가해서 바꾸기
-			}
-		}
-	}
 	
 	@GetMapping("/")
 	public String home(Model model, @SessionAttribute(name = "loginUser", required = false) User loginUser, HttpServletRequest req) {

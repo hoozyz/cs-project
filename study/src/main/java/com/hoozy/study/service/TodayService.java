@@ -25,6 +25,15 @@ public class TodayService {
 		return list;
 	}
 	
+	// 오늘의 문제 첫 번째꺼 번호 가져오기
+	public long findOne() {
+		long no = 0L;
+		
+		no = todayRepository.findOne().getNo();
+		
+		return no;
+	}
+	
 	// 문제 바꾸기
 	public void update(long no, int kno) { // 매일 지식 번호 업데이트
 		todayRepository.update(no, kno);
