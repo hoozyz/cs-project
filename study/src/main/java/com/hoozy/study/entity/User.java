@@ -25,7 +25,7 @@ public class User {
 	
 	private String salt;
 	private String profile; // 프로필 파일 명
-	private String kno; // 맞춘 문제 목록
+	private String role;
 	
 	@Builder
 	public User(String nick, String email, String pwd, String salt, String profile) {

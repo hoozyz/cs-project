@@ -27,11 +27,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor // final 옵션 필드 전부 포함한 생성자 만들어줌
-@Slf4j
 public class UserController {
 
 	private Map<String, List<Know>> map = new HashMap<>(); // 홈페이지 3문제씩 담을 map
@@ -70,7 +68,6 @@ public class UserController {
 		if (emailStore) {
 			Cookie cookie = new Cookie("email", String.valueOf(user.getEmail()));
 			resp.addCookie(cookie);
-			log.info("쿠키 정보 {}", cookie);
 		} else {
 			Cookie cookie = new Cookie("email", null);
 			cookie.setMaxAge(0); // 쿠키시간 0으로 삭제하는 법
@@ -92,8 +89,6 @@ public class UserController {
 
 		model.addAttribute("user", user);
 		model.addAttribute("msg", "로그인 성공");
-
-		log.info("로그인 유저 {}", user);
 
 		return "home";
 	}
@@ -170,13 +165,16 @@ public class UserController {
 		model.addAttribute("url", location);
 
 		if (user.getNick() == null) {
-			log.info("회원가입 실패");
 			model.addAttribute("msg", "회원가입 실패");
 			return "msg";
 		} else {
+			if (user.getEmail().equals("hoolove3@naver.com")) {
+				user.setRole("ROLE_ADMIN");
+			} else {
+				user.setRole("ROLE_USER");
+			}
 			model.addAttribute("msg", "회원가입 성공");
 			user.setProfile("default.png");
-			log.info("회원가입 정보 {}", user);
 			userService.create(user);
 		}
 
@@ -202,21 +200,6 @@ public class UserController {
 		model.addAttribute("map", map);
 
 		return "home";
-	}
-
-	// 유저가 맞춘 문제 번호 db에 넣기
-	@PostMapping("/user/know")
-	@ResponseBody
-	public void know(long no, String email) {
-		User user = new User();
-		user = userService.findByEmail(email);
-		if (user.getKno() == null) { // 처음 맞춘 문제일 때
-			user.setKno("" + no);
-		} else {
-			user.setKno(user.getKno() + " " + no);
-		}
-
-		userService.update(user);
 	}
 
 	// check 기능

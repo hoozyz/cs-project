@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 // 이미지 검색하면 바로 브라우저에 띄우는 컨트롤러 -> 데이터로 바로 제공하는 rest api -> RestController
-// 원래 파일을 복사해서 rest api로 응답
+// 원래 파일을 복사해서 rest api로 응답 -> json 형태로 바로 반환
 @RestController
 public class ImageController {
 	

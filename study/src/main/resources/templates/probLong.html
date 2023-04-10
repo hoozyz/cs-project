@@ -7,13 +7,17 @@
 			<nav id="probLong" class="h-100 flex-column align-items-stretch pe-4 border-end">
 				<nav class="nav nav-pills flex-column">
 					<a class="nav-link" href="#network">네트워크</a>
-					<a class="nav-link" href="#java1">자바</a>
-					<nav class="nav nav-pills flex-column">
-						<a class="nav-link ms-3 my-1" href="#java1">기초</a>
-						<a class="nav-link ms-3 my-1" href="#java2">심화</a>
-						<a class="nav-link ms-3 my-1" href="#java3">프레임워크</a>
-					</nav>
-					<a class="nav-link" href="#git">GIT</a>
+					<a class="nav-link" href="#java">자바</a>
+					<a class="nav-link" href="#os">운영 체제</a>
+					<a class="nav-link" href="#db">데이터베이스</a>
+					<a class="nav-link" href="#api">API</a>
+					<a class="nav-link" href="#security">웹 보안</a>
+					<a class="nav-link" href="#pattern">패턴</a>
+					<a class="nav-link" href="#virtual">가상화</a>
+					<a class="nav-link" href="#cloud">클라우드</a>
+					<a class="nav-link" href="#aws">AWS</a>
+					<a class="nav-link" href="#springboot">Spring Boot</a>
+					<a class="nav-link" href="#algorithm">자료구조 및 알고리즘</a>
 				</nav>
 			</nav>
 		</div>
@@ -44,11 +48,13 @@
 											<th>기준</th>                  
 											<th>[[${list.addi.comp1}]]</th>
 											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
 										</tr>   
 										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
 											<td>[[${list.addi.stand}]]</td>
 											<td><input type="text"></td>
 											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
 										</tr>
 									</table>
 								</div>
@@ -67,11 +73,13 @@
 													<th>기준</th>                  
 													<th>[[${list.addi.comp1}]]</th>
 													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
 												</tr>   
 												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
 													<td>[[${list.addi.stand}]]</td>
 													<td>[[${list.addi.comp1}]]</td>
 													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
 												</tr>                                              													
 											</table>
 										</li>
@@ -83,69 +91,760 @@
 					</div>
 				</div>
 
-				<div class="container px-4 py-5" id="java1">
-					<h2 class="pb-2 border-bottom">자바(기초)</h2>
+				<div class="container px-4 py-5" id="java">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list1[0].cate}]]</h2>
 					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
 						style="height: 500px;">
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+						
+						<div th:each="know : ${knowMap.list1}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
-							</div>
-						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 
-				<div class="container px-4 py-5" id="java2">
-					<h2 class="pb-2 border-bottom">자바(심화)</h2>
+				<div class="container px-4 py-5" id="os">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list2[0].cate}]]</h2>
 					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
 						style="height: 500px;">
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+						
+						<div th:each="know : ${knowMap.list2}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
-							</div>
-						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 				
-				<div class="container px-4 py-5" id="java3">
-					<h2 class="pb-2 border-bottom">자바(프레임워크)</h2>
+				<div class="container px-4 py-5" id="db">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list3[0].cate}]]</h2>
 					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
 						style="height: 500px;">
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+						
+						<div th:each="know : ${knowMap.list3}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
+						
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5" id="api">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list4[0].cate}]]</h2>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+						style="height: 500px;">
+						
+						<div th:each="know : ${knowMap.list4}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-						<div class="col d-flex align-items-start">
-							<div>
-								<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
+						
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5" id="security">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list5[0].cate}]]</h2>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+						style="height: 500px;">
+						
+						<div th:each="know : ${knowMap.list5}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
+						
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5" id="pattern">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list6[0].cate}]]</h2>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+						style="height: 500px;">
+						
+						<div th:each="know : ${knowMap.list6}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5" id="virtual">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list7[0].cate}]]</h2>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+						style="height: 500px;">
+						
+						<div th:each="know : ${knowMap.list7}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5" id="cloud">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list8[0].cate}]]</h2>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+						style="height: 500px;">
+						
+						<div th:each="know : ${knowMap.list8}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5" id="aws">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list9[0].cate}]]</h2>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+						style="height: 500px;">
+						
+						<div th:each="know : ${knowMap.list9}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5" id="springboot">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list10[0].cate}]]</h2>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+						style="height: 500px;">
+						
+						<div th:each="know : ${knowMap.list10}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5" id="algorithm">
+					<h2 class="pb-2 border-bottom">[[${knowMap.list11[0].cate}]]</h2>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5"
+						style="height: 500px;">
+						
+						<div th:each="know : ${knowMap.list11}" class="col-md-10 mx-auto my-2 col-lg-3 w-50">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5" th:id="'knowNo'+${know.no}">
+									<h5 th:classappend="'knowNo'+${know.cate}">no.[[${know.no}]]<h3 class="py-2">[[${know.name}]]<button class="btn"
+												style="float:right;" th:onclick="knowThrow([[${know.no}]], [[${know.cate}]])">넘기기</button></h3>
+									</h5>
+								</div>
+								<div class="mb-3 probLong" th:id="'probCont'+${know.no}">
+									<label for="probLong1" class="form-label">답을 자유롭게 적어주세요.</label>
+									<!-- 일반 주관식일 때 -->
+									<textarea th:if="not ${#strings.equals(know.cont, '*')}" class="form-control" id="probLong1" rows="7">
+										
+									</textarea>
+									
+									<!-- 테이블 형식 주관식일 때 -->
+									<table th:if="${#strings.equals(know.cont, '*')}">
+										<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+											<th>기준</th>                  
+											<th>[[${list.addi.comp1}]]</th>
+											<th>[[${list.addi.comp2}]]</th>
+											<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+										</tr>   
+										<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+											<td>[[${list.addi.stand}]]</td>
+											<td><input type="text"></td>
+											<td><input type="text"></td>
+											<td th:if="not ${#strings.equals(list.addi.comp3, '')}"><input type="text"></td>
+											
+										</tr>
+									</table>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-3" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu" th:id="'dropDown'+${know.no}">
+										<!--일반 주관식 답--> 
+										<li th:if="not ${#strings.equals(know.cont, '*')}" class="dropdown-item1"> 
+											<p th:each="p : ${#strings.arraySplit(know.cont, '*')}">[[${p}]]</p>											
+										</li>
+										
+										<!--테이블 형식 답-->
+										<li class="dropdown-item1" th:if="${#strings.equals(know.cont, '*')}"> 
+											<table> <!-- 현재 문제 번호와 addi 번호가 같을때만 가져오기 -->
+												<tr th:if="${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">  <!-- 첫 번째 줄일 때-->                        
+													<th>기준</th>                  
+													<th>[[${list.addi.comp1}]]</th>
+													<th>[[${list.addi.comp2}]]</th>
+													<th th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</th>
+												</tr>   
+												<tr th:if="not ${#strings.equals(list.addi.stand, '-')} and ${list.addi.no} == ${know.no}" th:each="list : ${addiList}">                          
+													<td>[[${list.addi.stand}]]</td>
+													<td>[[${list.addi.comp1}]]</td>
+													<td>[[${list.addi.comp2}]]</td>
+													<td th:if="not ${#strings.equals(list.addi.comp3, '')}">[[${list.addi.comp3}]]</td>
+												</tr>                                              													
+											</table>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
 					</div>
 				</div>
 
@@ -190,12 +889,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/#network" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제
 									- 네트워크</a></li>
-							<li><a href="/#java1" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(기초)</a></li>
-							<li><a href="/#java2" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(심화)</a></li>
-							<li><a href="/#java3" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(프레임워크)</a></li>
+							<li><a href="/#java" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바</a></li>
+							<li><a href="/#os" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									운영 체제</a></li>
+							<li><a href="/#db" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									데이터베이스</a></li>
+							<li><a href="/#api" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									API</a></li>
+							<li><a href="/#security" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									웹 보안</a></li>
+							<li><a href="/#pattern" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									패턴</a></li>
+							<li><a href="/#docker" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									도커</a></li>
+							<li><a href="/#cloud" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									클라우드</a></li>
+							<li><a href="/#aws" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									AWS</a></li>
+							<li><a href="/#springboot" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									Spring Boot</a></li>
+							<li><a href="/#algorithm" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -208,12 +923,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/know#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/know#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/know#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/know#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/know#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/know#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/know#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/know#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/know#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/know#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/know#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/know#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/know#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/know#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/know#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -226,12 +957,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/prob/short#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/prob/short#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/prob/short#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/prob/short#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/prob/short#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/prob/short#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/prob/short#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/prob/short#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/prob/short#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/prob/short#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/prob/short#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/prob/short#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/prob/short#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/prob/short#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/prob/short#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -244,12 +991,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/prob/long#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/prob/long#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/prob/long#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/prob/long#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/prob/long#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/prob/long#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/prob/long#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/prob/long#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/prob/long#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/prob/long#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/prob/long#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/prob/long#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/prob/long#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/prob/long#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/prob/long#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -386,24 +1149,44 @@
 										str += '<th>기준</th>';
 										str += '<th>' + list.addi.comp1 + '</th>';
 										str += '<th>' + list.addi.comp2 + '</th>';
+										
+										if(list.addi.comp3 != '') { // 기준3이 있을 때
+											str += '<th>' + list.addi.comp3 + '</th>';
+										}
+										
 										str += '</tr>';
 										
 										dropStr += '<tr>';
 										dropStr += '<th>기준</th>';
 										dropStr += '<th>' + list.addi.comp1 + '</th>';
 										dropStr += '<th>' + list.addi.comp2 + '</th>';
+										
+										if(list.addi.comp3 != '') { // 기준3이 있을 때
+											str += '<th>' + list.addi.comp3 + '</th>';
+										}
+										
 										dropStr += '</tr>';
 									} else {
 										str += '<tr>';
 										str += '<td>' + list.addi.stand + '</td>';
 										str += '<td><input type="text"></td>';
 										str += '<td><input type="text"></td>';
+										
+										if(list.addi.comp3 != '') { // 기준3이 있을 때
+											str += '<td><input type="text"></td>';
+										}
+										
 										str += '</tr>';
 										
 										dropStr += '<tr>';
 										dropStr += '<td>' + list.addi.stand + '</td>';
 										dropStr += '<td>' + list.addi.comp1 + '</td>';
 										dropStr += '<td>' + list.addi.comp2 + '</td>';
+										
+										if(list.addi.comp3 != '') { // 기준3이 있을 때
+											str += '<th>' + list.addi.comp3 + '</th>';
+										}
+										
 										dropStr += '</tr>';
 									}
 								});

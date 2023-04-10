@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -21,17 +20,16 @@ import com.hoozy.study.util.LoggedInUsersListener;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class KnowController {
 
 	private final List<HttpSession> loggedInUsers = LoggedInUsersListener.getLoggedInUsers(); // 현재 로그인 유저 리스트 담겨져있음
 	
 	private final KnowService knowService;
 	
+	// 지식 페이지
 	@GetMapping("/know")
 	public String know(Model model, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
 		model.addAttribute("user", new User());
@@ -56,6 +54,7 @@ public class KnowController {
 		return "know";
 	}
 	
+	// 지식 가져오기
 	@PostMapping("/know/cont")
 	@ResponseBody
 	public Know knowCont(String name) {
@@ -66,6 +65,7 @@ public class KnowController {
 		return know;
 	}
 	
+	// 좋아요 수정
 	@PostMapping("/know/like")
 	@ResponseBody
 	public void like(String name, int check, @SessionAttribute(name = "loginUser", required = false) User loginUser) {
@@ -93,6 +93,7 @@ public class KnowController {
 		knowService.save(know);
 	}
 	
+	// 문제 바꾸기
 	@PostMapping("/know/throw")
 	@ResponseBody
 	public Know knowThrow(long no1, long no2, long no3, String cate) {
@@ -102,7 +103,7 @@ public class KnowController {
 			know = knowService.findByNoNotLike(no1, no2, cate);
 		} else { // 단답형 문제일 때
 			know = knowService.findByNoNotLike(no1, no2, no3, cate);
-			while(know.getCont().contains("*")) { // 주관식이며
+			while(know.getCont().contains("*")) { // 주관식이면
 				know = knowService.findByNoNotLike(no1, no2, no3, cate);
 			}
 		}

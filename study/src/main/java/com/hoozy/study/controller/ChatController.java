@@ -14,7 +14,6 @@ import com.hoozy.study.service.ChatService;
 import com.hoozy.study.service.RoomService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,20 +33,21 @@ public class ChatController {
 		
 		chatList = chatService.findByRoomId(chat.getId()); // 최근 5개 가져옴
 		if(chatList != null) {
-			Chat chat1 = new Chat(); // db에 있는 메시지 담을 chat
+			Chat dbChat = new Chat(); // db에 있는 메시지 담을 chat
 			for(int i = 4; i < chatList.size(); i--) { // 최근 5개를 다시 역으로 나중꺼부터 보내기
 				
-				if(i == 4) {
-					chat1.setNick(chatList.get(i).getNick());
-					chat1.setMsg(chatList.get(i).getMsg());
+				// db에 있는 메시지 5개를 닉네임 5개를 한 문자열로, 메시지도 5개를 한 문자열로 저장해서 보내기
+				if(i == 4) { 
+					dbChat.setNick(chatList.get(i).getNick());
+					dbChat.setMsg(chatList.get(i).getMsg());
 				} else {
-					chat1.setNick(chat1.getNick() + "/" + chatList.get(i).getNick());
-					chat1.setMsg(chat1.getMsg() + "/" + chatList.get(i).getMsg());
+					dbChat.setNick(dbChat.getNick() + "/" + chatList.get(i).getNick());
+					dbChat.setMsg(dbChat.getMsg() + "/" + chatList.get(i).getMsg());
 				}
 				
 				if(i == 0) {
-					chat1.setType(MessageType.FIRST); // 처음 들어갈 때만 나오는 메시지
-					template.convertAndSend("/topic/chat/room/" + chat.getId(), chat1); // 5개의 메시지를 하나로 보냄 -> 방금 들어온 유저한테만 보내기
+					dbChat.setType(MessageType.FIRST); // 처음 들어갈 때만 나오는 메시지
+					template.convertAndSend("/topic/chat/room/" + chat.getId(), dbChat); // 5개의 메시지를 하나로 보냄 -> 방금 들어온 유저한테만 보내기
 					break;
 				}
 			}
@@ -62,7 +62,7 @@ public class ChatController {
 		Room room = roomService.findById(chat.getId());
 		chat.setRoom(room);
 		chat.setType(MessageType.LEAVE);
-		template.convertAndSend("/topic/chat/room/" + chat.getRoom().getId(), chat); 
+		template.convertAndSend("/topic/chat/room/" + chat.getId(), chat); 
 		
 	}
 	
@@ -70,9 +70,9 @@ public class ChatController {
 	public void message(Chat chat) {
 		Room room = roomService.findById(chat.getId());
 		chat.setRoom(room);
-		template.convertAndSend("/topic/chat/room/" + chat.getRoom().getId(), chat); 
+		template.convertAndSend("/topic/chat/room/" + chat.getId(), chat); 
 
-		Chat chatSave = new Chat().create(room, chat.getNick(), chat.getMsg(), MessageType.CHAT);
+		Chat chatSave = new Chat().create(room, chat.getNick(), chat.getMsg(), MessageType.CHAT, chat.getProfile());
 		chatService.save(chatSave); // DB에 저장
 	}
 }

@@ -14,18 +14,16 @@ import com.hoozy.study.service.KnowService;
 import com.hoozy.study.service.TodayService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @EnableScheduling // 스케쥴링 추가
-@SpringBootApplication
 @RequiredArgsConstructor
-@Slf4j
+@SpringBootApplication
 public class StudyApplication {
 
 	private final KnowService knowService;
 	private final TodayService todayService;
 	private Map<String, List<Know>> map = new HashMap<>(); // 홈페이지 3문제씩 담을 map
-
+	
 	// 매일 0시에 오늘의 문제 바꾸기
 	@Scheduled(cron = "0 0 0 * * *") // 0초 0분 0시 매일 매주 모든요일
 	public void knowToday() {

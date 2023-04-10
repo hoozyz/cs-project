@@ -24,8 +24,8 @@ public class Today {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long no;
 	
-	// today 하나에 지식 여러개
+	// today 하나에 지식 하나
 	@OneToOne
 	@JoinColumn(name = "kno")
-	private Know know; // 지식 한 개씩 DB에 저장
+	private Know know; // 지식 번호 한 개씩 DB에 저장
 }

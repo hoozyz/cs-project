@@ -20,12 +20,10 @@ import com.hoozy.study.util.LoggedInUsersListener;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/prob")
-@Slf4j
 public class ProbController {
 
 	private final List<HttpSession> loggedInUsers = LoggedInUsersListener.getLoggedInUsers(); // 현재 로그인 유저 리스트 담겨져있음
@@ -76,7 +74,6 @@ public class ProbController {
 				if (know.getCont().equals("*")) { // 추가 정보 문제일 때
 					for (Addi a : addiService.findByNo(know.getNo())) { // addiList에 추가 정보 다 넣고 나중에 번호로 가져오기
 						addiList.add(a);
-						System.out.println();
 					}
 				}
 			}

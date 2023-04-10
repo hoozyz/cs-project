@@ -15,16 +15,14 @@ import com.hoozy.study.interfaces.KnowMapping;
 import com.hoozy.study.repository.KnowRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class KnowService {
 	private Random ran = new Random();
 
 	// 카테고리 목록
-	private static final String[] cateArr = { "네트워크", "자바(기초)", "자바(심화)" /* , "자바(프레임워크)" */ };
+	private static final String[] cateArr = { "네트워크", "자바", "운영 체제", "데이터베이스" , "API", "웹 보안", "패턴", "가상화", "클라우드", "AWS", "Spring Boot", "자료구조 및 알고리즘"};
 
 	private final KnowRepository knowRepository;
 
@@ -52,7 +50,7 @@ public class KnowService {
 			List<Know> list = new ArrayList<>();
 			List<Know> list1 = new ArrayList<>();
 			list = knowRepository.findByCateAndContLike(cate, "%*%");
-			log.info("리스트 {}", list);
+			System.out.println("asdsassdasdaa                   "+list.size());
 			Set<Long> set = new HashSet<>();
 			while (true) {
 				set.add(ran.nextLong(list.size()));

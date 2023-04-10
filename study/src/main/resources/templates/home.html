@@ -7,12 +7,17 @@
 			<nav id="today-prob" class="h-100 flex-column align-items-stretch pe-4 border-end">
 				<nav class="nav nav-pills flex-column">
 					<a class="nav-link" href="#network">네트워크</a>
-					<a class="nav-link" href="#java1">자바</a>
-					<nav class="nav nav-pills flex-column">
-						<a class="nav-link ms-3 my-1" href="#java1">기초</a>
-						<a class="nav-link ms-3 my-1" href="#java2">심화</a>
-					</nav>
-					<a class="nav-link" href="#git">GIT</a>
+					<a class="nav-link" href="#java">자바</a>
+					<a class="nav-link" href="#os">운영 체제</a>
+					<a class="nav-link" href="#db">데이터베이스</a>
+					<a class="nav-link" href="#api">API</a>
+					<a class="nav-link" href="#security">웹 보안</a>
+					<a class="nav-link" href="#pattern">패턴</a>
+					<a class="nav-link" href="#virtual">가상화</a>
+					<a class="nav-link" href="#cloud">클라우드</a>
+					<a class="nav-link" href="#aws">AWS</a>
+					<a class="nav-link" href="#springboot">Spring Boot</a>
+					<a class="nav-link" href="#algorithm">자료구조 및 알고리즘</a>
 				</nav>
 			</nav>
 		</div>
@@ -51,7 +56,7 @@
 					</div>
 				</div>
 
-				<div class="container px-4 py-5 my-3" id="java1">
+				<div class="container px-4 py-5 my-3" id="java">
 					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list1[0].cate}]]</h2>
 					<div class="row align-items-center" style="height: 500px;">
 						
@@ -83,7 +88,7 @@
 					</div>
 				</div>
 
-				<div class="container px-4 py-5 my-3" id="java2">
+				<div class="container px-4 py-5 my-3" id="os">
 					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list2[0].cate}]]</h2>
 					<div class="row align-items-center" style="height: 500px;">
 
@@ -114,6 +119,295 @@
 
 					</div>
 				</div>
+				
+				<div class="container px-4 py-5 my-3" id="db">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list3[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list3}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5 my-3" id="api">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list4[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list4}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5 my-3" id="security">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list5[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list5}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5 my-3" id="pattern">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list6[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list6}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5 my-3" id="virtual">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list7[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list7}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5 my-3" id="cloud">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list8[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list8}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5 my-3" id="aws">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list9[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list9}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5 my-3" id="springboot">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list10[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list10}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="container px-4 py-5 my-3" id="algorithm">
+					<h2 class="pb-2 border-bottom">오늘의 문제 - [[${map.list11[0].cate}]]</h2>
+					<div class="row align-items-center" style="height: 500px;">
+
+						<div th:each="know : ${map.list11}" class="col-md-10 mx-auto col-lg-3">
+							<div class="p-2 border rounded-3 bg-light">
+								<div class="p-1 mb-5">
+									<h5>no.[[${know.no}]]</h5>
+								</div>
+								<div class="px-1 mb-5" style="overflow:scroll; width:100%; height: 200px;">
+									<p th:each="p : ${#strings.setSplit(know.cont, '/')}">
+										[[${p}]]
+									</p>
+								</div>
+								<div class="dropdown" style="height: 30px;">
+									<button class="btn pb-1" style="float: right;">정답 보기</button>
+									<ul class="dropdown-menu">
+										<li class="dropdown-item1" th:id="'knowName'+${know.no}">[[${know.name}]]</li>
+									</ul>
+								</div>
+								<div th:with="name = ${#strings.replace(know.name, ' ', '')}" class="pt-2 px-2">
+									글자수(띄어쓰기 제외) : [[${name.length}]]
+								</div>
+								<div class="p-2">
+									<input type="text" th:id="'know'+${know.no}" style="height: 35px;"> <button class="btn btn-primary" th:onclick="knowSubmit([[${know.no}]])">제출</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
 			</div>
 		</div>
 
@@ -155,12 +449,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/#network" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제
 									- 네트워크</a></li>
-							<li><a href="/#java1" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(기초)</a></li>
-							<li><a href="/#java2" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(심화)</a></li>
-							<li><a href="/#java3" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(프레임워크)</a></li>
+							<li><a href="/#java" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바</a></li>
+							<li><a href="/#os" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									운영 체제</a></li>
+							<li><a href="/#db" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									데이터베이스</a></li>
+							<li><a href="/#api" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									API</a></li>
+							<li><a href="/#security" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									웹 보안</a></li>
+							<li><a href="/#pattern" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									패턴</a></li>
+							<li><a href="/#docker" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									도커</a></li>
+							<li><a href="/#cloud" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									클라우드</a></li>
+							<li><a href="/#aws" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									AWS</a></li>
+							<li><a href="/#springboot" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									Spring Boot</a></li>
+							<li><a href="/#algorithm" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -173,12 +483,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/know#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/know#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/know#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/know#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/know#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/know#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/know#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/know#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/know#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/know#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/know#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/know#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/know#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/know#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/know#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -191,12 +517,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/prob/short#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/prob/short#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/prob/short#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/prob/short#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/prob/short#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/prob/short#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/prob/short#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/prob/short#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/prob/short#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/prob/short#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/prob/short#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/prob/short#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/prob/short#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/prob/short#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/prob/short#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -209,12 +551,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/prob/long#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/prob/long#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/prob/long#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/prob/long#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/prob/long#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/prob/long#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/prob/long#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/prob/long#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/prob/long#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/prob/long#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/prob/long#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/prob/long#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/prob/long#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/prob/long#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/prob/long#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>

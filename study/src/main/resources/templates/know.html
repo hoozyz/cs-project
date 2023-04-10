@@ -7,12 +7,17 @@
 			<nav id="know" class="h-100 flex-column align-items-stretch pe-4 border-end">
 				<nav class="nav nav-pills flex-column">
 					<a class="nav-link" href="#network">네트워크</a>
-					<a class="nav-link" href="#java1">자바</a>
-					<nav class="nav nav-pills flex-column">
-						<a class="nav-link ms-3 my-1" href="#java1">기초</a>
-						<a class="nav-link ms-3 my-1" href="#java2">심화</a>
-					</nav>
-					<a class="nav-link" href="#git">GIT</a>
+					<a class="nav-link" href="#java">자바</a>
+					<a class="nav-link" href="#os">운영 체제</a>
+					<a class="nav-link" href="#db">데이터베이스</a>
+					<a class="nav-link" href="#api">API</a>
+					<a class="nav-link" href="#security">웹 보안</a>
+					<a class="nav-link" href="#pattern">패턴</a>
+					<a class="nav-link" href="#virtual">가상화</a>
+					<a class="nav-link" href="#cloud">클라우드</a>
+					<a class="nav-link" href="#aws">AWS</a>
+					<a class="nav-link" href="#springboot">Spring Boot</a>
+					<a class="nav-link" href="#algorithm">자료구조 및 알고리즘</a>
 				</nav>
 			</nav>
 		</div>
@@ -37,49 +42,188 @@
 			</div>
 
 			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
-			<div class="container px-4 py-5 my-3" id="java1">
-				<h2 class="pb-2 border-bottom">자바(기초)</h2>
+			<div class="container px-4 py-5 my-3" id="java">
+				<h2 class="pb-2 border-bottom">자바</h2>
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
 					style="height: 500px; overflow: scroll;">
-					<div class="col d-flex align-items-start">
-						<div>
-							<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+					
+					<div th:each="know : ${map.list1}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
 						</div>
-					</div>
-					<div class="col d-flex align-items-start">
-						<div>
-							<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
-						</div>
-					</div>
-					<div class="col d-flex align-items-start">
-						<div>
-							<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
-						</div>
-					</div>
 				</div>
 			</div>
 			</div>
 
 			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
-			<div class="container px-4 py-5 my-3" id="java2">
-				<h2 class="pb-2 border-bottom">자바(심화)</h2>
+			<div class="container px-4 py-5 my-3" id="os">
+				<h2 class="pb-2 border-bottom">운영 체제</h2>
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
 					style="height: 500px; overflow: scroll;">
-					<div class="col d-flex align-items-start">
-						<div>
-							<h3 class="fw-bold mb-0 fs-4">인터넷</h3>
+					
+					<div th:each="know : ${map.list2}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
 						</div>
-					</div>
-					<div class="col d-flex align-items-start">
-						<div>
-							<h3 class="fw-bold mb-0 fs-4">TCP / IP 프로토콜</h3>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="db">
+				<h2 class="pb-2 border-bottom">데이터베이스</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list3}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
 						</div>
-					</div>
-					<div class="col d-flex align-items-start">
-						<div>
-							<h3 class="fw-bold mb-0 fs-4">DNS 주소</h3>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="api">
+				<h2 class="pb-2 border-bottom">API</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list4}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
 						</div>
-					</div>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="security">
+				<h2 class="pb-2 border-bottom">웹 보안</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list5}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
+						</div>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="pattern">
+				<h2 class="pb-2 border-bottom">패턴</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list6}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
+						</div>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="virtual">
+				<h2 class="pb-2 border-bottom">가상화</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list7}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
+						</div>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="cloud">
+				<h2 class="pb-2 border-bottom">클라우드</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list8}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
+						</div>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="aws">
+				<h2 class="pb-2 border-bottom">AWS</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list9}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
+						</div>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="springboot">
+				<h2 class="pb-2 border-bottom">Spring Boot</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list10}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
+						</div>
+				</div>
+			</div>
+			</div>
+			
+			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
+			<div class="container px-4 py-5 my-3" id="algorithm">
+				<h2 class="pb-2 border-bottom">알고리즘</h2>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
+					style="height: 500px; overflow: scroll;">
+					
+					<div th:each="know : ${map.list11}" class="col d-flex align-items-start">
+							<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#knowModal"
+								th:onclick="know([[${know.getName()}]])">
+								<h3 class="fw-bold mb-0 fs-4">[[${know.getName()}]]</h3>
+							</button>
+
+						</div>
 				</div>
 			</div>
 			</div>
@@ -124,12 +268,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/#network" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제
 									- 네트워크</a></li>
-							<li><a href="/#java1" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(기초)</a></li>
-							<li><a href="/#java2" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(심화)</a></li>
-							<li><a href="/#java3" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(프레임워크)</a></li>
+							<li><a href="/#java" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바</a></li>
+							<li><a href="/#os" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									운영 체제</a></li>
+							<li><a href="/#db" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									데이터베이스</a></li>
+							<li><a href="/#api" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									API</a></li>
+							<li><a href="/#security" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									웹 보안</a></li>
+							<li><a href="/#pattern" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									패턴</a></li>
+							<li><a href="/#docker" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									도커</a></li>
+							<li><a href="/#cloud" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									클라우드</a></li>
+							<li><a href="/#aws" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									AWS</a></li>
+							<li><a href="/#springboot" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									Spring Boot</a></li>
+							<li><a href="/#algorithm" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -142,12 +302,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/know#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/know#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/know#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/know#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/know#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/know#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/know#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/know#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/know#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/know#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/know#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/know#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/know#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/know#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/know#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -160,12 +336,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/prob/short#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/prob/short#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/prob/short#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/prob/short#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/prob/short#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/prob/short#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/prob/short#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/prob/short#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/prob/short#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/prob/short#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/prob/short#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/prob/short#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/prob/short#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/prob/short#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/prob/short#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -178,12 +370,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/prob/long#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/prob/long#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/prob/long#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/prob/long#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/prob/long#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/prob/long#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/prob/long#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/prob/long#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/prob/long#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/prob/long#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/prob/long#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/prob/long#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/prob/long#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/prob/long#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/prob/long#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -815,12 +1023,22 @@
 										str += '<th>기준</th>';
 										str += '<th>' + list.addi.comp1 + '</th>';
 										str += '<th>' + list.addi.comp2 + '</th>';
+										
+										if(list.addi.comp3 != '') {
+											str += '<th>' + list.addi.comp3 + '</th>';
+										}
+										
 										str += '</tr>';
 									} else {
 										str += '<tr>';
 										str += '<td>' + list.addi.stand + '</td>';
 										str += '<td>' + list.addi.comp1 + '</td>';
 										str += '<td>' + list.addi.comp2 + '</td>';
+										
+										if(list.addi.comp3 != '') {
+											str += '<td>' + list.addi.comp3 + '</td>';
+										}
+										
 										str += '</tr>';
 									}
 								});

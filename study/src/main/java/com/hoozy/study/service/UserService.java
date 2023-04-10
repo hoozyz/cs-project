@@ -14,11 +14,9 @@ import com.hoozy.study.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserService {
 	private static final int SALT_SIZE = 16; // 16비트 솔트 설정
 
@@ -60,7 +58,6 @@ public class UserService {
 		String hash = hashing(user.getPwd().getBytes(), salt);
 		user.setPwd(hash);
 		user.setSalt(salt);
-		log.info("해싱 유저 {}", user);
 
 		userRepository.save(user);
 	}
@@ -70,8 +67,8 @@ public class UserService {
 		// SHA-256 해시 함수 사용
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-		// 10번 해시 함수 돌리기. -> 보안성 증가
-		for (int i = 0; i < 10; i++) {
+		// 100번 해시 함수 돌리기. -> 보안성 증가
+		for (int i = 0; i < 100; i++) {
 			// 비밀번호 + 솔트 값
 			String temp = byteToString(pwd) + salt;
 

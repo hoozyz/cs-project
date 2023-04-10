@@ -11,11 +11,9 @@ import com.hoozy.study.repository.RoomRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class RoomService {
 
 	private final RoomRepository roomRepository;
@@ -56,5 +54,11 @@ public class RoomService {
 		roomRepository.save(room);
 		room = findById(room.getId());
 		return room;
+	}
+	
+	@Transactional
+	public void delete(String id) {
+		Room room = findById(id);
+		roomRepository.delete(room);
 	}
 }

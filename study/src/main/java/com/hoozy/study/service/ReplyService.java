@@ -9,11 +9,9 @@ import com.hoozy.study.entity.Reply;
 import com.hoozy.study.repository.ReplyRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ReplyService {
 	
 	private final ReplyRepository replyRepository;

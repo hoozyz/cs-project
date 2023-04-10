@@ -29,7 +29,9 @@ public class TodayService {
 	public long findOne() {
 		long no = 0L;
 		
-		no = todayRepository.findOne().getNo();
+		if (todayRepository.findOne().isPresent()) { // 있을 경우 가져오기
+			no = todayRepository.findOne().get().getNo(); 
+		}
 		
 		return no;
 	}

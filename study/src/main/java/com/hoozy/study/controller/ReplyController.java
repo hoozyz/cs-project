@@ -15,12 +15,10 @@ import com.hoozy.study.service.KnowService;
 import com.hoozy.study.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/reply")
-@Slf4j
 public class ReplyController {
 
 	private final ReplyService replyService;

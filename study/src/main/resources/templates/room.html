@@ -2,7 +2,7 @@
 	layout:decorate="~{fragments/layout}">
 
 <body class="h-100" layout:fragment="content">
-	<div class="row d-flex flex-nowrap">
+	<div class="row d-flex flex-nowrap h-100">
 		<div class="container my-5" style="width: 1000px;">
 			<nav class="navbar navbar-expand-lg bg-light rounded">
 				<div class="container-fluid">
@@ -10,10 +10,10 @@
 					<div class="collapse navbar-collapse">
 						
 					</div>
-					<form role="search">
+					<form th:if="${session.loginUser != null}" role="search">
 						<input class="form-control roomSearch" type="search" placeholder="내용을 입력해주세요.">
 					</form>
-					<div class="text-end">
+					<div th:if="${session.loginUser != null}" class="text-end">
 						<input class="btn btn-primary rounded mx-2 searchBtn" type="submit" value="검색">
 						<button th:if="${session.loginUser != null}" class="btn btn-primary rounded mx-4" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#roomCreate">채팅방 만들기</button>
 					</div>
@@ -22,7 +22,7 @@
 			
 			<div class="my-4">
 				<h3 class="border-bottom py-2">채팅방 목록</h3>
-				<div th:if="${session.loginUser != null}" class="bg-light p-5 rounded">
+				<div th:if="${session.loginUser != null}" class="bg-light p-5 rounded" style="overflow: scroll; height: 700px;">
 					<div class="mx-auto" style="width: 85%;">
 						<!-- 채팅방 목록 -->
 						<div class="roomList list-group w-auto">
@@ -32,12 +32,14 @@
 										<div class="mb-0" th:id="'roomName'+${room.id}" style="float:left;">[[${room.name}]]</div>
 									</div>
 								</div>
-								<small class="opacity-50 text-nowrap" th:id="'roomDate'+${room.id}">[[${room.date}]]</small>
+								<div>
+									<small class="opacity-50 text-nowrap" th:id="'roomDate'+${room.id}">[[${room.date}]]</small>
+								</div>
 							</a>
 						</div>
 					</div>
 				</div>
-				<div th:if="not ${session.loginUser != null}">
+				<div th:if="not ${session.loginUser != null}">	
 					로그인 해주세요.
 				</div>
 			</div>
@@ -83,12 +85,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/#network" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제
 									- 네트워크</a></li>
-							<li><a href="/#java1" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(기초)</a></li>
-							<li><a href="/#java2" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(심화)</a></li>
-							<li><a href="/#java3" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
-									자바(프레임워크)</a></li>
+							<li><a href="/#java" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자바</a></li>
+							<li><a href="/#os" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									운영 체제</a></li>
+							<li><a href="/#db" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									데이터베이스</a></li>
+							<li><a href="/#api" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									API</a></li>
+							<li><a href="/#security" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									웹 보안</a></li>
+							<li><a href="/#pattern" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									패턴</a></li>
+							<li><a href="/#docker" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									도커</a></li>
+							<li><a href="/#cloud" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									클라우드</a></li>
+							<li><a href="/#aws" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									AWS</a></li>
+							<li><a href="/#springboot" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									Spring Boot</a></li>
+							<li><a href="/#algorithm" class="link-dark d-inline-flex text-decoration-none rounded">오늘의 문제 -
+									자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -101,12 +119,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/know#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/know#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/know#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/know#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/know#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/know#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/know#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/know#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/know#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/know#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/know#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/know#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/know#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/know#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/know#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -119,12 +153,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/prob/short#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/prob/short#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/prob/short#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/prob/short#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/prob/short#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/prob/short#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/prob/short#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/prob/short#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/prob/short#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/prob/short#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/prob/short#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/prob/short#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/prob/short#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/prob/short#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/prob/short#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -137,12 +187,28 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a href="/prob/long#network"
 									class="link-dark d-inline-flex text-decoration-none rounded">네트워크</a></li>
-							<li><a href="/prob/long#java1"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(기초)</a></li>
-							<li><a href="/prob/long#java2"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(심화)</a></li>
-							<li><a href="/prob/long#java3"
-									class="link-dark d-inline-flex text-decoration-none rounded">자바(프레임워크)</a></li>
+							<li><a href="/prob/long#java"
+									class="link-dark d-inline-flex text-decoration-none rounded">자바</a></li>
+							<li><a href="/prob/long#os"
+									class="link-dark d-inline-flex text-decoration-none rounded">운영 체제</a></li>
+							<li><a href="/prob/long#db"
+									class="link-dark d-inline-flex text-decoration-none rounded">데이터베이스</a></li>
+							<li><a href="/prob/long#api"
+									class="link-dark d-inline-flex text-decoration-none rounded">API</a></li>
+							<li><a href="/prob/long#security"
+									class="link-dark d-inline-flex text-decoration-none rounded">웹 보안</a></li>
+							<li><a href="/prob/long#pattern"
+									class="link-dark d-inline-flex text-decoration-none rounded">패턴</a></li>
+							<li><a href="/prob/long#virtual"
+									class="link-dark d-inline-flex text-decoration-none rounded">가상화</a></li>
+							<li><a href="/prob/long#cloud"
+									class="link-dark d-inline-flex text-decoration-none rounded">클라우드</a></li>
+							<li><a href="/prob/long#aws"
+									class="link-dark d-inline-flex text-decoration-none rounded">AWS</a></li>
+							<li><a href="/prob/long#springboot"
+									class="link-dark d-inline-flex text-decoration-none rounded">Spring Boot</a></li>
+							<li><a href="/prob/long#algorithm"
+									class="link-dark d-inline-flex text-decoration-none rounded">자료구조 및 알고리즘</a></li>
 						</ul>
 					</div>
 				</li>
@@ -152,7 +218,7 @@
 						현재 접속중인 사람
 					</button>
 					<div class="collapse" id="user-collapse">
-						<ul th:if="${userList == null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						<ul th:if="not ${userList != null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							접속 유저가 없습니다.
 						</ul>
 						<ul th:if="${userList != null}" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -167,12 +233,12 @@
 	</div>
 	
 	<!-- 채팅방 팝업 -->
-	<div class="modal fade" id="chatRoom" tabindex="-1" aria-hidden="true">
+	<div class="modal fade" id="chatRoom" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 		<div class="modal-dialog">
 			<div class="modal-content col-md-10 mx-auto col-lg-5" style="width: 700px; right: 100px;">
-				<div>
-					<button type="button" style="float: right; margin-right: 10px; margin-top: 10px;" class="btn-close roomClose"
-						data-bs-dismiss="modal" aria-label="Close"></button>
+				<div class="mx-2 my-2 roomModal">
+					<button type="button" style="float: right;" class="btn btn-primary roomClose"
+						data-bs-dismiss="modal" aria-label="Close">나가기</button>
 				</div>
 				<div class="mx-auto py-2">
 					<h3 class="roomName">어서오세요</h3>
@@ -317,33 +383,53 @@
 				});
 			})
 			
-			$('.chatRoom').on("click", function() {
-				
-			roomId = $('.chatRoom').attr("id").replace("room", "");
-			roomName = $('#roomName'+roomId).html();
-        	nick = [[${session.loginUser?.nick}]];
-        	profile = [[${session.loginUser?.profile}]];
+			$(document).on("click", ".chatRoom", function() {
+			
+			var subscribe = '';
+			
+			var roomId = $(this).attr("id").replace("room", "");
+			var roomName = $('#roomName'+roomId).html();
+        	var loginNick = [[${session.loginUser?.nick}]];
+        	var role = [[${session.loginUser?.role}]];
+        	var profile = [[${session.loginUser?.profile}]];
+        	
+        	var master = ''; // 생성자
 
-	        console.log(roomName + ", " + roomId + ", " + nick  );
-	        
+	        console.log(roomName + ", " + roomId + ", " + loginNick  );
 	        $('.roomName').html(roomName);
-	
-			if(loginUser != null) {
-				var roomId = $('.chatRoom').attr("id").replace("room", "");
-				var roomName = $('#roomName'+roomId).html();
-	        	var loginNick = [[${session.loginUser?.nick}]];
-	        	var profile = [[${session.loginUser?.profile}]];
-	        	
-				var sockJs = new SockJS("/ws/chat");
-		        //1. SockJS를 내부에 들고있는 stomp를 내어줌
-		        var stomp = Stomp.over(sockJs);
+	        
+	        $.ajax({ // 채팅방 생성자 찾기
+				type: 'post',
+				url: '/chat/room/get',
+				data: {
+					id: roomId,
+				},
+				
+				success: function(data) {
+					master = data.master;
+					
+					if(loginNick == master || role == 'ROLE_ADMIN') { // 방 생성자이거나 관리자일 때
+			        	var s = '<button class="btn btn-primary deleteRoom" id="roomDelete'+roomId+'">채팅방 삭제</button>'
+			        	s += '<button type="button" style="float: right;" class="btn btn-primary roomClose" data-bs-dismiss="modal" aria-label="Close">나가기</button>'
+						$('.roomModal').html(s);
+					}
+				},
+				
+				error: function(e) {
+					console.log(e);
+				}
+			});
+	        
+			var sockJs = new SockJS("/ws/chat");
+		    //1. SockJS를 내부에 들고있는 stomp를 내어줌
+		    var stomp = Stomp.over(sockJs);
 	        
 	        //2. connection이 맺어지면 실행
 	        stomp.connect({}, function (){
 	            console.log("STOMP Connection")
 	
 	            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-	            stomp.subscribe("/topic/chat/room/" + roomId, function (chat) { // 구독한 채팅방 -> 참여한 채팅방으로 메시지 전달 받음
+	            subscribe = stomp.subscribe("/topic/chat/room/" + roomId, function (chat) { // 구독한 채팅방 -> 참여한 채팅방으로 메시지 전달 받음
 	                var content = JSON.parse(chat.body);
 	                var type = content.type;
 	                var msg = content.msg;
@@ -367,10 +453,9 @@
 							
 							var nicks = nick.split('/')
 							var msgs = msg.split('/')
-							console.log(nicks.length)
+
 							for(let i = 0; i < nicks.length; i++) {
 								
-								console.log('asddsad -> '+msgs[i])
 								if(nicks[i] != loginNick) { // 작성자가 아닐 때
 									str += '<div class="mb-3 px-1 rounded">'
 									str += '<div class="">                                                                                                                              '
@@ -456,16 +541,19 @@
 		        $('#msgWrite').on("click", function(e) {
 					var msg = $('#msg').val();
 					
-					stomp.send('/app/chat/message', {}, JSON.stringify({id: roomId, msg: msg, nick: loginNick, type: 'CHAT'})) 
+					if(msg != '') {
+						stomp.send('/app/chat/message', {}, JSON.stringify({id: roomId, msg: msg, nick: loginNick, type: 'CHAT', profile: profile}))
+					} 
 		       		$("#msg").val(''); // 초기화
 			   });
 			   
-			   $('.roomClose').on("click", function(e) {
+			   $(document).on("click", ".roomClose", function(e) {
 					
 					stomp.send('/app/chat/leave', {}, JSON.stringify({id: roomId, nick: loginNick, type: 'LEAVE'}))
-					$('chatList').html('');
+					subscribe.unsubscribe(); // 구독 끊기 -> 채팅방 나가기
+					$('.chatList').html('');
+					$("#msg").val(''); // 초기화
 			   });
-	        }    	
 			});
 			
 		var msg = [[${msg}]];
@@ -491,6 +579,28 @@
 			}
 		});
 		
+		$(document).on("click", ".deleteRoom", function() { // 채팅방 삭제 -> 마스터만 가능
+			var roomId = $(this).attr("id").replace("roomDelete", "");
+			
+			$.ajax({
+				type: 'post',
+				url: '/chat/room/delete',
+				data: {
+					id: roomId,
+				},
+				
+				success: function(data) {},
+				
+				error: function(e) {
+					console.log(e)
+				}
+			});
+			
+			$('#room'+roomId).remove(); // 현재 채팅방 삭제
+			alert('채팅방 삭제가 완료되었습니다.')
+			location.href="/chat/rooms";
+		});
+		
 		function roomCreate() {
 				var name = $('#roomName').val();
 				
@@ -508,18 +618,18 @@
 						
 						str = '';
 						
-						str += '<a th:if="${roomList != null}" th:each="room : ${roomList}" class="list-group-item list-group-item-action d-flex gap-3 py-3" href="" style="margin-bottom: 20px;" aria-current="true">                   '
+						str += '<a class="list-group-item list-group-item-action d-flex gap-3 py-3 chatRoom" style="margin-bottom: 20px;" id="room'+data.id+'" aria-current="true" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chatRoom">                   '
 						str += '	<div class="d-flex gap-2 w-100 justify-content-between">                                                                                                                '
 						str += '		<div>                                                                                                                                                      '
-						str += '			<h5 class="mb-0" th:id="roomName'+data.id+'">'+ data.name +'</h5>                                                                                                 '
-						
+						str += '			<h5 class="mb-0" style="float: left; id="roomName'+data.id+'">'+ data.name +'</h5>                                                                                                 '
 						str += '		</div>                                                                                                                                                              '
-						str += '		<small class="opacity-50 text-nowrap" th:id="roomDate'+data.id+'">'+ date +'</small>                                                                        '
+						str += '		<small class="opacity-50 text-nowrap" id="roomDate'+data.id+'">'+ date +'</small>                                                                        '
 						str += '	</div>                                                                                                                                                                  '
 						str += '</a>  ' 
 						
-						$('.roomList').html(str + roomList); // 최신에 만들어지는게 먼저	 
-
+						$('.roomList').html(str + roomList); // 최신에 만들어지는게 먼저
+						alert('채팅방 생성이 성공하였습니다.')
+						location.href="/chat/rooms";
 					},
 					
 					error: function(e) {
