@@ -26,10 +26,10 @@ public interface KnowRepository extends JpaRepository<Know, Long> {
 	List<KnowMapping> findByCate(String cate);
 	
 	// 문제 2개를 제외하고 가져오기
-	@Query(value = "select * from Know k where cate = :cate and k.no != :no1 and k.no != :no2", nativeQuery = true) // nativeQuery는 JPQL 말고 순수 SQL 구문을 사용한다고 선언하는 것이다.
+	@Query(value = "select * from know where cate = :cate and no != :no1 and no != :no2", nativeQuery = true) // nativeQuery는 JPQL 말고 순수 SQL 구문을 사용한다고 선언하는 것이다.
 	List<Know> notLike(@Param("no1") long no1, @Param("no2") long no2, @Param("cate") String cate);
 	
 	// 문제 3개를 제외하고 가져오기
-	@Query(value = "select * from Know k where cate = :cate and k.no != :no1 and k.no != :no2 and k.no != :no3", nativeQuery = true)
+	@Query(value = "select * from know where cate = :cate and no != :no1 and no != :no2 and no != :no3", nativeQuery = true)
 	List<Know> notLike(@Param("no1") long no1, @Param("no2") long no2, @Param("no3") long no3, @Param("cate") String cate);
 }

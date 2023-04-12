@@ -13,12 +13,12 @@ import com.hoozy.study.entity.Today;
 public interface TodayRepository extends JpaRepository<Today, Long>{
 	
 	// 오늘의 문제 첫 번호 가져오기
-	@Query(value = "select * from Today t limit 1", nativeQuery = true)
+	@Query(value = "select * from today limit 1", nativeQuery = true)
 	Optional<Today> findOne();
 	
 	// 문제 바꾸기
 	@Transactional
 	@Modifying // select 문이 아님을 표시
-	@Query( value = "update Today t set t.kno = :kno where t.no = :no", nativeQuery = true)
+	@Query( value = "update today set kno = :kno where no = :no", nativeQuery = true)
 	void update(@Param("no") long no,@Param("kno") int kno);
 }

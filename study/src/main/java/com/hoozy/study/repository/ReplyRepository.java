@@ -24,12 +24,12 @@ public interface ReplyRepository extends JpaRepository<Reply, Long>{
 	List<Reply> findByRepnLike(int repn);
 	
 	// 현재 댓글의 마지막 번호 -> 댓글 수정할 때 필요
-	@Query("select r.no from Reply r order by r.no desc limit 1")
+	@Query( value = "select no from reply order by no desc limit 1", nativeQuery = true)
 	long findLastNo();
 	
 	// 댓글 삭제
 	@Transactional
 	@Modifying // select 문이 아님을 표시
-	@Query("update Reply r set r.checks = 1 where r.no = :no")
+	@Query(value = "update reply set checks = 1 where no = :no", nativeQuery = true)
 	void deleteReply(@Param("no") long no);
 }
