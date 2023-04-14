@@ -14,9 +14,11 @@ import com.hoozy.study.service.ChatService;
 import com.hoozy.study.service.RoomService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ChatController {
 	
 	private final SimpMessagingTemplate template;
@@ -32,19 +34,24 @@ public class ChatController {
 		List<Chat> chatList = new ArrayList<>(); // 현재 채팅
 		
 		chatList = chatService.findByRoomId(chat.getId()); // 최근 5개 가져옴
-		if(chatList != null) {
+		if(!chatList.isEmpty()) {
 			Chat dbChat = new Chat(); // db에 있는 메시지 담을 chat
-			for(int i = 4; i < chatList.size(); i--) { // 최근 5개를 다시 역으로 나중꺼부터 보내기
+			int size = 5; // 기본 i값
+			if(chatList.size() < 5) {
+				// 현재 채팅방의 존재하는 메시지 개수가 5개 미만이면 바꾸기
+				size = chatList.size(); 
+			}
+			for(int i = size - 1; i < chatList.size(); i--) { // 최근 5개를 다시 역으로 나중꺼부터 보내기
 				
 				// db에 있는 메시지 5개를 닉네임 5개를 한 문자열로, 메시지도 5개를 한 문자열로 저장해서 보내기
-				if(i == 4) { 
+				if(i == size - 1) { 
 					dbChat.setNick(chatList.get(i).getNick());
 					dbChat.setMsg(chatList.get(i).getMsg());
 				} else {
 					dbChat.setNick(dbChat.getNick() + "/" + chatList.get(i).getNick());
 					dbChat.setMsg(dbChat.getMsg() + "/" + chatList.get(i).getMsg());
 				}
-				
+
 				if(i == 0) {
 					dbChat.setType(MessageType.FIRST); // 처음 들어갈 때만 나오는 메시지
 					template.convertAndSend("/topic/chat/room/" + chat.getId(), dbChat); // 5개의 메시지를 하나로 보냄 -> 방금 들어온 유저한테만 보내기

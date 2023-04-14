@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hoozy.study.entity.Know;
+import com.hoozy.study.entity.S3Uploader;
 import com.hoozy.study.entity.Today;
 import com.hoozy.study.entity.User;
 import com.hoozy.study.service.KnowService;
@@ -27,9 +28,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor // final 옵션 필드 전부 포함한 생성자 만들어줌
+@Slf4j
 public class UserController {
 
 	private Map<String, List<Know>> map = new HashMap<>(); // 홈페이지 3문제씩 담을 map
@@ -39,6 +42,7 @@ public class UserController {
 	private final UserService userService;
 	private final KnowService knowService;
 	private final TodayService todayService;
+	private final S3Uploader s3Uploader;
 
 	@PostMapping("/login")
 	public String login(@ModelAttribute User user, Model model, HttpServletRequest req, HttpServletResponse resp,
@@ -126,13 +130,19 @@ public class UserController {
 			loginUser.setPwd(userService.hashing(user.getPwd().getBytes(), loginUser.getSalt()));
 		}
 
-		// 파일 변경 시
+		// 이미지 변경 시
 		if (!file.isEmpty()) {
-			String rootPath = "C:\\Users\\kimyo\\Documents";
-			String savePath = rootPath + "\\upload\\images\\";
-			String renameFileName = userService.saveFile(file, savePath);
-
-			loginUser.setProfile(renameFileName);
+			// 이전 이미지가 default.png 가 아닐 때
+			if(!loginUser.getProfile().equals("https://hoozybucket.s3.ap-northeast-2.amazonaws.com/default.png")) {
+				int index = loginUser.getProfile().lastIndexOf("/");
+				// 이전 이미지 삭제하는데 뒤의 이미지 명만 가져감
+				log.info("index {}", loginUser.getProfile().substring(index+1));
+				s3Uploader.deleteFile(loginUser.getProfile().substring(index+1));
+				log.info("loginUser {}", loginUser);
+			}
+			// file 바로 업로드하고 url 반환해서 db에 저장
+			String imaUrl = s3Uploader.uploadFile(file, "static"); 
+			loginUser.setProfile(imaUrl);
 		} 
 		userService.update(loginUser);
 		loginUser.setPwd("");
@@ -174,7 +184,9 @@ public class UserController {
 				user.setRole("ROLE_USER");
 			}
 			model.addAttribute("msg", "회원가입 성공");
-			user.setProfile("default.png");
+			
+			// 유저 기본 이미지 S3 URL 저장
+			user.setProfile("https://hoozybucket.s3.ap-northeast-2.amazonaws.com/default.png");
 			userService.create(user);
 		}
 
@@ -199,6 +211,38 @@ public class UserController {
 		map = knowService.findAllByShort();
 		model.addAttribute("map", map);
 
+		return "home";
+	}
+	
+	@GetMapping("/deleteUser")
+	public String delete(Model model, HttpServletRequest req) {
+		
+		model.addAttribute("user", new User());
+
+		// 홈페이지 랜덤 문제 3개 가져오기
+		Map<String, List<Know>> map = new HashMap<>();
+		map = knowService.findAllByShort();
+		model.addAttribute("map", map);
+		
+		return "home";
+	}
+	
+	@PostMapping("/deleteUser")
+	public String delete(Model model, HttpServletRequest req, 
+			@SessionAttribute(name = "loginUser", required = false) User loginUser) {
+		
+		userService.deleteUser(loginUser); // 유저 삭제
+		
+		HttpSession session = req.getSession();
+		session.invalidate(); // 세션 삭제
+		model.addAttribute("msg", "회원 탈퇴에 성공하였습니다.");
+		model.addAttribute("user", new User());
+
+		// 홈페이지 랜덤 문제 3개 가져오기
+		Map<String, List<Know>> map = new HashMap<>();
+		map = knowService.findAllByShort();
+		model.addAttribute("map", map);
+		
 		return "home";
 	}
 

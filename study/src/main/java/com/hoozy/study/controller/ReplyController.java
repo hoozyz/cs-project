@@ -51,6 +51,7 @@ public class ReplyController {
 			reply.setRepo(0); // 모댓글
 			reply.setRepl(0); // 모댓글
 			reply.setRepn(0); // 모댓글은 자기 번호의 첫 번째
+			reply.setProfile(loginUser.getProfile());
 			
 			replyService.save(reply);
 		}
@@ -88,6 +89,8 @@ public class ReplyController {
 			reply.setRepo(replyService.findByRepn(no).size() + 1); // 답글중의 순서 -> 현재 모댓글의 답글 개수 + 1 번째
 			reply.setRepn(no); // 모댓글 번호
 			reply.setRepl(1); // 답글
+			reply.setProfile(loginUser.getProfile());
+			
 			replyService.save(reply);
 		}
 		reply.setNo(replyService.findLastNo()); // 마지막 번호 -> 방금 넣은 댓글 번호

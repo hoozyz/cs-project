@@ -854,7 +854,7 @@
 		<div class="flex-shrink-0 p-3 bg-white">
 			<a href="#" th:if="${session.loginUser != null}"
 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<img th:if="${session.loginUser.profile}" th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+				<img th:if="${session.loginUser.profile}" th:src="${session.loginUser?.profile}" width="32" height="32"
 					class="rounded-circle">
 				<img th:if="not ${session.loginUser.profile}" src="" width="32" height="32"
 					class="rounded-circle">
@@ -1076,8 +1076,12 @@
 						<input type="file" class="form-control" id="file" name="file"
 							accept="image/gif, image/jpeg, image/png, image/jpg" autofocus>
 					</div>
-					<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return check2()">정보
+					<div class="row">
+						<button type="submit" class="w-50 btn btn-lg btn-primary mt-4" formaction="/deleteUser">회원 
+						탈퇴</button>
+						<button type="submit" class="w-50 btn btn-lg btn-primary mt-4" onclick="return check2()">정보
 						변경</button>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -1092,6 +1096,10 @@
 
 		var loginUser = [[${session.loginUser}]];
 		console.log(loginUser);
+		
+		function deleteCheck() {
+			 return confim("진짜로 회원 탈퇴하시겠습니까?");
+		}
 		
 		function knowThrow(no1, cate) { // 넘기는 문제 번호
 			var no2 = 0;

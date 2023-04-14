@@ -24,8 +24,8 @@ public class ImageController {
 		
 		// 파일을 byte 단위의 배열로 읽어서 내보내는 스트림
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-		String filePath = "C:\\Users\\kimyo\\Documents\\upload\\images\\" + file; // 실제 파일 있는 폴더
+		
+		String filePath = "" + file; // 실제 파일 있는 폴더
 
 		try {
 			fis = new FileInputStream(filePath);

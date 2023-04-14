@@ -35,6 +35,12 @@ public class UserService {
 		
 		return user;
 	}
+	
+	// 유저 삭제
+	@Transactional
+	public void deleteUser(User user) {
+		userRepository.delete(user);
+	}
 
 	// 로그인
 	public boolean login(User user) throws Exception {
@@ -134,26 +140,26 @@ public class UserService {
 		return "0";
 	}
 
-	public String saveFile(MultipartFile file, String savePath) {
-		File folder = new File(savePath);
-
-		// 저장 된 경로가 없으면 폴더를 생성하는 코드
-		if (folder.exists() == false) {
-			folder.mkdir();
-		}
-
-		String originalFileName = file.getOriginalFilename();
-		String reNameFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmssSSS"))
-				+ originalFileName.substring(originalFileName.lastIndexOf("."));
-		String reNamePath = savePath + "/" + reNameFileName;
-		
-		// 업로드 된 파일의 이름을 변경하고, 실제 보조기억장치(디스크)에 데이터를 저장하는 부
-		try {
-			file.transferTo(new File(reNamePath));
-		} catch (Exception e) {
-			return null;
-		}
-
-		return reNameFileName;
-	}
+//	public String saveFile(MultipartFile file, String savePath) {
+//		File folder = new File(savePath);
+//
+//		// 저장 된 경로가 없으면 폴더를 생성하는 코드
+//		if (folder.exists() == false) {
+//			folder.mkdir();
+//		}
+//
+//		String originalFileName = file.getOriginalFilename();
+//		String reNameFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmssSSS"))
+//				+ originalFileName.substring(originalFileName.lastIndexOf("."));
+//		String reNamePath = savePath + "/" + reNameFileName;
+//		
+//		// 업로드 된 파일의 이름을 변경하고, 실제 보조기억장치(디스크)에 데이터를 저장하는 부
+//		try {
+//			file.transferTo(new File(reNamePath));
+//		} catch (Exception e) {
+//			return null;
+//		}
+//
+//		return reNameFileName;
+//	}
 }

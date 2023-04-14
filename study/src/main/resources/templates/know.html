@@ -213,7 +213,7 @@
 			
 			<div data-bs-spy="scroll" data-bs-target="#know" data-bs-smooth-scroll="true" tabindex="0">
 			<div class="container px-4 py-5 my-3" id="algorithm">
-				<h2 class="pb-2 border-bottom">알고리즘</h2>
+				<h2 class="pb-2 border-bottom">자료구조 및 알고리즘</h2>
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"
 					style="height: 500px; overflow: scroll;">
 					
@@ -233,7 +233,7 @@
 		<div class="flex-shrink-0 p-3 bg-white">
 			<a href="#" th:if="${session.loginUser != null}"
 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<img th:if="${session.loginUser.profile}" th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+				<img th:if="${session.loginUser.profile}" th:src="${session.loginUser?.profile}" width="32" height="32"
 					class="rounded-circle">
 				<img th:if="not ${session.loginUser.profile}" src="" width="32" height="32"
 					class="rounded-circle">
@@ -455,8 +455,12 @@
 						<input type="file" class="form-control" id="file" name="file"
 							accept="image/gif, image/jpeg, image/png, image/jpg" autofocus>
 					</div>
-					<button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="return check2()">정보
+					<div class="row">
+						<button type="submit" class="w-50 btn btn-lg btn-primary mt-4" formaction="/deleteUser">회원 
+						탈퇴</button>
+						<button type="submit" class="w-50 btn btn-lg btn-primary mt-4" onclick="return check2()">정보
 						변경</button>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -500,7 +504,7 @@
 								<!--로그인 하면 나오는 댓글 작성 칸-->
 								<div th:if="${session.loginUser != null}" class="row">
 									<div class="col-1">
-										<img th:if="${session.loginUser.profile}" th:src="@{/upload/images?file=} + ${session.loginUser?.profile}" width="32" height="32"
+										<img th:if="${session.loginUser.profile}" th:src="${session.loginUser?.profile}" width="32" height="32"
 											class="rounded-circle">
 										<img th:if="not ${session.loginUser.profile}" src="" width="32" height="32"
 											class="rounded-circle">
@@ -532,6 +536,10 @@
 
 		var loginUser = [[${session.loginUser}]];
 		console.log(loginUser);
+		
+		function deleteCheck() {
+			 return confim("진짜로 회원 탈퇴하시겠습니까?");
+		}
 		
 		// 지식 좋아요 추가
 		function knowLikePlus() {
@@ -776,7 +784,7 @@
 					str += '<div class="row my-1 px-1" id="rep' + no + '">                                                                                                                   '
 					
 					str += '<div class="col-1" id="repImg"' + no + '>'
-					str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+					str += '<img id="repSrc'+ no +'" src="' + profile + '" width="32" height="32" class="rounded-circle">'
 					
 					str += '</div>';
 					str += '<div class="col-10">                                                                                                                          '
@@ -856,7 +864,7 @@
 											str += '<div class="row mb-3 px-1" id="rep' + no + '">                                                                                                                   '
 											
 											str += '<div class="col-1" id="repImg"' + no + '>'
-											str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+											str += '<img id="repSrc'+ no +'" src="' + profile + '" width="32" height="32" class="rounded-circle">'
 											
 											str += '</div>';
 											str += '<div class="col-10">                                                                                                                          '
@@ -918,7 +926,7 @@
 					str += '<div class="col-1" id="repImg"' + no + '>'
 						
 					if(profile != null) {
-						str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+						str += '<img id="repSrc'+ no +'" src="' + profile + '" width="32" height="32" class="rounded-circle">'
 					} else {
 						str += '<img id="repSrc'+ no +'" src="" width="32" height="32" class="rounded-circle">'
 					}
@@ -1110,7 +1118,7 @@
 						str += '<div class="col-1" id="repImg"' + no + '>'
 						
 						if(profile != null) {
-							str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+							str += '<img id="repSrc'+ no +'" src="' + profile + '" width="32" height="32" class="rounded-circle">'
 						} else {
 							str += '<img id="repSrc'+ no +'" src="" width="32" height="32" class="rounded-circle">'
 						}
@@ -1263,7 +1271,7 @@
 							str += '<div class="col-1" id="repImg"' + no + '>'
 						
 							if(profile != null) {
-								str += '<img id="repSrc'+ no +'" src="/upload/images?file=' + profile + '" width="32" height="32" class="rounded-circle">'
+								str += '<img id="repSrc'+ no +'" src="' + profile + '" width="32" height="32" class="rounded-circle">'
 							} else {
 								str += '<img id="repSrc'+ no +'" src="" width="32" height="32" class="rounded-circle">'
 							}

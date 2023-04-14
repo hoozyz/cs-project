@@ -21,7 +21,7 @@ import lombok.ToString;
 public class Today {	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long no;
 	
 	// today 하나에 지식 하나

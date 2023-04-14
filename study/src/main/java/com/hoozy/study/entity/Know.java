@@ -26,7 +26,7 @@ public class Know {
 	// 내용이 *이 아니고 *을 포함한다면, 주관식 문제
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long no; // 문제 번호 PK
 	
 	private String cate; // 카테고리 이름

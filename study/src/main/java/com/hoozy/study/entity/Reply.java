@@ -26,7 +26,7 @@ import lombok.ToString;
 public class Reply {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long no; // 댓글 번호 PK
 	
 	@ManyToOne

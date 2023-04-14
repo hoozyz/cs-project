@@ -27,7 +27,7 @@ public class Chat {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long no; // 채팅 PK
 	
 	private MessageType type;
