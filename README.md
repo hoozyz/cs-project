@@ -68,19 +68,21 @@
 
 <details>
 <summary>1. 홈페이지</summary>
-![image](https://user-images.githubusercontent.com/93322974/233050950-693f37d4-3e1b-460b-8f4f-b5655a0b089a.png)<br/><br/>
+ 
+![image](https://user-images.githubusercontent.com/93322974/233055377-b0a0582e-771e-4e62-9cd4-e3265ae93f7b.png) <br/><br/>
 
 - 카테고리별로 오늘의 문제 3문제 씩 제공하고 매일 00시에만 바뀌도록 스프링의 Scheduled를 사용하여 구현했습니다.
 </details>
 
 <details>
 <summary>2. 지식 페이지</summary>
-![image](https://user-images.githubusercontent.com/93322974/233051004-a7ecfe9e-ee21-4ce8-a590-413220a9062e.png) <br/><br/>
+ 
+![image](https://user-images.githubusercontent.com/93322974/233055333-488567de-150a-42d2-88c1-b7096d682228.png) <br/><br/>
  
 - 카테고리별로 지식을 제공하고, 지식을 클릭하면 Ajax로 지식 팝업이 뜨도록 구현했습니다.
 
 ## 지식마다 댓글 팝업
-![image](https://user-images.githubusercontent.com/93322974/233051140-5e188578-4de4-494f-bd24-0eb8466f6c56.png) <br/><br/>
+ ![image](https://user-images.githubusercontent.com/93322974/233055226-47d1a10b-58a4-47ca-9e94-2eb92e2cd3c5.png) <br/><br/>
 
 - 댓글 모양을 클릭하면 Collapse 기능을 이용하여 댓글이 나오고, 로그인 한 유저만 댓글이 작성가능합니다.
 - 댓글은 댓글과 답글로 나뉘어지며, 답글은 들여쓰기가 되어 있고, 답글을 클릭하여 Collapse 기능을 사용하여 보거나 숨길 수 있습니다.
@@ -90,7 +92,8 @@
 
 <details>
 <summary>3. 단답형 페이지</summary>
-![image](https://user-images.githubusercontent.com/93322974/233051170-21dc419b-4443-4fa1-98d9-724f7d323be6.png) <br/><br/>
+ 
+![image](https://user-images.githubusercontent.com/93322974/233055423-92c8751b-c2a8-465a-b71c-53448e77ce55.png) <br/><br/>
 
 - 홈페이지와 같이 단답형 문제만을 제공하지만, 문제가 고정이 아니어서 새로고침 할 때마다 문제가 바뀝니다.
 - 문제를 맞추거나 다른 문제를 풀고 싶을 때 넘기기를 클릭하면 같은 카테고리 내의 문제로 랜덤하게 바뀝니다.
@@ -98,6 +101,7 @@
 
 <details>
 <summary>4. 주관식 페이지</summary>
+ 
 ![image](https://user-images.githubusercontent.com/93322974/233051193-c1ca55e2-6b8a-4df0-b8c5-7279d5912721.png) <br/><br/>
 
 - 주관식 문제만 랜덤으로 2개씩 제공하며, 테이블 형식 문제는 테이블 형식으로 제공합니다.
@@ -106,19 +110,33 @@
 
 <details>
 <summary>5. 오픈 채팅 페이지</summary>
-![image](https://user-images.githubusercontent.com/93322974/233051827-9282d895-bfc9-40e8-ab5b-dc964bb9519d.png) <br/><br/>
+ 
+![image](https://user-images.githubusercontent.com/93322974/233056832-0df3fbc0-dbf0-483d-9ee2-56061830cf34.png) <br/><br/>
+ 
+- 로그인 한 유저만 채팅방 생성과 채팅방 목록을 볼 수 있습니다.
+- 채팅방을 클릭하면 STOMP와 SockJS를 활용하여 채팅방에 구독해서 서버의 소켓과 연결합니다.
 
-![image](https://user-images.githubusercontent.com/93322974/233051673-0360bd21-8506-4b9e-bf88-f23932f69d6f.png) 
+## 오픈 채팅방 채팅
+![image](https://user-images.githubusercontent.com/93322974/233051673-0360bd21-8506-4b9e-bf88-f23932f69d6f.png) <br/><br/>
 ![image](https://user-images.githubusercontent.com/93322974/233051752-deca42b5-259b-4078-b218-27f9aeb99dd6.png) <br/><br/>
 
+- 채팅방 삭제는 채팅방 생성한 유저나 관리자만 가능하며, 해당하지 않는 유저는 삭제 버튼이 없습니다.
+- 채팅을 하면 채팅 내역은 실시간으로 웹소켓을 통하여 송수신되고, 채팅 내용은 DB에 저장됩니다.
+- 유저가 입장하면 입장한 유저에게는 DB에 있는 최근 채팅내역 5개까지 출력해주고, 채팅방에 있는 모두에게는(입장 유저 포함) 환영메시지(입장메시지)를 출력합니다.
 </details>
 
 <details>
  <summary>6. 사이드 바</summary>
+ 
  ![image](https://user-images.githubusercontent.com/93322974/233054338-9f3c1606-dd76-4d9d-846f-eb81da1421ce.png) <br/><br/>
 
- - 
+- 사이드 바는 모든 페이지에 존재하며, 로그인 한 유저만 계정 탭이 생성됩니다. 
+- 모든 페이지의 카테고리별로 이동이 가능하도록 구현했습니다.
+- 현재 접속중인 유저의 닉네임 목록을 제공합니다.
  
+ ## 유저 정보 변경
  ![image](https://user-images.githubusercontent.com/93322974/233054345-ef6bc22a-5934-4283-b5ef-c3042a65f8bc.png) <br/><br/>
 
+- 로그인 한 유저는 계정 정보(닉네임, 비밀번호, 프로필 사진)을 번경할 수 있습니다.
+- 프로필 사진은 S3 버킷의 static 폴더에 저장됩니다.
 </details>
