@@ -35,12 +35,10 @@
 - Spring Data JPA
 - Thymeleaf
 - Docker
-- AWS EC2
-- AWS S3
+- AWS EC2, S3
 - jQuery
 - Amazon Linux 2
-- STOMP
-- Websocket
+- STOMP, SockJS, Websocket
 - BootStrap
 
 # 3. 페이지별 기능
