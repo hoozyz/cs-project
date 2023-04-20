@@ -748,10 +748,10 @@
 			var eng = /[a-zA-Z]/; // 영어 포함 여부 확인 
 			
 			if(eng.test(name)) { // 정답에 영어가 포함될 경우
-				name = name.toLowerCase; // 다 소문자로 바꾸기
+				name = name.toLowerCase(); // 다 소문자로 바꾸기
 			}
 			if(eng.test(input)) { // 정답에 영어가 포함될 경우
-				input = input.toLowerCase; // 다 소문자로 바꾸기
+				input = input.toLowerCase(); // 다 소문자로 바꾸기
 			}
 			
 			if(name == input) { // 맞췄을 때

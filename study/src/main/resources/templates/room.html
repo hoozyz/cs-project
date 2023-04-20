@@ -442,8 +442,9 @@
 	                var type = content.type;
 	                var msg = content.msg;
 	                var nick = content.nick;
+	                var chatProfile = content.profile;
 	                
-	                console.log(type, msg, nick)
+	                console.log(type, msg, nick, chatProfile)
 	                
 					var baseStr = $('.chatList').html(); // 원래 채팅 내용
 					str = ''; // 추가되는 메시지
@@ -467,7 +468,7 @@
 								if(nicks[i] != loginNick) { // 작성자가 아닐 때
 									str += '<div class="mb-3 px-1 rounded">'
 									str += '<div class="">                                                                                                                              '
-									str += '		<img src="'+ profile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
+									str += '		<img src="'+ chatProfile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
 									str += '	<label class="my-1" style="color: black; font-size: 14px;">'+nicks[i]+'</label>'
 									str += '	</div>                                                                                                                                       '
 									
@@ -482,7 +483,7 @@
 									str += '<div class="mb-3 px-1 rounded">'
 									str += '<div class="">                                                                                                                              '
 									str += '	    <label class="my-1" style="color: black;font-size: 14px;margin-left: 470px;">'+nicks[i]+'</label>'
-									str += '		<img src="'+ profile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
+									str += '		<img src="'+ chatProfile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
 									str += '	</div>                                                                                                                                       '
 									
 									str += '<div style="position:relative;width:350px;height:50px;background:#FFFF99;color: black;border-radius: 10px;margin-left: 155px;">'
@@ -501,7 +502,7 @@
 							if(nick != loginNick) { // 작성자가 아닐 때
 								str += '<div class="mb-3 px-1 rounded">'
 								str += '<div class="">                                                                                                                              '
-								str += '		<img src="'+ profile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
+								str += '		<img src="'+ chatProfile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
 								str += '	<label class="my-1" style="color: black; font-size: 14px;">'+nick+'</label>'
 								str += '	</div>                                                                                                                                       '
 								
@@ -516,7 +517,7 @@
 								str += '<div class="mb-3 px-1 rounded">'
 								str += '<div class="">                                                                                                                              '
 								str += '	    <label class="my-1" style="color: black;font-size: 14px;margin-left: 470px;">'+nick+'</label>'
-								str += '		<img src="'+ profile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
+								str += '		<img src="'+ chatProfile +'" width="32" height="32"class="rounded-circle" style="margin-top: 20px; margin-right: 5px;">                                                                                                              '
 								str += '	</div>                                                                                                                                       '
 								
 								str += '<div style="position:relative;width:350px;height:50px;background:#FFFF99;color: black;border-radius: 10px;margin-left: 155px;">'

@@ -51,7 +51,8 @@ public class ChatController {
 					dbChat.setNick(dbChat.getNick() + "/" + chatList.get(i).getNick());
 					dbChat.setMsg(dbChat.getMsg() + "/" + chatList.get(i).getMsg());
 				}
-
+				
+				dbChat.setProfile(chatList.get(i).getProfile());
 				if(i == 0) {
 					dbChat.setType(MessageType.FIRST); // 처음 들어갈 때만 나오는 메시지
 					template.convertAndSend("/topic/chat/room/" + chat.getId(), dbChat); // 5개의 메시지를 하나로 보냄 -> 방금 들어온 유저한테만 보내기

@@ -657,18 +657,18 @@
 		console.log(loginUser);
 		
 		function knowSubmit(no) { // 정답 제출 시 실행되는 함수
-			var input = $('#know'+no).val().replace(" ", "").toLowerCase; // 현재 입력한 내용 가져와서 띄어쓰기 제거
-			var name = $('#knowName'+no).html().replace(" ", "").toLowerCase;
-			
+			var input = $('#know'+no).val().replace(" ", ""); // 현재 입력한 내용 가져와서 띄어쓰기 제거
+			var name = $('#knowName'+no).html().replace(" ", "");
+		
 			var eng = /[a-zA-Z]/; // 영어 포함 여부 확인 
 			
 			if(eng.test(name)) { // 정답에 영어가 포함될 경우
-				name = name.toLowerCase; // 다 소문자로 바꾸기
+				name = name.toLowerCase(); // 다 소문자로 바꾸기
 			}
 			if(eng.test(input)) { // 정답에 영어가 포함될 경우
-				input = input.toLowerCase; // 다 소문자로 바꾸기
+				input = input.toLowerCase(); // 다 소문자로 바꾸기
 			}
-			
+			console.log(name, input)
 			if(name == input) { // 맞췄을 때
 				alert('정답입니다.')
 				$('#know'+no).val('맞춘 문제입니다.')
