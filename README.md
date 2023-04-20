@@ -24,7 +24,7 @@
 
 - STS
 - OpenJDK 17
-- Gradle - groovy
+- Gradle
 - Spring Boot 3.0.4
 - Github
 
@@ -37,7 +37,6 @@
 - Docker
 - AWS EC2, S3
 - jQuery
-- Amazon Linux 2
 - STOMP, SockJS, Websocket
 - BootStrap
 
