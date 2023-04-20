@@ -114,8 +114,8 @@
 - 채팅방을 클릭하면 STOMP와 SockJS를 활용하여 채팅방에 구독해서 서버의 소켓과 연결합니다.
 
 ## 오픈 채팅방 채팅
-![image](https://user-images.githubusercontent.com/93322974/233051673-0360bd21-8506-4b9e-bf88-f23932f69d6f.png) <br/><br/>
-![image](https://user-images.githubusercontent.com/93322974/233051752-deca42b5-259b-4078-b218-27f9aeb99dd6.png) <br/><br/>
+![image](https://user-images.githubusercontent.com/93322974/233298046-a2b50be7-f865-4c5c-a15f-18238dc9be2d.png) <br/><br/>
+![image](https://user-images.githubusercontent.com/93322974/233297994-df8fde56-e251-4680-a91f-ba8ed8ff711d.png) <br/><br/>
 
 - 채팅방 삭제는 채팅방 생성한 유저나 관리자만 가능하며, 해당하지 않는 유저는 삭제 버튼이 없습니다.
 - 채팅을 하면 채팅 내역은 실시간으로 웹소켓을 통하여 송수신되고, 채팅 내용은 DB에 저장됩니다.
